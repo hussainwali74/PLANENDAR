@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-transparent  navbar-absolute fixed-top">
+    <div class="container-fluid">
+        <!-- <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a>
+        </div> -->
+        <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <ul class="navbar-nav" style="margin-right: 32%;">
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">
+                        <i style="font-size: 50px;" class="material-icons">home</i>
+                        <p>
+                            <span class="d-lg-none d-md-block">Home</span>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">
+                        <i style="font-size: 50px;" class="material-icons">group_work</i>
+                        <p>
+                            <span class="d-lg-none d-md-block">Group work</span>
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i style="font-size: 50px;" class="material-icons">notifications</i>
+                        <p>
+                            <span class="d-lg-none d-md-block">Some Actions</span>
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">
+                        <i style="font-size: 50px;" class="material-icons">adjust</i>
+                        <p>
+                            <span class="d-lg-none d-md-block">Stats</span>
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">
+                        <i style="font-size: 50px;" class="material-icons">person</i>
+                        <p>
+                            <span class="d-lg-none d-md-block">Account</span>
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
