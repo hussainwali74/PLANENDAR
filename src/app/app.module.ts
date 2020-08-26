@@ -22,6 +22,14 @@ import {
   AgmCoreModule
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { LandingComponent } from './pages/landing/landing.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { FeedsComponent } from './pages/feeds/feeds.component';
+import { ContactsComponent } from './pages/contacts/contacts.component';
+import { CreateEventComponent } from './create-event/create-event.component';
+import { EventsComponent } from './pages/events/events.component';
+import { ListsComponent } from './pages/lists/lists.component';
+import { ContactListsComponent } from './pages/contact-lists/contact-lists.component';
 
 @NgModule({
   imports: [
@@ -39,6 +47,15 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
   declarations: [
     AppComponent,
     AdminLayoutComponent,
+    LandingComponent,
+    ProfileComponent,
+    FeedsComponent,
+    ContactsComponent,
+    CreateEventComponent,
+    EventsComponent,
+
+
+    ContactListsComponent,
 
   ],
   providers: [],
