@@ -1,1 +1,31 @@
-<p>events works!</p>
+<div class="main-content">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary" style="width: 97%;
+        margin-left: 17px;">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav" style="justify-content: space-between;">
+                        <li class="nav-item " routerLinkActive="active">
+                            <a class="nav-link" routerLink="/events/search">SEARCH <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/events/calendar">CALENDAR</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/events/created">CREATED</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/events/promotion">PROMOTION</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <router-outlet></router-outlet>
+    </div>
+</div>

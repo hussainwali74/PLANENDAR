@@ -10,14 +10,6 @@ import { ComponentsModule } from './components/components.module';
 
 import { AppComponent } from './app.component';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { TableListComponent } from './table-list/table-list.component';
-import { TypographyComponent } from './typography/typography.component';
-import { IconsComponent } from './icons/icons.component';
-import { MapsComponent } from './maps/maps.component';
-import { NotificationsComponent } from './notifications/notifications.component';
-import { UpgradeComponent } from './upgrade/upgrade.component';
 import {
   AgmCoreModule
 } from '@agm/core';
@@ -28,8 +20,11 @@ import { FeedsComponent } from './pages/feeds/feeds.component';
 import { ContactsComponent } from './pages/contacts/contacts.component';
 import { CreateEventComponent } from './create-event/create-event.component';
 import { EventsComponent } from './pages/events/events.component';
-import { ListsComponent } from './pages/lists/lists.component';
 import { ContactListsComponent } from './pages/contact-lists/contact-lists.component';
+import { CalenderComponent } from './pages/events/calender/calender.component';
+import { SearchComponent } from './pages/events/search/search.component';
+import { PromotionComponent } from './pages/events/promotion/promotion.component';
+import { CreatedComponent } from './pages/events/created/created.component';
 
 @NgModule({
   imports: [
@@ -56,6 +51,18 @@ import { ContactListsComponent } from './pages/contact-lists/contact-lists.compo
 
 
     ContactListsComponent,
+
+
+    CalenderComponent,
+
+
+    SearchComponent,
+
+
+    PromotionComponent,
+
+
+    CreatedComponent,
 
   ],
   providers: [],

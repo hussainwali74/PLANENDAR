@@ -13,6 +13,11 @@ import { ContactListsComponent } from 'app/pages/contact-lists/contact-lists.com
 import { LandingComponent } from 'app/pages/landing/landing.component';
 import { NotificationsComponent } from 'app/pages/notifications/notifications.component';
 import { CreateEventComponent } from 'app/create-event/create-event.component';
+import { CalenderComponent } from 'app/pages/events/calender/calender.component';
+import { EventsComponent } from 'app/pages/events/events.component';
+import { SearchComponent } from 'app/pages/events/search/search.component';
+import { CreatedComponent } from 'app/pages/events/created/created.component';
+import { PromotionComponent } from 'app/pages/events/promotion/promotion.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -70,6 +75,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'notifications', component: NotificationsComponent },
     { path: 'create-event', component: CreateEventComponent },
     { path: 'upgrade', component: UpgradeComponent },
+    { path: 'calender', component: CalenderComponent },
     {
         path: 'contactlists', component: ContactListsComponent, children: [
             { path: '', pathMatch: "full", redirectTo: 'contact' },
@@ -80,4 +86,27 @@ export const AdminLayoutRoutes: Routes = [
             { path: 'list', component: ListsComponent },
         ]
     },
+    {
+        path: 'events', component: EventsComponent, children: [
+            { path: '', pathMatch: "full", redirectTo: 'search' },
+            {
+                path: 'search',
+                component: SearchComponent
+            },
+
+            {
+                path: 'calendar',
+                component: CalenderComponent
+            },
+            {
+                path: 'created',
+                component: CreatedComponent
+            },
+            {
+                path: 'promotion',
+                component: PromotionComponent
+            },
+
+        ]
+    }
 ];
