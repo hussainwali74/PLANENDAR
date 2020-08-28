@@ -3,17 +3,15 @@
 
     <div class="logo">
         <a href="https://www.creative-tim.com" class="simple-text">
-            <div style="display: block; position: fixed; top: 8%; padding-left: 60px;" class="logo-ismg">
-                <img src="/assets/img/logo.jpg" style="height: 70px; width:250px;" />
+            <div class="logo-ismg">
+                <img src="/assets/img/logo.jpg" />
             </div>
         </a>
     </div>
-    <div class="main-panel" style="margin-right: 126px; top:25%;">
-        <app-navbar style="position: fixed;
-        z-index: 9999999999;
-        left: 47%;
-        top: 8%;"></app-navbar>
-        <div style="width: 82%; position: fixed; top: 140px; left: 154px; bottom: 10px; overflow-y: scroll;">
+    <div class="main-panel">
+        <app-navbar></app-navbar>
+
+        <div class="router-outlet">
 
             <router-outlet></router-outlet>
         </div>

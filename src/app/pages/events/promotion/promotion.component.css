@@ -5,6 +5,14 @@ ul li {
     width: 250px;
     text-align: center;
 }
+
+.arrows{
+    padding-left: 6.5%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(30%);
+    vertical-align: bottom;
+}
+
 .form-control-feedback {
     position: absolute;
     top: 10px;
@@ -15,10 +23,36 @@ ul li {
     height: 34px;
     line-height: 34px;
     text-align: center;
-    pointer-events: none;}
-    th, td{
-        border-right:1px solid #dee2e6;;
+    pointer-events: none;
+}
+th, td{
+    border-right:1px solid #dee2e6;;
+}
+th h4{
+        font-weight: 500;
+}
+
+@media (max-width:425px){
+    .arrows{
+        text-align: center;
+        margin-bottom: 7%;
     }
-    th h4{
-         font-weight: 500;
+    .card .card-body {
+        padding: 10px;
+        position: relative;
     }
+    
+    .main-panel .main-content {
+        margin-top: 70px;
+        padding: 30px 7px;
+        min-height: calc(100vh - 123px);
+    }
+        .container-fluid {
+            width: 100%;
+            padding-left: 1px;
+            padding-right: 1px;
+            margin-right: auto;
+            margin-left: auto;
+        
+    }
+}
