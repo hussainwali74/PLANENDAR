@@ -1,0 +1,35 @@
+.f-50{
+    font-size: 50px;
+
+    color:#555;
+}
+ul{
+    text-align: center;
+}
+
+.navbar{
+    position: fixed !important;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    transition:0.6s;
+    z-index: 10000000;
+    height: 110px;
+
+    background: #eee;
+    bottom:10px;
+}
+.headroom--not-top {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: #477f97 !important;
+    box-shadow: 0 1px 10px rgba(130, 130, 134, 0.1);
+}
+.dropdown-toggle:empty::after {
+display: none;}
+@media(max-width:425px){
+    #navbar_global{
+    overflow: scroll;
+    height: 100vh !important;
+    }
+}

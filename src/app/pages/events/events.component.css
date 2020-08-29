@@ -1,5 +1,8 @@
-.main-content{
+/* .main-content{
     margin-top:0px;
+}
+.section{
+    margin-top: 400px;
 }
 ul li {
     width: 245px;
@@ -26,5 +29,22 @@ ul li {
         width: 92%;
         margin-left: 15px;
     }
+} */
+.sp{
+    top: 125px;
+    padding: 20px;
+    margin: 8px 7px;
 }
-
+.width-full{
+    width: 100%;
+}
+@media(max-width:425px){
+.sp .row{
+    margin-bottom: 5px;
+}
+.sp{
+    top: 111px;
+    padding: 7px;
+    margin: 8px 7px;
+}
+}

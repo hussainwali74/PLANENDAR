@@ -1,4 +1,4 @@
-@media (min-width: 991px){
+/* @media (min-width: 991px){
 
     .router-outlet{
         width: 82%; position: fixed; top: 140px; left: 154px; bottom: 10px; overflow-y: scroll;
@@ -32,29 +32,38 @@ app-navbar{
     .router-outlet{
         width: 104%; position: fixed; top: 140px;  bottom: 10px; overflow-y: scroll;
     }
-.main-panel{
-    transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
-    left: 26%;
-    margin-right: 126px;
-    top: 29%;
-}
+    .main-panel{
+        transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
+        left: 31%;
+        margin-right: 126px;
+        top: 29%;
+    }
 
-.logo-ismg{
-    display: block;
-    position: fixed;
-    top: 6%;
-    padding-left: 28px;
-}
+    .logo-ismg{
+        display: block;
+        position: fixed;
+        top: 6%;
+        padding-left: 28px;
+    }
 
-.logo-ismg img  {
-    height: 80px;
-    width: 292px; 
-}
+    .logo-ismg img  {
+        height: 80px;
+        width: 292px; 
+    }
+    .card{
+        width: 106%;
+        margin-left: -10px;
+    }
 
-app-navbar{
-    position: fixed;
-    z-index: 9999999999;
-    left: 84%;
-    top: 14%;
-}
+    app-navbar{
+        position: fixed;
+        z-index: 9999999999;
+        left: 84%;
+        top: 14%;
+    }
+} */
+
+.router-outlet{
+    background:#eee;
+    width: 104%; position: fixed; top: 140px;  bottom: 10px; overflow-y: scroll;
 }

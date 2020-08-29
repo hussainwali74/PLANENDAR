@@ -1,9 +1,17 @@
 .main-content{
-    margin-top:0px;
-}
+    margin-top:10%;
+ }
+     @media (max-width: 425px){
+         .main-content{
+             margin-top:30%;
+          }
+         }
 ul li {
     width: 250px;
     text-align: center;
+}
+.card-header{
+    background:#11cdef;
 }
 .form-control-feedback {
     position: absolute;

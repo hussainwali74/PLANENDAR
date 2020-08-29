@@ -1,6 +1,4 @@
-.main-content{
-    margin-top:0px;
-}
+
 ul li {
     width: 250px;
     text-align: center;
@@ -15,4 +13,16 @@ ul li {
     height: 34px;
     line-height: 34px;
     text-align: center;
-    pointer-events: none;}
+    pointer-events: none;
+}
+.card-header{
+    background:#11cdef;
+}
+.main-content{
+    margin-top:10%;
+}
+@media (max-width: 425px){
+    .main-content{
+        margin-top:30%;
+    }
+    }
