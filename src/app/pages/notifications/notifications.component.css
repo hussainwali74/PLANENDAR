@@ -4,12 +4,15 @@
 .section{
     top:78px;
 }
+.card-header{
+    background:#11cdef;
+}
 @media (max-width:425px){
     .card-profile{
         margin-bottom: 10px;
     }
     .section{
-        top:40px;
+        margin-top: -6%;
     }   
     .f-check{
         

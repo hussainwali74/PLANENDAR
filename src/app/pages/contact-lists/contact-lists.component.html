@@ -1,7 +1,7 @@
 <div class="main-content">
 
     <div class="row">
-        <div class="offset-md-2 col-md-3" style="width: 1045px;">
+        <div class="offset-md-2 col-md-3">
             <button style="width:100%;" mat-raised-button type="button" (click)="gotoContacts()"
                 class="btn btn-success pull-right">Contacts</button>
         </div>
@@ -11,17 +11,14 @@
         </div>
 
         <div class="col-md-6 offset-md-2">
-            <form class="navbar-form">
-                <div class="input-group no-border">
-                    <input type="text" value=""
-                        style="padding: 10px; background: white; margin-top: 8px; border-radius: 4px;"
-                        class="form-control" placeholder="Search...">
-                    <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
-                        <i class="material-icons">search</i>
-                        <div class="ripple-container"></div>
-                    </button>
+            <div class="form-group">
+                <div class="input-group mb-4">
+                    <input class="form-control" placeholder="Title" type="text">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
     <div>
