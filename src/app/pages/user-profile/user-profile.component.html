@@ -1,15 +1,22 @@
 <div class="main-content">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-4">
-        <div class="carsd card-profile">
+    <div class="row justify-content-center">
+      <div class="col-md-4 text-center">
+        <div class="card-profile-image">
+          <a href="javascript:void(0)">
+            <!-- <img src="./assets/img/theme/team-4-800x800.jpg" class="rounded-circle"> -->
+            <img class="rounded-circle" src="./assets/img/faces/marc.jpg" />
+          </a>
+        </div>
+        <!-- <div class="carsd card-profile">
+          
           <div class="card-avatar">
             <a href="javascript:void(0)">
               <img class="img" src="./assets/img/faces/marc.jpg" />
             </a>
           </div>
 
-        </div>
+        </div> -->
       </div>
       <div class="col-md-8">
         <div class="card">
@@ -22,26 +29,35 @@
               <div class="row">
 
                 <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
+                  <div class="form-group ">
+                    <div class="input-group mb-4">
+                      <input class="form-control" placeholder="Name" type="text">
+                    </div>
+                  </div>
+                  <!-- <mat-form-field class="example-full-width">
                     <input matInput placeholder="Name">
-                  </mat-form-field>
+                  </mat-form-field> -->
                 </div>
                 <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Email address" type="email">
-                  </mat-form-field>
+                  <div class="form-group ">
+                    <div class="input-group mb-4">
+                      <input class="form-control" placeholder="Email Address" type="email">
+                    </div>
+                  </div>
                 </div>
                 <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Password" type="password">
-                  </mat-form-field>
+                  <div class="form-group ">
+                    <div class="input-group mb-4">
+                      <input class="form-control" placeholder="Password" type="password">
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-12">
                   <button mat-raised-button type="submit" class="btn btn-info pull-right">Update Profile</button>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-12">
                   <button mat-raised-button type="submit" class="btn btn-success pull-right">Save Profile</button>
                 </div>
               </div>

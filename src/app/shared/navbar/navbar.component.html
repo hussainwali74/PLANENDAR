@@ -1,56 +1,17 @@
-<nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light ">
+<nav id="navbar-masin" class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light ">
   <div class="container">
     <a class="navbar-brand mr-lg-5" [routerLink]="['/home']">
       <img src="./assets/img/logo.jpg">
     </a>
-    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
-      [attr.aria-expanded]="!isCollapsed" aria-controls="navbar_global">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-collapse collapse" id="navbar_global" [ngbCollapse]="isCollapsed">
-      <div class="navbar-collapse-header">
-        <div class="row">
-          <div class="col-6 collapse-brand">
-            <a [routerLink]="['/']">
-              <img src="./assets/img/logo.jpg">
-            </a>
-          </div>
-          <div class="col-6 collapse-close">
-            <button type="button" class="navbar-toggler" (click)="isCollapsed = !isCollapsed"
-              [attr.aria-expanded]="!isCollapsed" aria-controls="navbar_global">
-              <span></span>
-              <span></span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
-        <li class="nav-item dropdown">
-          <a class="nav-link no-caret" [routerLink]="['/']">
-            <i class="f-50 fa fa-home"></i>
-            <!-- <span class="nav-link-inner--text">Home</span> -->
-          </a>
-          <!-- <a class="nav-link no-caret" data-toggle="dropdown" role="button">
-            <i class="f-50 fa fa-home"></i>
-            <span class="nav-link-inner--text">Home</span>
-          </a> -->
-          <!-- 
-            <div class="dropdown-menu-xl dropdown-menu">
-            <div class="dropdown-menu-inner">
-              <a routerLinkActive="active" [routerLink]="['documentation/tutorial']"
-                class="media d-flex align-items-center">
-                <div class="icon icon-shape bg-gradient-primary rounded-circle text-white">
-                  <i class="ni ni-spaceship"></i>
-                </div>
-                <div class="media-body ml-3">
-                  <h6 class="heading text-primary mb-md-1">Getting started</h6>
-                  <p class="description d-none d-md-inline-block mb-0">Learn how to use Argon compiling Scss, change
-                    brand colors and more.</p>
-                </div>
-              </a>
 
-            </div>
-          </div> -->
+    <div class="navbar-expand expand" id="navbar_glo bal">
+
+      <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+        <li class="nav-item ">
+          <a class="nav-link no-caret" [routerLink]="['/']">
+            <i class="f-50 fa fa-home f-home"></i>
+          </a>
+
         </li>
         <li class="nav-item ">
           <a class="nav-link no-caret" [routerLink]="['/events']">
@@ -76,19 +37,12 @@
         </li>
       </ul>
       <ul class="navbar-nav align-items-lg-center ml-lg-auto">
-
-
-        <li class="nav-item  d-lg-block ml-lg-4">
+        <li class="nav-item  d-lg-block ml-lg-4 right-menu">
           <div class="" ngbDropdown>
             <i class="f-50 fa fa-list " id="dropdownMenuButton" ngbDropdownToggle></i>
-            <!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" ngbDropdownToggle>
-              Regular
-            </button> -->
+
             <div class="" aria-labelledby="dropdownMenuButton" ngbDropdownMenu>
               <a class="dropdown-item" href="javascript:void(0)">Logout</a>
-
-              <!-- <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-              <a class="dropdown-item" href="javascript:void(0)">Something else here</a> -->
             </div>
           </div>
         </li>
