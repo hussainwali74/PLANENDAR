@@ -37,9 +37,9 @@ const routes: Routes = [
 
   { path: '', component: LandingComponent },
   // { path: 'profile', component: ProfileComponent },
-  // { path: 'register', component: SignupComponent },
+  { path: 'register', component: SignupComponent },
+  { path: 'login', component: LoginComponent },
   // { path: 'landing', component: LandingComponent },
-  // { path: 'login', component: LoginComponent },
   // { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

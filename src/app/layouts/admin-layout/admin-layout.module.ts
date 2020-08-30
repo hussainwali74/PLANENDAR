@@ -24,6 +24,9 @@ import { SearchComponent } from 'src/app/pages/events/search/search.component';
 import { CalenderComponent } from 'src/app/pages/events/calender/calender.component';
 import { ContactListsComponent } from 'src/app/pages/contact-lists/contact-lists.component';
 import { ContactsComponent } from 'src/app/pages/contacts/contacts.component';
+import { LandingComponent } from 'src/app/pages/landing/landing.component';
+import { ViewEventsComponent } from '../../pages/view-event/view-event.component';
+
 
 @NgModule({
   declarations: [
@@ -36,6 +39,8 @@ import { ContactsComponent } from 'src/app/pages/contacts/contacts.component';
     EventsComponent,
     SearchComponent,
     CalenderComponent, ContactListsComponent, ContactsComponent, ListsComponent,
+    LandingComponent,
+    ViewEventsComponent,
   ],
   imports: [
     CommonModule,

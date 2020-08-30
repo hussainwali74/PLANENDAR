@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-calender',
-  templateUrl: './calender.component.html',
-  styleUrls: ['./calender.component.css']
+  selector: 'app-view-event',
+  templateUrl: './view-event.component.html',
+  styleUrls: ['./view-event.component.css']
 })
-export class CalenderComponent implements OnInit {
+export class ViewEventsComponent implements OnInit {
   closeResult: string;
 
   constructor(private modalService: NgbModal) { }

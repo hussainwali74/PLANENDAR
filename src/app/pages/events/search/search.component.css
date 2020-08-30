@@ -2,7 +2,11 @@
    margin-top:10%;
 }
 .card-header{
+    color: #fff;
     background:#11cdef;
+}
+.card-title{
+    color:#fff;
 }
 @media (max-width: 425px){
     .main-content{

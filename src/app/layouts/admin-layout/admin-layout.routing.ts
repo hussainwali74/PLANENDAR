@@ -20,12 +20,14 @@ import { CreatedComponent } from '../../pages/events/created/created.component';
 import { PromotionComponent } from '../../pages/events/promotion/promotion.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ViewEventsComponent } from 'src/app/pages/view-event/view-event.component';
 
 const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'user-profile', component: UserProfileComponent },
     { path: 'notifications', component: NotificationsComponent },
     { path: 'create-event', component: CreateEventComponent },
+    { path: 'view-events', component: ViewEventsComponent },
     // { path: 'table-list', component: TableListComponent },
     // { path: 'typography', component: TypographyComponent },
     // { path: 'icons', component: IconsComponent },

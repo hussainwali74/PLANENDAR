@@ -38,7 +38,7 @@ ul{
     -webkit-box-align: center;
     align-items: center;
     -webkit-box-pack: justify;
-    justify-content: start;
+    justify-content: flex-start;
 }
 .navbar-expand{
     display: inherit;
@@ -59,7 +59,7 @@ ul{
         -webkit-box-align: center;
         align-items: center;
         -webkit-box-pack: justify;
-        justify-content: start;
+        justify-content: flex-start;
     }
     .right-menu{
         padding-top: 15px; padding-left: 87px

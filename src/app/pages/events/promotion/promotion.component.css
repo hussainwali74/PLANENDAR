@@ -19,6 +19,12 @@ th h4{
 .updown{
     display: none;
 }
+.card-header{
+    background:#11cdef;
+}
+.card-title{
+    color:#fff;
+}
 @media (max-width:1090px){
     .main-content{
         margin-top: 10%;

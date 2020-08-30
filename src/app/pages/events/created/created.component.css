@@ -13,6 +13,9 @@ ul li {
 .card-header{
     background:#11cdef;
 }
+.card-title{
+    color:#fff;
+}
 .form-control-feedback {
     position: absolute;
     top: 10px;
