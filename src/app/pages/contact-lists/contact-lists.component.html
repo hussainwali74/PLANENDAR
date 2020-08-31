@@ -1,27 +1,34 @@
-<div class="main-content">
+<section class="section">
+    <div class="container">
+        <div class="row" style="margin: 0px;">
+            <div class="bnts offset-md-3 col-md-3">
+                <a routerLinkActive="active" class="nn" [routerLinkActiveOptions]="{exact: true}"
+                    [routerLink]="['/contactlists/contact']">
+                    <button style="width:100%;" mat-raised-button type="button"
+                        class="btn btn-success pull-right">Contacts</button>
+                </a>
+            </div>
+            <div class="bnts col-md-3">
+                <a routerLinkActive="active" class="nn" [routerLinkActiveOptions]="{exact: true}"
+                    [routerLink]="['/contactlists/list']">
+                    <button style="width:100%;" mat-raised-button type="button"
+                        class="btn btn-success pull-right">Lists</button>
+                </a>
+            </div>
 
-    <div class="row" style="margin: 0px;">
-        <div class="offset-md-3 col-md-3">
-            <button style="width:100%;" mat-raised-button type="button" (click)="gotoContacts()"
-                class="btn btn-success pull-right">Contacts</button>
-        </div>
-        <div class="col-md-3">
-            <button style="width:100%;" mat-raised-button type="button" (click)="gotoLists()"
-                class="btn btn-success pull-right">Lists</button>
-        </div>
-
-        <div class="col-md-6 offset-md-3">
-            <div class="form-group">
-                <div class="input-group mb-4">
-                    <input class="form-control" placeholder="Title" type="text">
-                    <div class="input-group-append">
-                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+            <div class="col-md-6 offset-md-3">
+                <div class="form-group">
+                    <div class="input-group mb-4">
+                        <input class="form-control" placeholder="Title" type="text">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div>
+            <router-outlet></router-outlet>
+        </div>
     </div>
-    <div>
-        <router-outlet></router-outlet>
-    </div>
-</div>
+</section>

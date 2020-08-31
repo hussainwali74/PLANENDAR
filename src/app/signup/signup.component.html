@@ -15,6 +15,8 @@
         <div class="col-lg-5">
           <div class="card bg-secondary shadow border-0">
             <div class="card-header bg-white pb-5">
+              <img src="./assets/img/logo.jpg" height="100px">
+
               <div class="text-muted text-center mb-3">
                 <small>Sign up with</small>
               </div>
@@ -43,7 +45,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Name" type="text" (focus)="focus=true" (blur)="focus=false">
+                    <input class="form-control" placeholder="Name" type="text" (focus)="focus=true"
+                      (blur)="focus=false">
                   </div>
                 </div>
                 <div class="form-group" [ngClass]="{'focused':focus1===true}">
@@ -51,7 +54,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Email" type="email" (focus)="focus1=true" (blur)="focus1=false">
+                    <input class="form-control" placeholder="Email" type="email" (focus)="focus1=true"
+                      (blur)="focus1=false">
                   </div>
                 </div>
                 <div class="form-group" [ngClass]="{'focused':focus2===true}">
@@ -59,7 +63,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Password" type="password" (focus)="focus2=true" (blur)="focus2=false">
+                    <input class="form-control" placeholder="Password" type="password" (focus)="focus2=true"
+                      (blur)="focus2=false">
                   </div>
                 </div>
                 <div class="text-muted font-italic">

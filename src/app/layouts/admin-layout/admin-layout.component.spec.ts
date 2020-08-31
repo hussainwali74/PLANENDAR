@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdminLayoutComponent } from './admin-layout.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('AdminLayoutComponent', () => {
   let component: AdminLayoutComponent;
@@ -8,9 +9,10 @@ describe('AdminLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdminLayoutComponent ]
+      imports: [FormsModule, ReactiveFormsModule],
+      declarations: [AdminLayoutComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -7,6 +7,12 @@
 .updown{
     display: none;
 }
+.card-header{
+    background:#11cdef;
+}
+.card-title{
+    color:#fff;
+}
 .bsorder input, mat-form-field{
         width: 88%;
     height: 24px;

@@ -1,14 +1,26 @@
 .f-50{
     font-size: 50px;
 
-    color:#555;
 }
+.nav-link li{
+     color:#555;
+     
+    }
+    .nav-link.active{
+        
+        color: #424242 !important;
+        box-shadow: 4px 6px 16px -11px black;}
 ul{
     text-align: center;
+}
+.navbar-transparent .navbar-nav .nav-link { 
+    color:#555 ;
+
 }
 
 .right-menu{
     margin-left: 250px !important;
+    color: #555;
 }
 .navbar{
     position: fixed !important;

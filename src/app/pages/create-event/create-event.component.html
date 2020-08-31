@@ -1,5 +1,5 @@
-<div class="main-content">
-    <div class="container-fluid">
+<section class="section">
+    <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -7,32 +7,111 @@
                         <h4 class="card-title">Create Event</h4>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
                             <div class="row">
 
                                 <div class="col-md-12">
                                     <br>
                                     <label for="name">Title</label><br>
                                     <mat-form-field class="example-full-width">
-                                        <input style="width: 100%;" matInput placeholder="title">
+                                        <input formControlName="title" style="width: 100%;" matInput
+                                            placeholder="title">
+                                        <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                                            <div *ngIf="f.title.errors.required">Number of tickets is required</div>
+                                        </div>
                                     </mat-form-field>
+
                                 </div>
                                 <div class="col-md-6">
                                     <br>
                                     <label for="date">Date</label><br>
                                     <mat-form-field class="example-full-width">
-                                        <input style="width: 100%;" matInput placeholder="date" type="date">
+                                        <input formControlName="date" style="width: 100%;" matInput placeholder="date"
+                                            type="date">
+                                        <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                                            <div *ngIf="f.date.errors.required">Number of tickets is required</div>
+                                        </div>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
                                     <br>
                                     <label for="date">Time</label><br>
                                     <mat-form-field class="example-full-width">
-                                        <input style="width: 100%;" matInput placeholder="time" type="time">
+                                        <input formControlName="time" style="width: 100%;" matInput placeholder="time"
+                                            type="time">
+                                        <div *ngIf="submitted && f.time.errors" class="invalid-feedback">
+                                            <div *ngIf="f.time.errors.required">Number of tickets is required</div>
+                                        </div>
                                     </mat-form-field>
                                 </div>
 
 
+                                <div class="col-md-12">
+                                    <br>
+                                    <label for="name">Description</label><br>
+                                    <mat-form-field class="example-full-width">
+                                        <textarea formControlName="description" style="width: 100%;" matInput
+                                            placeholder="description"></textarea>
+                                        <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                            <div *ngIf="f.description.errors.required">Number of tickets is required
+                                            </div>
+                                        </div>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <button (click)="addField()" mat-raised-button type="button"
+                                            class="btn btn-info ">
+                                            Add Field</button>
+
+                                    </div>
+                                    <div *ngIf="extraField.length" class="col-md-6 pull-right"
+                                        style="margin-top:-44px;">
+                                        <button (click)="deleteField()" mat-raised-button type="button"
+                                            class="btn btn-info ">
+                                            Remove Field</button>
+                                    </div>
+                                </div>
+                                <div *ngIf="extraField.length" class="row card" style="    width: 97.5%;
+                                margin-top: 10px;
+                                margin-left: 11px;">
+                                    <div formArrayName="extra_fields">
+                                        <!-- <div *ngFor="let field of extraField.controls; let i= index;" class="row"
+                                        [formGroup]="i"> -->
+                                        <div *ngFor="let item of dynamicForm.get('extra_fields')['controls']; let i=index"
+                                            [formGroupName]="i">
+                                            <div class="col-md-12">
+                                                <br>
+                                                <label for="name">Title</label><br>
+                                                <mat-form-field class="example-full-width">
+                                                    <input formControlName="title" style="width: 100%;" matInput
+                                                        placeholder="title">
+                                                    <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                                                        <div *ngIf="f.title.errors.required">Number of tickets is
+                                                            required</div>
+                                                    </div>
+                                                </mat-form-field>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <br>
+                                                <label for="name">Description</label><br>
+                                                <mat-form-field class="example-full-width">
+                                                    <textarea formControlName="description" style="width: 100%;"
+                                                        matInput placeholder="description"></textarea>
+                                                    <div *ngIf="submitted && f.description.errors"
+                                                        class="invalid-feedback">
+                                                        <div *ngIf="f.description.errors.required">Number of tickets is
+                                                            required
+                                                        </div>
+                                                    </div>
+                                                </mat-form-field>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-12">
                                     <br>
                                     <label for="name">Meeting Point</label><br>
@@ -49,13 +128,6 @@
                                     </mat-form-field>
                                 </div>
 
-                                <div class="col-md-12">
-                                    <br>
-                                    <label for="name">Description</label><br>
-                                    <mat-form-field class="example-full-width">
-                                        <textarea style="width: 100%;" matInput placeholder="description"></textarea>
-                                    </mat-form-field>
-                                </div>
 
                                 <div class="col-md-12">
                                     <br>
@@ -106,4 +178,4 @@
 
         </div>
     </div>
-</div>
+</section>

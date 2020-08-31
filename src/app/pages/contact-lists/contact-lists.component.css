@@ -3,10 +3,25 @@
     /* margin-right: 36px; */
 
 }
+.main-content{
+    margin-top: 0px;
+}
+.section{
+    top:78px;
+}
 .main-content .row .col-md-6{
     margin-bottom: 35px;
     margin-top: 11px;
+} 
+.bnts{
+    margin-bottom: 10px;
 }
+
+.active button{
+    background: rgb(45 206 57);
+    border-color: rgb(45 206 57);
+}
+
 @media (max-width:425px){
     .main-content{
         margin-top: 30%;padding-right: 1px;

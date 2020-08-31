@@ -26,6 +26,8 @@ import { ContactListsComponent } from 'src/app/pages/contact-lists/contact-lists
 import { ContactsComponent } from 'src/app/pages/contacts/contacts.component';
 import { LandingComponent } from 'src/app/pages/landing/landing.component';
 import { ViewEventsComponent } from '../../pages/view-event/view-event.component';
+import { CreateEventComponent } from 'src/app/pages/create-event/create-event.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 @NgModule({
@@ -41,10 +43,14 @@ import { ViewEventsComponent } from '../../pages/view-event/view-event.component
     CalenderComponent, ContactListsComponent, ContactsComponent, ListsComponent,
     LandingComponent,
     ViewEventsComponent,
+    CreateEventComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
+    BrowserModule,
+    ReactiveFormsModule,
     AdminRoutingModule,
   ],
 })

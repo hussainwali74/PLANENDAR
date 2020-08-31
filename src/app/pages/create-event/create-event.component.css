@@ -1,6 +1,13 @@
 .main-content{
     margin-top:10%;
 }
+
+.section{
+    top:78px;
+}
+.card-header{
+    background:#11cdef;
+}
 @media (max-width:425px){
     .main-content{
         margin-top:30%;
