@@ -15,6 +15,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { HomeModule } from './home/home.module';
 import { LoginComponent } from './login/login.component';
 import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
     // LandingComponent,
     ProfileComponent,
     NavbarComponent,
+    HomeComponent,
     FooterComponent,
     LoginComponent,
 

@@ -7,6 +7,7 @@ import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 
 import { LandingComponent } from './pages/landing/landing.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
 
@@ -24,10 +25,14 @@ const routes: Routes = [
   // },
 
 
-  { path: '', component: LandingComponent },
-  // { path: 'profile', component: ProfileComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'signin', component: LoginComponent },
+  {
+    path: '', component: HomeComponent, children: [
+      { path: '', component: LandingComponent }
+    ]
+  },
+  // { path: 'profile', component: ProfileComponent },
   // { path: 'landing', component: LandingComponent },
   // { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];

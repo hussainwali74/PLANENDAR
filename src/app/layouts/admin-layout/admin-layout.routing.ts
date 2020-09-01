@@ -21,59 +21,65 @@ import { PromotionComponent } from '../../pages/events/promotion/promotion.compo
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ViewEventsComponent } from 'src/app/pages/view-event/view-event.component';
+import { HomeComponent } from 'src/app/home/home.component';
 
 const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard', component: DashboardComponent },
-    { path: 'user-profile', component: UserProfileComponent },
-    { path: 'notifications', component: NotificationsComponent },
-    { path: 'create-event', component: CreateEventComponent },
-    { path: 'view-events', component: ViewEventsComponent },
-    // { path: 'table-list', component: TableListComponent },
-    // { path: 'typography', component: TypographyComponent },
-    // { path: 'icons', component: IconsComponent },
-    // { path: 'maps', component: MapsComponent },
-    // { path: 'upgrade', component: UpgradeComponent },
-    { path: 'calender', component: CalenderComponent },
     {
-        path: 'contactlists', component: ContactListsComponent, children: [
-            { path: '', pathMatch: "full", redirectTo: 'contact' },
-            {
-                path: 'contact',
-                component: ContactsComponent
-            },
-            { path: 'list', component: ListsComponent },
-        ]
-    },
-    {
-        path: 'events',
-        component: EventsComponent,
-        children: [
-            {
-                path: 'search',
-                component: SearchComponent,
-            },
+        path: '', component: HomeComponent, children: [
+            { path: '', component: LandingComponent },
 
+            { path: 'dashboard', component: DashboardComponent },
+            { path: 'user-profile', component: UserProfileComponent },
+            { path: 'notifications', component: NotificationsComponent },
+            { path: 'create-event', component: CreateEventComponent },
+            { path: 'view-events', component: ViewEventsComponent },
+            // { path: 'table-list', component: TableListComponent },
+            // { path: 'typography', component: TypographyComponent },
+            // { path: 'icons', component: IconsComponent },
+            // { path: 'maps', component: MapsComponent },
+            // { path: 'upgrade', component: UpgradeComponent },
+            { path: 'calender', component: CalenderComponent },
             {
-                path: 'calendar',
-                component: CalenderComponent,
+                path: 'contactlists', component: ContactListsComponent, children: [
+                    { path: '', pathMatch: "full", redirectTo: 'contact' },
+                    {
+                        path: 'contact',
+                        component: ContactsComponent
+                    },
+                    { path: 'list', component: ListsComponent },
+                ]
             },
             {
-                path: 'created',
-                component: CreatedComponent,
-            },
-            {
-                path: 'promotion',
-                component: PromotionComponent,
-            },
-            {
-                path: '',
-                pathMatch: 'full',
-                redirectTo: 'search'
+                path: 'events',
+                component: EventsComponent,
+                children: [
+                    {
+                        path: 'search',
+                        component: SearchComponent,
+                    },
 
-            }
+                    {
+                        path: 'calendar',
+                        component: CalenderComponent,
+                    },
+                    {
+                        path: 'created',
+                        component: CreatedComponent,
+                    },
+                    {
+                        path: 'promotion',
+                        component: PromotionComponent,
+                    },
+                    {
+                        path: '',
+                        pathMatch: 'full',
+                        redirectTo: 'search'
 
-        ]
-    },
+                    }
+
+                ]
+            }]
+    }
 
 ]
 
