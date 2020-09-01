@@ -8,8 +8,10 @@
     }
     .nav-link.active{
         
-        color: #424242 !important;
-        box-shadow: 4px 6px 16px -11px black;}
+        color: blue !important;
+        /* box-shadow: 4px 6px 16px -11px black;
+        */
+    }
 ul{
     text-align: center;
 }
