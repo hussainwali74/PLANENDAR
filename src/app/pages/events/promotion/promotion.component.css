@@ -15,7 +15,9 @@ th h4{
     align-content: center;
     margin-top: 62%;
 }
-
+.table thead tr th th {
+    font-size: 14px;
+}
 .updown{
     display: none;
 }
@@ -32,6 +34,10 @@ th h4{
     }
 }
 @media (max-width:425px){
+    th h4{
+        font-size: 15px;
+        font-weight: 500;
+    }
     .arrows{
         display: none
     }

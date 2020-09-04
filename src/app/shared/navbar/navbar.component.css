@@ -119,8 +119,9 @@ ul{
         */
     }
     .navbar-transparent .navbar-nav .nav-link {
-        padding-left:0px ;
+        padding-left:8px ;
     }
+    /* .navbar-transparent .navbar-nav .nav-link { } */
     .navbar-transparent .navbar-nav .nav-link .nav-item:last-child {
         padding-left: 0px ;
     }
@@ -147,7 +148,7 @@ ul{
     */
 }
 .navbar-transparent .navbar-nav .nav-link {
-    padding: 2px ;
+    padding: 8px ;
 }
 .container{
     margin-top: -6px;
@@ -286,7 +287,6 @@ ul{
         font-size: 25px;
         color: #555;
     }
-  
 
     .navbar{
         position: fixed !important;
@@ -296,7 +296,7 @@ ul{
         -webkit-transition: 0.6s;
         transition: 0.6s;
         z-index: 10000000;
-        height: 112px;
+        height: 98px;
         background: #eee;
         bottom: 10px;
     }
