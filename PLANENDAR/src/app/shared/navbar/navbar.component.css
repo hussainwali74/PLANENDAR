@@ -207,6 +207,7 @@ ul{
 }
 .navbar-transparent .navbar-nav .nav-link {
     padding: 12.5px ;
+    padding-bottom: 0px !important;
 }
 .container{
     margin-top: -6px;
