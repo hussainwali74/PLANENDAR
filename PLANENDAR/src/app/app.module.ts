@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
@@ -16,7 +16,8 @@ import { HomeModule } from './home/home.module';
 import { LoginComponent } from './login/login.component';
 import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 import { HomeComponent } from './home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RequestInterceptor } from './app.interceptor';
 
 @NgModule({
   declarations: [
@@ -37,11 +38,18 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     RouterModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     AdminLayoutModule,
     HomeModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

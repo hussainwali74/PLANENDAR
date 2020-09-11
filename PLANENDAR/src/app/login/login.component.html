@@ -22,7 +22,8 @@
               </div>
               <div class="btn-wrapper text-center">
 
-                <a href="javascript:void(0)" (click)="loginGoogle()" class="btn btn-neutral btn-icon">
+                <!-- <a href="javascript:void(0)" (click)="loginGoogle()"  #loginRef class="btn btn-neutral btn-icon"> -->
+                <a href="javascript:void(0)" #loginRef class="btn btn-neutral btn-icon">
                   <span class="btn-inner--icon ">
                     <img src="./assets/img/icons/common/google.svg">
                   </span>
@@ -34,14 +35,21 @@
               <div class="text-center text-muted mb-4">
                 <small>Or sign in with credentials</small>
               </div>
-              <form role="form">
+              <form [formGroup]="form" (ngSubmit)="login()">
                 <div class="form-group mb-3" [ngClass]="{'focused':focus===true}">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Email" type="email" (focus)="focus=true"
-                      (blur)="focus=false">
+                    <input type="email" class="form-control" [ngClass]="{'is-invalid' : 
+                       (form.controls.email.touched && form.controls.email.invalid) || (form.controls.email.touched && form.controls.email.invalid),
+                       'is-valid': form.controls.email.valid}" formControlName="email" id="exampleInputEmail1"
+                      aria-describedby="emailHelp" placeholder="Enter email">
+
+                    <!-- <input class="form-control" placeholder="Email" type="email" ngModel name="email" required
+                      #email="ngModel" (focus)="focus=true" (blur)="focus=false">
+                    <span class="help-block" *ngIf="!email.valid && email.touched">Please enter email!</span> -->
+
                   </div>
                 </div>
                 <div class="form-group" [ngClass]="{'focused':focus1===true}">
@@ -49,30 +57,37 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Password" type="password" (focus)="focus1=true"
-                      (blur)="focus1=false">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                      formControlName="password" [ngClass]="{'is-invalid' : 
+                    (form.controls.password.touched && form.controls.password.invalid) || (form.controls.password.touched && form.controls.password.invalid),
+                    'is-valid': form.controls.password.valid}">
+
+                    <!-- <input class="form-control" placeholder="Password" type="password" (focus)="focus1=true" ngModel
+                      name="password" required #password="ngModel" (blur)="focus1=false">
+                    <span class="help-block" *ngIf="!password.valid && password.touched">Please enter password!</span> -->
+
                   </div>
                 </div>
-                <div class="custom-control custom-control-alternative custom-checkbox">
+                <!-- <div class="custom-control custom-control-alternative custom-checkbox">
                   <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
                   <label class="custom-control-label" for=" customCheckLogin">
                     <span>Remember me</span>
                   </label>
-                </div>
+                </div> -->
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">Sign in</button>
+                  <button type="submit" class="btn btn-primary my-4">Sign in</button>
                 </div>
               </form>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-6">
-              <a href="javascript:void(0)" class="text-light">
+              <!-- <a href="javascript:void(0)" class="text-light">
                 <small>Forgot password?</small>
-              </a>
+              </a> -->
             </div>
             <div class="col-6 text-right">
-              <a href="javascript:void(0)" [routerLink]="['/register']" class="text-light">
+              <a href="javascript:void(0)" [routerLink]="['/signup']" class="text-light">
                 <small>Create new account</small>
               </a>
             </div>
