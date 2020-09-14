@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 
 import { Person } from '../models/Person.model';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -16,10 +17,10 @@ import { NgForm } from '@angular/forms';
 export class AuthService {
   selectedPerson = Person;
   // persons: Person[];
-  readonly baseURL = "http://localhost:3000/api/";
+  readonly baseURL = "http://localhost:3000/auth/";
   // apiBaseUrl: 'http://localhost:3000/api'
   // 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   googleLogin() {
     // /auth/google
@@ -31,6 +32,7 @@ export class AuthService {
 
 
   baseUrl = this.baseURL;
+  private token: string;
 
   noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True' }) };
 
@@ -50,6 +52,46 @@ export class AuthService {
   signup(obj) {
     return this.http.post(this.baseURL + 'signup', obj);
   }
+
+
+  private saveToken(token: string): void {
+    localStorage.setItem('token', token);
+    this.token = token;
+  }
+
+  private getToken(): string {
+    if (!this.token) {
+      this.token = localStorage.getItem('token');
+    }
+    return this.token;
+  }
+
+  public logout(): void {
+    this.token = '';
+    window.localStorage.removeItem('token');
+    this.router.navigateByUrl('/');
+  }
+
+  public isLoggedIn(): boolean {
+    const user = this.getUserDetails();
+    if (user) {
+      return user.exp > Date.now() / 1000;
+    } else {
+      return false;
+    }
+  }
+  public getUserDetails() {
+    const token = this.getToken();
+    let payload;
+    if (token) {
+      payload = token.split('.')[1];
+      payload = window.atob(payload);
+      return JSON.parse(payload);
+    } else {
+      return null;
+    }
+  }
+  //=========================================================================================================================================
   // login(authCredentials) {
   //   return this.http.post(this.baseUrl + '/authenticate', authCredentials, this.noAuthHeader);
   // }
@@ -94,6 +136,8 @@ export class AuthService {
         }
       });
   }
+
+
 
 
 }

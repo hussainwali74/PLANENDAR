@@ -19,6 +19,10 @@ const userScheama = new mongoose.Schema(
             type: String,
             required: true
         },
+        confirmed: {
+            type: DataTypes.BOOLEAN,
+            default: false
+        },
         salt: String,
         role: {
             type: String,

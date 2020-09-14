@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
   focus;
   focus1;
   constructor(private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone,
   ) { }
   //properties
 
@@ -70,10 +71,16 @@ export class LoginComponent implements OnInit {
         // this.Name =  profile.getName();
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
-        this.router.navigate(['/']);
+        // this.router.navigate(['/']);
+        this.ngZone.run(() => {
+          this.router.navigateByUrl('/');
+          // this._router.navigate([to])
+        })
+
 
       }, (error) => {
-        alert(JSON.stringify(error, undefined, 2));
+        console.log(error)
+        // alert(JSON.stringify(error, undefined, 2));
       });
   }
 
@@ -92,7 +99,12 @@ export class LoginComponent implements OnInit {
         }
       }, err => {
         console.log(err);
-        swal.fire("Invalid Credentials", "Failed Login!", "error");
+        if (err.error) {
+
+          swal.fire("Login Failed", err.error.msg, "error");
+        } else {
+          swal.fire("Invalid Credentials", "Failed Login!", "error");
+        }
       })
     } else {
       this.form.markAllAsTouched();

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-landing',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private route: ActivatedRoute) {
+    route.params.subscribe(val => {
+      // put the code from `ngOnInit` here
+      console.log(val)
+    });
+  }
 
   ngOnInit(): void {
+    console.log('landing page')
+    // alert('ladingpage')
+    // this.router.navigate(['/'])
   }
 
 }
