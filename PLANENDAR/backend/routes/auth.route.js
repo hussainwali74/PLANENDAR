@@ -200,16 +200,18 @@ router.post('/signup', (req, res, next) => {
                     }
                     emailSent = true;
                     console.log('Message sent: %s', info.messageId);
+                    console.log(emailSent)
+                    res.status(201).json({
+                        result: true,
+                        details: result,
+                        emailSent: emailSent
+                    })
                 });
 
             } catch (error) {
                 console.log('error while sending mail 44 ')
             }
-            res.status(201).json({
-                result: true,
-                details: result,
-                emailSent: emailSent
-            })
+
         }).catch(err => {
             console.log(err);
             res.status(500).json({

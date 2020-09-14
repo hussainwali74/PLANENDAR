@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
   notFoundFlag: boolean;
   userNotFound: string;
   ngOnInit() {
+    console.log(this.loginElement)
     this.googleInitialize()
   }
 

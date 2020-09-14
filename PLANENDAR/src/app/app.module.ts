@@ -18,6 +18,7 @@ import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from './app.interceptor';
+import { LoaderComponent } from './shared/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { RequestInterceptor } from './app.interceptor';
     HomeComponent,
     FooterComponent,
     LoginComponent,
+    LoaderComponent,
 
 
   ],
