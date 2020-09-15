@@ -187,7 +187,7 @@ router.post('/signup', (req, res, next) => {
                     from: 'hussain.akhss2010@gmail.com',
                     // to: 'hussain.akhss2010@gmail.com ',
                     to: req.body.email,
-                    subject: 'hello world!',
+                    subject: 'PLANENDAR | Confirm Email',
                     // text: 'hello world!'
                     html: `
                        <h3>Please click the link below to confirm your email</h3>
