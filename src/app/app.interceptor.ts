@@ -17,10 +17,12 @@ export class RequestInterceptor implements HttpInterceptor {
         function settingHeaders() {
             let token = localStorage.getItem('token');
             if (token) {
+                console.log(token)
                 return req.clone({
                     headers: req.headers.set('authorization', token.toString())
                 });
             } else {
+                console.log('not logged in')
                 return req.clone({});
             }
         }

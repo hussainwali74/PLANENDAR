@@ -1,14 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Http, Response } from '@angular/http';
-import 'rxjs/Rx';
-import { environment } from '../../environments/environment';
-
-import { Person } from '../models/Person.model';
-import { NgForm } from '@angular/forms';
+import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
 import { Router } from '@angular/router';
+import 'rxjs/Rx';
+import { Person } from '../models/Person.model';
+
 
 
 @Injectable({
@@ -39,11 +35,6 @@ export class AuthService {
   createUser(user: any) {
     console.log(user)
     return this.http.post(this.baseUrl + '/register', user, this.noAuthHeader);
-
-    return this.http.post(this.baseUrl + '/register', user)
-      .map((response: Response) => {
-        return response.json();
-      });
   }
 
   login(obj) {
@@ -52,7 +43,6 @@ export class AuthService {
   signup(obj) {
     return this.http.post(this.baseURL + 'signup', obj);
   }
-
 
   private saveToken(token: string): void {
     localStorage.setItem('token', token);
@@ -136,8 +126,5 @@ export class AuthService {
         }
       });
   }
-
-
-
 
 }
