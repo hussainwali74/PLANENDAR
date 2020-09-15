@@ -1,0 +1,21 @@
+.main-content{
+    margin-top:-20px;
+}
+.card-header{
+    background:#11cdef;
+}
+.card-title{
+    color:#fff;
+}
+.rounded-circle{
+    height: 162px;
+    }
+@media(max-width:425px){
+    .card-profile .row{
+        padding:10px;
+    }
+    .modal-content{
+        margin-top: 118px;
+    width: 98%;
+    }
+}

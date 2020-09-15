@@ -1,0 +1,22 @@
+.main-content{
+    margin-top: 10%;
+}
+.rounded-circle{
+height: 162px;
+}
+.container-fluid{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+@media (max-width:425px){
+    .main-content{
+        margin-top: 33%;
+    }
+    .rounded-circle{
+        margin-bottom: 12px;
+        }
+        .col-sm-12 button{
+            width: 100%;
+            margin-bottom: 10px;
+        }
+}

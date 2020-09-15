@@ -1,2 +1,0 @@
-# Planendar angular APP
-

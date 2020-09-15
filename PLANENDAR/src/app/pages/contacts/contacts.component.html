@@ -1,0 +1,139 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header card-header-danger">
+                <h3 class="card-title">Contacts</h3>
+
+            </div>
+            <div class="card-body">
+
+                <div class="card card-profile">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="carsd-avatar p-1">
+                                <a href="javascript:void(0)">
+                                    <img class="img" height="62px" style="margin-top: 2px;"
+                                        src="./assets/img/faces/marc.jpg" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h3 (click)="open(classic,'' , '')">Mr. xavier </h3>
+                        </div>
+                        <div class="col-md-3" style="padding-top: 22px;">
+                            <i class="fa fa-check" style=" margin-right: 18px;   font-size: 34px;
+                            color: green;"></i>
+                            <i class="fa fa-times" style="    font-size: 34px;
+                            color: rgba(255, 0, 0, 0.568);"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-profile">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="carsd-avatar p-1">
+                                <a href="javascript:void(0)">
+                                    <img class="img" height="62px" style="margin-top: 2px;"
+                                        src="./assets/img/faces/marc.jpg" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h3 (click)="open(classic,'' , '')">Mr. xavier </h3>
+                        </div>
+                        <div class="col-md-3" style="padding-top: 22px;">
+                            <i class="fa fa-check" style=" margin-right: 18px;   font-size: 34px;
+                            color: green;"></i>
+                            <i class="fa fa-times" style="    font-size: 34px;
+                            color: rgba(255, 0, 0, 0.568);"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-profile">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="carsd-avatar p-1">
+                                <a href="javascript:void(0)">
+                                    <img class="img" height="62px" style="margin-top: 2px;"
+                                        src="./assets/img/faces/marc.jpg" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h3 (click)="open(classic,'' , '')">Mr. xavier </h3>
+                        </div>
+                        <div class="col-md-3" style="padding-top: 22px;">
+                            <i class="fa fa-check" style=" margin-right: 18px;   font-size: 34px;
+                            color: green;"></i>
+                            <i class="fa fa-times" style="    font-size: 34px;
+                            color: rgba(255, 0, 0, 0.568);"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-profile">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <div class="carsd-avatar p-1">
+                                <a href="javascript:void(0)">
+                                    <img class="img" height="62px" style="margin-top: 2px;"
+                                        src="./assets/img/faces/marc.jpg" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h3 (click)="open(classic,'' , '')">Mr. xavier </h3>
+                        </div>
+                        <div class="col-md-3" style="padding-top: 22px;">
+                            <i class="fa fa-check" style=" margin-right: 18px;   font-size: 34px;
+                            color: green;"></i>
+                            <i class="fa fa-times" style="    font-size: 34px;
+                            color: rgba(255, 0, 0, 0.568);"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-4">
+
+        <ng-template #classic let-c="close" let-d="dismiss">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h6 class="modal-title" id="modal-title-default">Type your modal title</h6> -->
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        (click)="d('Cross click')">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 text-center">
+                            <div class="card-profile-image">
+                                <a href="javascript:void(0)">
+                                    <img class="rounded-circle" src="./assets/img/faces/marc.jpg" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-7 offset-md-1">
+                            <div class="card">
+                                <div class="card-header card-header">
+                                    <h4 class="card-title">Mr X</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button mat-raised-button type="submit" class="btn btn-info pull-right">Add
+                        to Contacts</button>
+                    <button mat-raised-button type="submit" class="btn btn-success pull-right">Remove Contact</button>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>
