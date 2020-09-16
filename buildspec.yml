@@ -18,4 +18,8 @@ phases:
 artifects:
   files:
     - "**/*"
+    - server.js
+    - package.json
+    - node_modules/*
   base-directory: dist
+ 
