@@ -1,0 +1,62 @@
+.main-content{
+    margin-top: 12.6%;
+}
+.card{
+    /* background-image: linear-gradient(to right, #00c6ff 0%, #0072ff 51%, #00c6ff 100%);
+    */
+    width:60%;
+    padding-top: 10px;
+     height:60px;text-align:center;padding-top:52px; 
+ background: #25a7fe;  /* Chrome 10-25, Safari 5.1-6 */
+ margin-bottom: 10px;
+
+}
+.card h2{
+    color: white;
+    margin-top: -48px;
+}
+@media(max-width:768px){
+    .card h2{
+        margin-top: -48px;
+        color: white;
+    }
+    .main-content{
+        margin-top: 16.6%;
+    }
+    .card{
+        margin-bottom: 10px;
+    }
+}
+
+@media(max-width:425px){
+
+    .main-content{
+        margin-top: 30%;
+    }
+   
+    .card h2{
+        color: white; margin-top: -48px;
+    }
+
+    .card{
+        margin-bottom: 10px;
+        width: 100%;
+        padding-top: 10px;
+        height: 60px;
+        text-align: center;
+        padding-top: 52px;
+        background: #25a7fe;
+    
+    }
+}
+@media(max-width:375px){
+    .main-content{
+        margin-top: 40%;
+    }
+    .card h2{
+        color: white;
+        font-size: 25px;
+         margin-top: -42px;
+    }
+
+}

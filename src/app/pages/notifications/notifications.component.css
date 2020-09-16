@@ -1,0 +1,48 @@
+.main-content{
+    margin-top: 0px;
+}
+.section{
+    top:78px;
+}
+.card-header{
+    background:#11cdef;
+}
+
+.f-check{
+    
+    margin-top: 18px;
+    border:1px solid green;
+    margin-right: 15px;
+    padding: 0px 20px;
+    font-size: 36px;
+    color:green;
+}
+.f-times{
+    margin-top: 18px;
+    border:1px solid rgb(177, 56, 56);
+    color: rgb(177, 56, 56);
+    padding: 0px 20px;
+    font-size: 36px;
+}
+@media (max-width:425px){
+    .card-profile{
+        margin-bottom: 10px;
+    }
+    .section{
+        margin-top: -6%;
+    }   
+    .f-check{
+        
+        border:1px solid green;
+        margin-right: 15px;
+        padding: 0px 20px;
+        font-size: 36px;
+        color:green;
+    }
+    .f-times{
+        border:1px solid rgb(177, 56, 56);
+    color: rgb(177, 56, 56);
+        padding: 0px 20px;
+        font-size: 36px;
+    }
+}

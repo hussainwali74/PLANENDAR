@@ -1,0 +1,19 @@
+.main-content{
+   margin-top:10%;
+}
+.card-header{
+    color: #fff;
+    background:#11cdef;
+}
+.card-title{
+    color:#fff;
+}
+@media (max-width: 425px){
+    .main-content{
+        margin-top: 30.6%;
+        margin-left: 3px;         
+    }
+}
+.card-body .card {
+    margin-bottom:10px;
+}

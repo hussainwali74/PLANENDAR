@@ -1,0 +1,40 @@
+.main-content{
+    margin-top: 10%;
+    /* margin-right: 36px; */
+
+}
+.main-content{
+    margin-top: 0px;
+}
+.section{
+    top:78px;
+}
+.main-content .row .col-md-6{
+    margin-bottom: 35px;
+    margin-top: 11px;
+} 
+.bnts{
+    margin-bottom: 10px;
+}
+
+.active button{
+    background: rgb(45 206 57);
+    border-color: rgb(45 206 57);
+}
+
+@media (max-width:425px){
+    .main-content{
+        margin-top: 30%;padding-right: 1px;
+        margin-right: 0px;
+    }
+    .main-content .row{
+        padding:10px;
+    }
+    .main-content .row .col-md-3{
+        margin-top: 10px;
+    }
+    .main-content .row .col-md-6{
+        margin-bottom: 25px;
+        margin-top: 11px;
+    }
+}

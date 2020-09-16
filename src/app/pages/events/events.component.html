@@ -1,0 +1,66 @@
+<div class="card sp ">
+    <div class="row">
+        <div class="col-sm-3 col-md-3">
+            <a class="nav-link" routerLink="/events/search">
+                <button type="button" class="width-full btn btn-default">
+                    SEARCH
+                </button>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <a class="nav-link" routerLink="/events/calendar">
+                <button type="button" class="width-full btn btn-default">
+                    CALENDAR
+                </button>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <a class="nav-link" routerLink="/events/created">
+                <button type="button" class="width-full btn btn-default" placement="right"
+                    ngbPopover="This is a very beautiful popover, show some love.">
+                    CREATED
+                </button>
+            </a>
+
+        </div>
+
+        <div class="col-sm-3">
+            <a class="nav-link" routerLink="/events/promotion">
+                <button type="button" class="width-full btn btn-default">
+                    PROMOTION
+                </button>
+            </a>
+        </div>
+
+    </div>
+</div>
+<div class="main-content">
+    <div class="container-fluid">
+        <!-- <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav" style="justify-content: space-between;">
+                        <li class="nav-item " routerLinkActive="active">
+                            <a class="nav-link" routerLink="/events/search">SEARCH <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/events/calendar">CALENDAR</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/events/created">CREATED</a>
+                        </li>
+                        <li class="nav-item" routerLinkActive="active">
+                            <a class="nav-link" routerLink="/events/promotion">PROMOTION</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav> -->
+        <router-outlet></router-outlet>
+    </div>
+</div>
