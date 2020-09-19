@@ -10,10 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LandingComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute) {
-    route.params.subscribe(val => {
-      // put the code from `ngOnInit` here
-      console.log(val)
-    });
+
   }
 
   ngOnInit(): void {

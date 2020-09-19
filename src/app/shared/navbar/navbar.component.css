@@ -305,6 +305,18 @@ ul{
 
 
 @media(min-width:425px){
+    .navbar{
+        position: fixed !important;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        -webkit-transition: 0.6s;
+        transition: 0.6s;
+        z-index: 10000000;
+        height: 110px;
+        background: #eee;
+        bottom: 10px;
+    }
     .nav-link.active{
         padding-bottom:5px !important;
         

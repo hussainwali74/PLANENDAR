@@ -13,13 +13,10 @@
                                 <div class="col-md-12">
                                     <br>
                                     <label for="name">Title</label><br>
-                                    <mat-form-field class="example-full-width">
-                                        <input formControlName="title" style="width: 100%;" matInput
-                                            placeholder="title">
-                                        <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
-                                            <div *ngIf="f.title.errors.required">Number of tickets is required</div>
-                                        </div>
-                                    </mat-form-field>
+                                    <input formControlName="title" style="width: 100%;" matInput placeholder="title">
+                                    <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                                        <div *ngIf="f.title.errors.required">Number of tickets is required</div>
+                                    </div>
 
                                 </div>
                                 <div class="col-md-6">
@@ -137,23 +134,22 @@
                                     </mat-form-field>
                                 </div> -->
                                 <div class="col-md-12">
+
                                     <br>
-                                    <label for="name">Privacity</label><br>
                                     <div class="dropdown">
-                                        <button style="width: 100%;" class="btn btn-default dropdown-toggle"
-                                            type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
-                                            PRIVACITY
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
+                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                            data-toggle="dropdown">Privacity
+                                            <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">HTML</a></li>
+                                            <li><a href="#">CSS</a></li>
+                                            <li><a href="#">JavaScript</a></li>
+                                        </ul>
                                     </div>
                                 </div>
 
                             </div>
+                            <br>
                             <div class="row">
                                 <div class="col-md-4">
                                     <button mat-raised-button type="submit" class="btn btn-info pull-right">

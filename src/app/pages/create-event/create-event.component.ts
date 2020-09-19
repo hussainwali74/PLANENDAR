@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { EventsService } from 'src/app/services/events.service';
 
 @Component({
   selector: 'app-create-event',
@@ -10,7 +11,10 @@ export class CreateEventComponent implements OnInit {
   dynamicForm: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private eventService: EventsService,
+  ) { }
 
   ngOnInit(): void {
     this.dynamicForm = this.formBuilder.group({
@@ -20,6 +24,8 @@ export class CreateEventComponent implements OnInit {
       description: ['', Validators.required],
       extra_fields: new FormArray([])
     });
+
+    console.log('create event ')
   }
 
   // convenience getters for easy access to form fields
@@ -55,8 +61,19 @@ export class CreateEventComponent implements OnInit {
       return;
     }
 
+
+    this.eventService.createEvent(this.dynamicForm.value).subscribe(
+      (data) => {
+        console.log(data)
+        this.onReset();
+        this.eventService.swalMsgSuccess('Event Created');
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
     // display form values on success
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.dynamicForm.value, null, 4));
+    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.dynamicForm.value, null, 4));
   }
 
   onReset() {

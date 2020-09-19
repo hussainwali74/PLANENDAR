@@ -1,6 +1,8 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart } from '@angular/router';
-import { Location, PopStateEvent } from '@angular/common';
+import { Router } from '@angular/router';
+import { faBell, faCalendar, faHome, faList, faUser, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-navbar',
@@ -12,8 +14,15 @@ export class NavbarComponent implements OnInit {
     private lastPoppedUrl: string;
     rla: any;
     private yScrollStack: number[] = [];
-
-    constructor(public location: Location, private router: Router) {
+    faHome = faHome;
+    faCalender = faCalendar;
+    faBell = faBell;
+    faUser = faUser;
+    faUserCircle = faUserCircle;
+    faList = faList;
+    constructor(public location: Location,
+        private authService: AuthService,
+        private router: Router) {
     }
 
     ngOnInit() {
@@ -36,8 +45,10 @@ export class NavbarComponent implements OnInit {
     }
     logout() {
         console.log('signout')
-        localStorage.clear()
-        this.router.navigateByUrl('/signin')
+
+        // localStorage.clear()
+        this.authService.logOut();
+        // this.router.navigateByUrl('/signin')
     }
 
     // isHome() {

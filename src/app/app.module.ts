@@ -19,6 +19,10 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from './app.interceptor';
 import { LoaderComponent } from './shared/loader/loader.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @NgModule({
   declarations: [
@@ -44,6 +48,12 @@ import { LoaderComponent } from './shared/loader/loader.component';
     AdminLayoutModule,
     HomeModule,
     HttpClientModule,
+    FontAwesomeModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: jwtTokenGetter
+      }
+    }),
   ],
   providers: [
     {
@@ -55,3 +65,7 @@ import { LoaderComponent } from './shared/loader/loader.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function jwtTokenGetter() {
+  return localStorage.getItem("access_token");
+}

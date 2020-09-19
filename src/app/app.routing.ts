@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 
 import { LandingComponent } from './pages/landing/landing.component';
 import { HomeComponent } from './home/home.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
 
@@ -28,13 +29,13 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'signin', component: LoginComponent },
   {
-    path: '', component: HomeComponent, children: [
+    path: '', component: HomeComponent, canActivate: [AuthGuard], children: [
       { path: '', component: LandingComponent }
     ]
   },
   // { path: 'profile', component: ProfileComponent },
   // { path: 'landing', component: LandingComponent },
-  // { path: '', redirectTo: 'home', pathMatch: 'full' }
+  // { path: '**', redirectTo: 'signin', pathMatch: 'full' }
 ];
 
 @NgModule({

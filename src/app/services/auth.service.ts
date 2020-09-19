@@ -2,8 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import 'rxjs/Rx';
 import { Person } from '../models/Person.model';
+
 
 
 
@@ -12,11 +14,22 @@ import { Person } from '../models/Person.model';
 })
 export class AuthService {
   selectedPerson = Person;
+
+  private readonly TOKEN_EXPIRY_TIME = "expires_in";
+  private readonly REFRESH_TOKEN = "refresh_token";
+  private readonly TOKEN = "access_token";
+  private readonly USER = "user";
   // persons: Person[];
   readonly baseURL = "http://localhost:3000/auth/";
   // apiBaseUrl: 'http://localhost:3000/api'
   // 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    public jwtHelper: JwtHelperService
+
+
+  ) { }
 
   googleLogin() {
     // /auth/google
@@ -26,16 +39,96 @@ export class AuthService {
     return this.http.get('http://localhost:3000/auth/google', { headers: headers })
   }
 
+  logOut() {
+    window.localStorage.removeItem(this.TOKEN);
+    window.localStorage.removeItem(this.REFRESH_TOKEN);
+    window.localStorage.clear();
+    this.router.navigate(["/signin"]);
+    return;
+  }
 
   baseUrl = this.baseURL;
   private token: string;
-
   noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True' }) };
 
   createUser(user: any) {
     console.log(user)
     return this.http.post(this.baseUrl + '/register', user, this.noAuthHeader);
   }
+
+  //CHECK IF TOKEN IS VALID
+  public isAuthenticated(): boolean {
+    const token = this.getToken();
+    // Check whether the token is expired and return
+    // true or false
+    return !this.jwtHelper.isTokenExpired(token);
+  }
+  setTokens(response) {
+    //save access token in local storage
+    localStorage.setItem(this.TOKEN, response[this.TOKEN]);
+
+    //save token expiry time
+    let token_expires_in_seconds = "" + response.expires_in * 60;
+    localStorage.setItem(
+      this.TOKEN_EXPIRY_TIME,
+      String(token_expires_in_seconds)
+    );
+    // let token_expires_in_miliseconds = +token_expires_in_seconds * 60;
+    // this.refreshTokenInterval = setInterval(() => {
+    //   this.refreshToken();
+    // }, +token_expires_in_miliseconds - 5000);
+
+    // save refresh token
+    localStorage.setItem(this.REFRESH_TOKEN, response.refresh_token);
+    this.token = response[this.TOKEN];
+  }
+  // refreshToken() {
+  //   let refresh_token = { refresh_token: this.getRefreshToken() };
+  //   let finalURL = this.baseUrl + `login/renew_token`;
+  //   const searchParams = Object.keys(refresh_token)
+  //     .map(key => {
+  //       return (
+  //         encodeURIComponent(key) + "=" + encodeURIComponent(refresh_token[key])
+  //       );
+  //     })
+  //     .join("&");
+
+  //   let headers = new HttpHeaders().set(
+  //     "Content-Type",
+  //     "application/x-www-form-urlencoded"
+  //   );
+  //   headers = headers.set("accept", "application/json");
+  //   headers = headers.set("refresh_token", this.getRefreshToken());
+  //   // console.log('inside refreshTOken()')
+  //   return this.http
+  //     .post(finalURL, searchParams, { headers })
+  //     .pipe(
+  //       tap(
+  //         (tokens: AccessToken) => {
+  //           console.log(tokens);
+  //           this.storeNewToken(tokens.access_token);
+  //         },
+  //         (error: any) => {
+  //           console.log(error);
+  //           if (error instanceof HttpErrorResponse) {
+  //             console.log(error);
+  //           }
+  //         }
+  //       )
+  //     )
+  //     .pipe(
+  //       catchError(error => {
+  //         console.log(error);
+  //         let errorMessage = "An error occurred!";
+  //         if (!error.error || !error.error.detail) {
+  //           return throwError(errorMessage);
+  //         }
+  //         errorMessage = error.error.detail;
+  //         this.router.navigate(["/login"]);
+  //         return throwError(errorMessage);
+  //       })
+  //     );
+  // }
 
   login(obj) {
     return this.http.post(this.baseURL + 'login', obj);

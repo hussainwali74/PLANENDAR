@@ -61,21 +61,11 @@ router.get('/logout', (req, res) => {
 
 //Login Validation with Credentials and Issue token hhh
 router.post('/login', (req, res, next) => {
-    console.log(req.body);
     let fetchedUser;
-    console.log('===================================================================================')
-    console.log('ALL POSTS')
-    Post.find().exec().then(docs => {
-        console.log(docs)
-    })
-    console.log('===================================================================================')
     Post.findOne({ email: req.body.email }).then(result => {
-
-        console.log(req.body.password + "||" + result.password);
-
         if (!result) {
             return res.status(401).json({
-                msg: "Authorization Failed..!!",
+                msg: "User not found, please register !",
                 result: result
             });
         }
@@ -90,24 +80,27 @@ router.post('/login', (req, res, next) => {
     }).then(result => {
         if (!result) {
             return res.status(401).json({
-                msg: "Authorization Failed..!!",
+                msg: "User not found, please signup first !",
                 result: "false"
             });
-        }
+        } else {
+            //Creation of Token Since Credentials are matched
+            if (fetchedUser) {
 
-        //Creation of Token Since Credentials are matched
-        const payload = {
-            email: fetchedUser.email
-        };
-        //Secret key to issue JWT token
-        const secret = "kadndak#$%^&*dfreqofn2oa2141341";
-        const token = jwt.sign(payload, secret, { expiresIn: "1h" });
-        //Sending Token
-        res.status(200).json({
-            msg: "Authorization Success..!!",
-            token: token,
-            result: "true"
-        });
+                const payload = {
+                    email: fetchedUser.email
+                };
+                //Secret key to issue JWT token
+                const secret = "kadndak#$%^&*dfreqofn2oa2141341";
+                const token = jwt.sign(payload, secret, { expiresIn: "1h" });
+                //Sending Token
+                res.status(200).json({
+                    msg: "Welcome Back..!!",
+                    token: token,
+                    result: "true"
+                });
+            }
+        }
 
     }).catch(err => {
         console.log(err);
@@ -120,7 +113,6 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/signup', (req, res, next) => {
-    console.log(req.body);
     bcrypt.hash(req.body.password, 10).then(hash => {
         const user = new Post({
             email: req.body.email,
@@ -130,31 +122,7 @@ router.post('/signup', (req, res, next) => {
         //remove this line
         var emailSent = false;
         user.save().then(result => {
-
-
-            //async email sending
-            // jwt.sign(
-            //   {
-            //     user: _.pick(user, 'id')
-
-            //   },
-            //   EMAIL_SECRET,
-            //   {
-            //     expiresIn: '1d',
-            //   },
-            //   (err, emailToken) => {
-            //     const url = `http://localhost:3000/confirmation/${emailToken}`;
-            //     transporter.sendMail({
-            //       to: args.email,
-            //       subject: 'Confirm Email',
-            //       html: `
-            //       <h3>Please click the link below to confirm your email</h3>
-            //       <hr>
-            //       <a href="${url}">${url}</a>
-            //     `
-            //     })
-            //   }
-            // )
+            console.log("user saved");
 
             //sync email sending
             try {
@@ -241,7 +209,12 @@ router.get('/confirmation/:token', async (req, res) => {
         })
 
     } catch (error) {
-        res.send(error)
+        console.log('/confirmation: token link expired')
+        res.status(500).json({
+            result: false,
+            details: "the link has expired"
+        })
+        // res.send(error)
     }
     return res.redirect('http://localhost:4200/signin');
 

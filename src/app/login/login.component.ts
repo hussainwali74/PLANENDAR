@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +13,7 @@ export class LoginComponent implements OnInit {
 
   @ViewChild('loginRef', { static: true }) loginElement: ElementRef;
 
-  title = "Login hh"
-
-
+  title = "Login"
 
   form = new FormGroup({
     'email': new FormControl('', Validators.required),

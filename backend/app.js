@@ -14,16 +14,23 @@ mongoose.connect('mongodb://localhost:27017/planendar', { useNewUrlParser: true,
 }).catch((error) => {
   console.log("Connection Failed: " + error);
 });
-const Post = require('./models/post')
-Post.remove({}, () => { })
+// const Post = require('./models/post')
+// Post.remove({}, () => { })
 
 const bodyParser = require('body-parser');
 //CORS ERROR PATCH
 app.use(cors());
 app.use(bodyParser.json());
 
-//GOOGLE LOGIN
+//========================================================================
+//  ROUTES
+//========================================================================
+
+//AUTH ROUTES
 app.use('/auth', require('./routes/auth.route'));
+//API ROUTES
+app.use('/api', require('./routes/event.route'));
+//========================================================================
 
 //Angular App Hosting Production Build
 // app.use(express.static(__dirname + '/dist/login'));
