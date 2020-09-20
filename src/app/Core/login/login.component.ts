@@ -90,7 +90,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/']);
           console.log(temp);
           localStorage.setItem('token', temp.token);
-          swal.fire("Login Authorized!", "Your have successfully Logged IN! (Check Console For JWT Token)", "success");
+          swal.fire("Welcome Back!", "Your have successfully Logged IN! ", "success");
         } else {
           swal.fire("Invalid Credentials", "Failed Login!", "error");
         }

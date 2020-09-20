@@ -57,17 +57,24 @@
                                 </div>
 
                                 <div class="col-md-12">
-                                    <div class="col-md-6">
+
+                                    <!-- <div class="col-md-{{extraField.length?6:'12'}}">
                                         <button (click)="addField()" mat-raised-button type="button"
                                             class="btn btn-info ">
                                             Add Field</button>
-
-                                    </div>
-                                    <div *ngIf="extraField.length" class="col-md-6 pull-right"
-                                        style="margin-top:-44px;">
-                                        <button (click)="deleteField()" mat-raised-button type="button"
+                                    </div> -->
+                                    <div class="col-md-{{extraField.length?6:'12'}} col-sm-12 ">
+                                        <button (click)="addField()" mat-raised-button type="button"
                                             class="btn btn-info ">
-                                            Remove Field</button>
+                                            Add Field</button>
+                                    </div>
+                                    <div class="col-md-6  col-sm-12 pull-right">
+                                        <span *ngIf="extraField.length">
+
+                                            <button (click)="deleteField()" mat-raised-button type="button"
+                                                class="btn btn-info ">
+                                                Remove Field</button>
+                                        </span>
                                     </div>
                                 </div>
                                 <div *ngIf="extraField.length" class="row card" style="    width: 97.5%;
@@ -112,16 +119,18 @@
 
                                 <div class="col-md-12">
                                     <br>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle" type="button"
-                                            data-toggle="dropdown">Privacity
-                                            <span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">HTML</a></li>
-                                            <li><a href="#">CSS</a></li>
-                                            <li><a href="#">JavaScript</a></li>
-                                        </ul>
-                                    </div>
+                                    <br>
+                                    <span class="clearfix"></span>
+                                    Privacity : {{privatee?"Private":"Public"}} <br>
+                                    <span>
+
+                                        <label class="custom-toggle">
+                                            <input (change)="privacityChange()" type="checkbox"
+                                                formControlName="privacity" checked="true">
+                                            <span class="custom-toggle-slider rounded-circle"></span>
+                                        </label>
+                                    </span>
+
                                 </div>
                             </div>
                             <br>

@@ -83,9 +83,11 @@ router.post('/login', (req, res, next) => {
                 const secret = "kadndak#$%^&*dfreqofn2oa2141341";
                 const token = jwt.sign(payload, secret, { expiresIn: "1h" });
                 //Sending Token
+                fetchedUser = { email: fetchedUser.email, name: fetchedUser.name }
                 res.status(200).json({
                     msg: "Welcome Back..!!",
                     token: token,
+                    user: fetchedUser,
                     result: "true"
                 });
             }
@@ -271,9 +273,6 @@ router.post('/update-password/:token', (req, res) => {
         console.log('updating password')
 
         const { user: { id } } = jwt.verify(req.params.token, EMAIL_SECRET)
-        console.log('--------------------------------------------------------------------')
-        console.log(id)
-        console.log('--------------------------------------------------------------------')
         Post.findById(id, function (err, user) {
             if (err) return console.log(err);
             console.log("user")
@@ -282,7 +281,6 @@ router.post('/update-password/:token', (req, res) => {
             user.save(function (err) {
                 if (err) return console.log(err);
                 //user has been updated
-                console.log('updateddd')
                 res.status(200).json({
                     result: true,
                     msg: "Password updated",
@@ -290,19 +288,6 @@ router.post('/update-password/:token', (req, res) => {
                 })
             });
         });
-        // Post.findByIdAndUpdate(id, { password: hash }, (err, doc) => {
-        //     console.log('updated')
-        //     if (err) {
-        //         console.log('error')
-        //         console.log(err)
-        //     }
-        //     console.log(doc)
-        //     res.status(200).json({
-        //         result: true,
-        //         msg: "Password updated",
-        //         details: "password updated successfully"
-        //     })
-        // })
     }).catch(err => {
         console.log(err);
         res.status(500).json({

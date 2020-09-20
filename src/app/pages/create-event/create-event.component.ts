@@ -10,7 +10,7 @@ import { EventsService } from 'src/app/services/events.service';
 export class CreateEventComponent implements OnInit {
   dynamicForm: FormGroup;
   submitted = false;
-
+  privatee: boolean = true;;
   constructor(
     private formBuilder: FormBuilder,
     private eventService: EventsService,
@@ -22,21 +22,22 @@ export class CreateEventComponent implements OnInit {
       date: ['', Validators.required],
       time: ['', Validators.required],
       description: ['', Validators.required],
+      privacity: [true, Validators.required],
       extra_fields: new FormArray([])
     });
 
     console.log('create event ')
   }
-
+  privacityChange() {
+    console.log(this.privatee)
+    this.privatee = !this.privatee;
+  }
   // convenience getters for easy access to form fields
   get f() { return this.dynamicForm.controls; }
   get extraField() { return this.f.extra_fields as FormArray; }
 
   addField() {
-    // this.extraField.push(this.formBuilder.group({
-    //   title: ['', Validators.required],
-    //   description: ['', Validators.required],
-    // }));
+
     let control = <FormArray>this.dynamicForm.controls["extra_fields"];
     let newRow: FormGroup = this.formBuilder.group({
       title: [null, Validators.required],
@@ -60,8 +61,9 @@ export class CreateEventComponent implements OnInit {
     if (this.dynamicForm.invalid) {
       return;
     }
-
-
+    this.dynamicForm.value.privacity = this.dynamicForm.value.privacity ? "private" : "public";
+    console.log(this.dynamicForm.value)
+    return;
     this.eventService.createEvent(this.dynamicForm.value).subscribe(
       (data) => {
         console.log(data)
@@ -72,8 +74,6 @@ export class CreateEventComponent implements OnInit {
         console.log(error)
       }
     )
-    // display form values on success
-    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.dynamicForm.value, null, 4));
   }
 
   onReset() {
