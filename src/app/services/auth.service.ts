@@ -52,8 +52,19 @@ export class AuthService {
   noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True' }) };
 
   createUser(user: any) {
-    console.log(user)
     return this.http.post(this.baseUrl + '/register', user, this.noAuthHeader);
+  }
+  updatePassword(body, token) {
+    console.log(token);
+    console.log(body);
+    // return;
+    return this.http.post(this.baseUrl + '/update-password/' + token, body, this.noAuthHeader);
+  }
+
+  //send email for password reset link
+  public resetPassword(email) {
+    return this.http.post(this.baseUrl + '/forgot-password', email, this.noAuthHeader);
+
   }
 
   //CHECK IF TOKEN IS VALID

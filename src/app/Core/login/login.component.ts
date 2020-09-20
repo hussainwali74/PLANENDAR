@@ -1,8 +1,9 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import swal from 'sweetalert2';
-import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -36,7 +37,6 @@ export class LoginComponent implements OnInit {
   notFoundFlag: boolean;
   userNotFound: string;
   ngOnInit() {
-    console.log(this.loginElement)
     this.googleInitialize()
   }
 
@@ -75,8 +75,6 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('/');
           // this._router.navigate([to])
         })
-
-
       }, (error) => {
         console.log(error)
         // alert(JSON.stringify(error, undefined, 2));

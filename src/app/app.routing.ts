@@ -4,11 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
 import { SignupComponent } from './signup/signup.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './Core/login/login.component';
 
 import { LandingComponent } from './pages/landing/landing.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ForgotPasswordComponent } from './Core/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './Core/reset-password/reset-password.component';
 
 const routes: Routes = [
 
@@ -28,6 +30,8 @@ const routes: Routes = [
 
   { path: 'signup', component: SignupComponent },
   { path: 'signin', component: LoginComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password/:token', component: ResetPasswordComponent },
   {
     path: '', component: HomeComponent, canActivate: [AuthGuard], children: [
       { path: '', component: LandingComponent }

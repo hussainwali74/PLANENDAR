@@ -13,7 +13,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 
 import { HomeModule } from './home/home.module';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './Core/login/login.component';
 import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -21,6 +21,8 @@ import { RequestInterceptor } from './app.interceptor';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ForgotPasswordComponent } from './Core/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './Core/reset-password/reset-password.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
@@ -35,6 +37,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FooterComponent,
     LoginComponent,
     LoaderComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
 
 
   ],
