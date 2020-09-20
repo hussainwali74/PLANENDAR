@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { EventsService } from 'src/app/services/events.service';
 
 @Component({
@@ -14,6 +15,7 @@ export class CreateEventComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private eventService: EventsService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -22,7 +24,7 @@ export class CreateEventComponent implements OnInit {
       date: ['', Validators.required],
       time: ['', Validators.required],
       description: ['', Validators.required],
-      privacity: [true, Validators.required],
+      privacity: [true],
       extra_fields: new FormArray([])
     });
 
@@ -37,12 +39,10 @@ export class CreateEventComponent implements OnInit {
   get extraField() { return this.f.extra_fields as FormArray; }
 
   addField() {
-
     let control = <FormArray>this.dynamicForm.controls["extra_fields"];
     let newRow: FormGroup = this.formBuilder.group({
       title: [null, Validators.required],
       description: [null, Validators.required],
-
     });
     control.push(newRow);
     console.log(this.dynamicForm)
@@ -56,19 +56,26 @@ export class CreateEventComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
-    // stop here if form is invalid
+    const invalid = [];
+    const controls = this.dynamicForm.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+    }
     if (this.dynamicForm.invalid) {
+      console.log(invalid)
+      this.eventService.swalMsgError('Please check form entry in: ' + invalid.toString());
       return;
     }
     this.dynamicForm.value.privacity = this.dynamicForm.value.privacity ? "private" : "public";
     console.log(this.dynamicForm.value)
-    return;
     this.eventService.createEvent(this.dynamicForm.value).subscribe(
       (data) => {
         console.log(data)
         this.onReset();
         this.eventService.swalMsgSuccess('Event Created');
+        this.router.navigateByUrl('/events/created');
       },
       (error) => {
         console.log(error)

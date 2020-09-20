@@ -25,6 +25,13 @@ export class EventsService {
     swal.fire(title, details, "success");
   }
 
+  getUserCreatedEvents() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseURL + 'view-user-events';
+    return this.http.get(url, { headers })
+  }
+
+
   swalMsgError(title, details?: string) {
     swal.fire(title, details, "error");
   }

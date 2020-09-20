@@ -22,8 +22,6 @@ const transport = nodemailer.createTransport({
     }
 })
 
-const EMAIL_SECRET = "ASDFAdsds@lkj$skelal9id92jj329ji23229@"
-
 var auth = expressjwt({
     secret: 'MY_SECRET',
     userProperty: 'payload',
@@ -80,8 +78,7 @@ router.post('/login', (req, res, next) => {
                     email: fetchedUser.email
                 };
                 //Secret key to issue JWT token
-                const secret = "kadndak#$%^&*dfreqofn2oa2141341";
-                const token = jwt.sign(payload, secret, { expiresIn: "1h" });
+                const token = jwt.sign(payload, process.env.EMAIL_SECRET, { expiresIn: "1h" });
                 //Sending Token
                 fetchedUser = { email: fetchedUser.email, name: fetchedUser.name }
                 res.status(200).json({
@@ -120,7 +117,7 @@ router.post('/signup', (req, res, next) => {
                     {
                         user: _.pick(user, 'id'),
                     },
-                    EMAIL_SECRET,
+                    process.env.EMAIL_SECRET,
                     {
                         expiresIn: '1d',
                     }
@@ -179,7 +176,6 @@ router.post('/signup', (req, res, next) => {
     }).catch(err => {
         console.log(err);
     })
-
 }, err => {
     res.status(500).json({
         result: false
@@ -189,7 +185,6 @@ router.post('/signup', (req, res, next) => {
 // @DESC: send forgot password link
 // ROUTE: /auth/forgot-password
 router.post('/forgot-password', (req, res, next) => {
-
     var user;
     var tok;
     Post.findOne({ email: req.body.email }).then((result) => {
@@ -197,7 +192,7 @@ router.post('/forgot-password', (req, res, next) => {
         var emailSent = false;
         //sync email sending
         try {
-            const emailToken = jwt.sign({ user: _.pick(user, 'id') }, EMAIL_SECRET, { expiresIn: '1d' });
+            const emailToken = jwt.sign({ user: _.pick(user, 'id') }, process.env.EMAIL_SECRET, { expiresIn: '1d' });
             tok = emailToken;
             const url = `http://localhost:3000/auth/updatepassword/${emailToken}`
             var nodemailer = require('nodemailer');
@@ -253,7 +248,7 @@ router.post('/forgot-password', (req, res, next) => {
 // ROUTE: /auth/updatepassword
 router.get('/updatepassword/:token', (req, res) => {
     try {
-        const { user: { id } } = jwt.verify(req.params.token, EMAIL_SECRET)
+        const { user: { id } } = jwt.verify(req.params.token, process.env.EMAIL_SECRET)
         return res.redirect('http://localhost:4200/reset-password/' + req.params.token);
     } catch (error) {
         console.log('udpate password error')
@@ -265,14 +260,11 @@ router.get('/updatepassword/:token', (req, res) => {
 // @DESC:  reset password
 // ROUTE: /auth/update-password
 router.post('/update-password/:token', (req, res) => {
-    var x = jwt.verify(req.params.token, EMAIL_SECRET)
-    console.log(x)
-    console.log('hashing password')
-    console.log(req.body.password)
+
     bcrypt.hash(req.body.password, 10).then(hash => {
         console.log('updating password')
 
-        const { user: { id } } = jwt.verify(req.params.token, EMAIL_SECRET)
+        const { user: { id } } = jwt.verify(req.params.token, process.env.EMAIL_SECRET)
         Post.findById(id, function (err, user) {
             if (err) return console.log(err);
             console.log("user")
@@ -301,7 +293,7 @@ router.post('/update-password/:token', (req, res) => {
 //USER CLICKS ON CONFIRM EMAIL LINK email confirmed
 router.get('/confirmation/:token', async (req, res) => {
     try {
-        const { user: { id } } = jwt.verify(req.params.token, EMAIL_SECRET)
+        const { user: { id } } = jwt.verify(req.params.token, process.env.EMAIL_SECRET)
         Post.findByIdAndUpdate(id, { confirmed: true }, () => {
             console.log('updated')
             res.status(200).json({
