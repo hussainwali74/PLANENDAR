@@ -17,6 +17,7 @@ import { ListsComponent } from '../../pages/lists/lists.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { ViewEventsComponent } from '../../pages/view-event/view-event.component';
+import { AdminLayoutComponent } from './admin-layout.component';
 import { AdminRoutingModule } from './admin-layout.routing';
 
 
@@ -35,6 +36,7 @@ import { AdminRoutingModule } from './admin-layout.routing';
     ViewEventsComponent,
     CreateEventComponent,
     CreatedComponent,
+    AdminLayoutComponent,
   ],
   imports: [
     CommonModule,

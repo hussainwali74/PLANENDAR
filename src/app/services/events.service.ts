@@ -1,24 +1,28 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import swal from 'sweetalert2';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService {
-  readonly baseURL = "http://localhost:3000/api/";
+  baseUrl: string = environment.url
 
-  constructor(private http: HttpClient,) { }
+  constructor(private http: HttpClient,) {
+    this.baseUrl = this.baseUrl + '/api/';
+
+  }
 
   createEvent(body) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseURL + 'create-event';
+    let url = this.baseUrl + 'create-event';
     return this.http.post(url, JSON.stringify(body), { headers })
   }
 
   getAllEvents() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseURL + 'view-events';
+    let url = this.baseUrl + 'view-events';
     return this.http.get(url, { headers })
   }
   swalMsgSuccess(title, details?: string) {
@@ -27,7 +31,7 @@ export class EventsService {
 
   getUserCreatedEvents() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseURL + 'view-user-events';
+    let url = this.baseUrl + 'view-user-events';
     return this.http.get(url, { headers })
   }
 

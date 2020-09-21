@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './signup/signup.component';
 // import { LandingComponent } from './landing/landing.component';
-import { ProfileComponent } from './profile/profile.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 
@@ -31,7 +30,6 @@ import { ResetPasswordComponent } from './Core/reset-password/reset-password.com
     AppComponent,
     SignupComponent,
     // LandingComponent,
-    ProfileComponent,
     NavbarComponent,
     HomeComponent,
     FooterComponent,

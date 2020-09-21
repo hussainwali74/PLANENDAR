@@ -1,12 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import 'rxjs/Rx';
+import { environment } from 'src/environments/environment';
 import { Person } from '../models/Person.model';
-
-
 
 
 @Injectable({
@@ -19,24 +17,24 @@ export class AuthService {
   private readonly REFRESH_TOKEN = "refresh_token";
   private readonly TOKEN = "access_token";
   private readonly USER = "user";
-  // persons: Person[];
-  readonly baseURL = "http://localhost:3000/auth/";
-  // apiBaseUrl: 'http://localhost:3000/api'
-  // 
+
+  baseUrl: string = environment.url
+
   constructor(
     private http: HttpClient,
     private router: Router,
     public jwtHelper: JwtHelperService
 
 
-  ) { }
+  ) {
+    this.baseUrl = this.baseUrl + '/auth/';
+  }
 
   googleLogin() {
     // /auth/google
     console.log('serv')
     const headers = new HttpHeaders();
-
-    return this.http.get('http://localhost:3000/auth/google', { headers: headers })
+    return this.http.get(environment.url + '/auth/google', { headers: headers })
   }
 
   logOut() {
@@ -47,7 +45,6 @@ export class AuthService {
     return;
   }
 
-  baseUrl = this.baseURL;
   private token: string;
   noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True' }) };
 
@@ -142,10 +139,10 @@ export class AuthService {
   // }
 
   login(obj) {
-    return this.http.post(this.baseURL + 'login', obj);
+    return this.http.post(this.baseUrl + 'login', obj);
   }
   signup(obj) {
-    return this.http.post(this.baseURL + 'signup', obj);
+    return this.http.post(this.baseUrl + 'signup', obj);
   }
 
   private saveToken(token: string): void {
