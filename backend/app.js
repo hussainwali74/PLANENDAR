@@ -14,8 +14,8 @@ mongoose.connect('mongodb://localhost:27017/planendar', { useNewUrlParser: true,
 }).catch((error) => {
   console.log("Connection Failed: " + error);
 });
-// const Post = require('./models/post')
-// Post.remove({}, () => { })
+// const User = require('./models/user.model')
+// User.remove({}, () => { })
 
 const bodyParser = require('body-parser');
 //CORS ERROR PATCH

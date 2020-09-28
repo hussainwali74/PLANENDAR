@@ -1,93 +1,29 @@
 <div class="main-content">
-    <div class="container-fluid">
+    <div class="container">
         <div class="card">
             <div class="card-header card-header-danger">
                 <h3 class="card-title">Contacts</h3>
-
             </div>
-            <div class="card-body">
-
+            <div class="card-body" *ngFor="let user of contacts; let i=index;">
                 <div class="card card-profile">
                     <div class="row">
-                        <div class="col-md-1">
+                        <div class=" col col-md-1 col-sm-3">
                             <div class="carsd-avatar p-1">
                                 <a href="javascript:void(0)">
                                     <img class="img" height="62px" style="margin-top: 2px;"
-                                        src="./assets/img/faces/marc.jpg" />
+                                        src="{{user.photo!='-'?user.photo:'./assets/img/faces/marc.jpg'}}" />
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <h3 (click)="open(classic,'' , '')">Mr. xavier </h3>
+                        <div class=" col col-md-8 col-sm-7">
+                            <h4 (click)="open(classic,'' , '')">{{user.name}} </h4>
                         </div>
-                        <div class="col-md-3" style="padding-top: 22px;">
-                            <i class="fa fa-check" style=" margin-right: 18px;   font-size: 34px;
-                            color: green;"></i>
-                            <i class="fa fa-times" style="    font-size: 34px;
-                            color: rgba(255, 0, 0, 0.568);"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card card-profile">
-                    <div class="row">
-                        <div class="col-md-1">
-                            <div class="carsd-avatar p-1">
-                                <a href="javascript:void(0)">
-                                    <img class="img" height="62px" style="margin-top: 2px;"
-                                        src="./assets/img/faces/marc.jpg" />
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <h3 (click)="open(classic,'' , '')">Mr. xavier </h3>
-                        </div>
-                        <div class="col-md-3" style="padding-top: 22px;">
-                            <i class="fa fa-check" style=" margin-right: 18px;   font-size: 34px;
-                            color: green;"></i>
-                            <i class="fa fa-times" style="    font-size: 34px;
-                            color: rgba(255, 0, 0, 0.568);"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card card-profile">
-                    <div class="row">
-                        <div class="col-md-1">
-                            <div class="carsd-avatar p-1">
-                                <a href="javascript:void(0)">
-                                    <img class="img" height="62px" style="margin-top: 2px;"
-                                        src="./assets/img/faces/marc.jpg" />
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <h3 (click)="open(classic,'' , '')">Mr. xavier </h3>
-                        </div>
-                        <div class="col-md-3" style="padding-top: 22px;">
-                            <i class="fa fa-check" style=" margin-right: 18px;   font-size: 34px;
-                            color: green;"></i>
-                            <i class="fa fa-times" style="    font-size: 34px;
-                            color: rgba(255, 0, 0, 0.568);"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card card-profile">
-                    <div class="row">
-                        <div class="col-md-1">
-                            <div class="carsd-avatar p-1">
-                                <a href="javascript:void(0)">
-                                    <img class="img" height="62px" style="margin-top: 2px;"
-                                        src="./assets/img/faces/marc.jpg" />
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <h3 (click)="open(classic,'' , '')">Mr. xavier </h3>
-                        </div>
-                        <div class="col-md-3" style="padding-top: 22px;">
-                            <i class="fa fa-check" style=" margin-right: 18px;   font-size: 34px;
-                            color: green;"></i>
-                            <i class="fa fa-times" style="    font-size: 34px;
-                            color: rgba(255, 0, 0, 0.568);"></i>
+                        <div class=" col col-md-3 col-sm-2" style="padding-top: 22px;">
+                            <fa-icon (click)="sendFriendRequest(user.id)"
+                                style="margin-right: 18px; font-size: 34px;  color: green;" class="f-check"
+                                [icon]="faCheck"></fa-icon>
+                            <!-- <fa-icon style="    font-size: 34px;
+                            color: rgba(255, 0, 0, 0.568);" class="f-times" [icon]="faTimes"></fa-icon> -->
                         </div>
                     </div>
                 </div>

@@ -69,9 +69,36 @@ export class LoginComponent implements OnInit {
         // this.show = true;
         // this.Name =  profile.getName();
         console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
+        console.log('Email: ' + profile.getEmail(), profile.getName());
+
         // this.router.navigate(['/']);
+        this.authService.saveGoogleCreds({ email: profile.getEmail(), image: profile.getImageUrl(), password: '12345', }).subscribe(
+          (data) => {
+            console.log(data)
+
+            localStorage.setItem('token', data['token']);
+            localStorage.setItem('user', JSON.stringify(data['user']));
+
+            swal.fire("Welcome Back!", "Your have successfully Logged IN! ", "success");
+
+            setTimeout(() => {
+
+              this.ngZone.run(() => {
+                console.log('navigating to  / 85')
+                this.router.navigateByUrl('/');
+                // this._router.navigate([to])
+              })
+            }, 1000);
+
+
+          },
+          (error) => { console.log(error) },
+        )
+        setTimeout(() => {
+
+        }, 1500);
         this.ngZone.run(() => {
+          console.log('navigating to  / 94')
           this.router.navigateByUrl('/');
           // this._router.navigate([to])
         })

@@ -3,79 +3,30 @@
         <div class="card">
             <div class="card-header card-header-info">
                 <h3 class="card-title">Notifications</h3>
-
             </div>
             <div class="card-body">
 
-                <div class="card card-profile">
+                <div class="card card-profile" *ngFor="let notification of notifications; let i = index;">
                     <div class="row">
                         <div class="col-md-1">
                             <div class="carsd-avatar p-1">
                                 <a href="javascript:void(0)">
                                     <img class="img" height="62px" style="margin-top: 2px;"
-                                        src="./assets/img/faces/marc.jpg" />
+                                        src="{{notification.sender.photo}}" />
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-8 text-center">
-                            <h3>Mr. x has sent you a friend request </h3>
+                        <div class="col-md-8 pl-3">
+                            <h5>{{notification.sender.name}} has sent you a friend request </h5>
                         </div>
-                        <div class="col-md-3 text-center">
-
-                            <i class="f-check fa fa-check"></i>
-                            <i class="f-times fa fa-times"></i>
-
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card card-profile">
-                    <div class="row">
-                        <div class="col-md-1">
-                            <div class="carsd-avatar p-1">
-                                <a href="javascript:void(0)">
-                                    <img class="img" height="62px" style="margin-top: 2px;"
-                                        src="./assets/img/faces/marc.jpg" />
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-8 text-center">
-                            <h3>Mr. x has sent you a friend request </h3>
-                        </div>
-                        <div class="col-md-3 text-center">
-
-                            <i class="f-check fa fa-check"></i>
-                            <i class="f-times fa fa-times"></i>
-
-
+                        <div *ngIf="notification.status == 'pending'" class="col-md-3 text-center">
+                            <fa-icon (click)="acceptRequest(notification._id)" class="f f-check " [icon]="faCheck">
+                            </fa-icon>
+                            <fa-icon (click)="cancelRequest(notification._id)" class="f f-times" [icon]="faTimes">
+                            </fa-icon>
                         </div>
                     </div>
                 </div>
-
-                <div class="card card-profile">
-                    <div class="row">
-                        <div class="col-md-1">
-                            <div class="carsd-avatar p-1">
-                                <a href="javascript:void(0)">
-                                    <img class="img" height="62px" style="margin-top: 2px;"
-                                        src="./assets/img/faces/marc.jpg" />
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-8 text-center">
-                            <h3>Mr. x has sent you a friend request </h3>
-                        </div>
-                        <div class="col-md-3 text-center">
-
-                            <i class="f-check fa fa-check"></i>
-                            <i class="f-times fa fa-times"></i>
-
-
-                        </div>
-                    </div>
-                </div>
-
 
             </div>
         </div>

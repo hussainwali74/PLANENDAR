@@ -7,7 +7,7 @@ const _ = require('lodash');
 var expressjwt = require('express-jwt');
 
 const bcrypt = require('bcryptjs');
-const Post = require('../models/post');
+const User = require('../models/user.model');
 
 const nodemailer = require('nodemailer')
 require('dotenv').config()
@@ -97,12 +97,77 @@ router.post('/login', (req, res, next) => {
             result: "false"
         });
     });
+});
 
+router.post('/save-social-login', (req, res) => {
+    console.log('ssaving google login user data');
+    let fetchedUser;
+    User.findOne({ email: req.body.email }).then(result => {
+        console.log(req.body)
+        if (!result) {
+            console.log('hash');
+            bcrypt.hash(req.body.password, 10).then(hash => {
+                console.log('gasged')
+                const user = new User({
+                    email: req.body.email,
+                    name: req.body.email,
+                    password: hash,
+                    photo: req.body.image,
+                    confirmed: true
+                });
+                console.log('user.save');
+                user.save().then(result => {
+                    console.log('res.statsus');
+                    return res.status(201).json({
+                        result: true,
+                        details: result,
+                    });
+                });
+            });
+        }
+        if (result) {
+
+            fetchedUser = result;
+            console.log("result")
+            console.log(result)
+            return bcrypt.compare(req.body.password, result.password);
+        } else {
+            console.log('==================================================================================')
+            console.log(result)
+            console.log('==================================================================================')
+
+        }
+    }).then(result => {
+
+        //Creation of Token Since Credentials are matched
+        if (fetchedUser) {
+            const payload = {
+                email: fetchedUser.email
+            };
+            //Secret key to issue JWT token
+            const token = jwt.sign(payload, process.env.EMAIL_SECRET, { expiresIn: "1h" });
+            //Sending Token
+            fetchedUser = { email: fetchedUser.email, name: fetchedUser.name }
+            res.status(200).json({
+                msg: "Welcome Back..!!",
+                token: token,
+                user: fetchedUser,
+                result: "true"
+            });
+        }
+
+    }).catch(err => {
+        console.log(err);
+        res.status(401).json({
+            msg: "Authorization Failed..!!",
+            result: "false"
+        });
+    });
 });
 
 router.post('/signup', (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then(hash => {
-        const user = new Post({
+        const user = new User({
             email: req.body.email,
             name: req.body.name,
             password: hash
@@ -187,7 +252,7 @@ router.post('/signup', (req, res, next) => {
 router.post('/forgot-password', (req, res, next) => {
     var user;
     var tok;
-    Post.findOne({ email: req.body.email }).then((result) => {
+    User.findOne({ email: req.body.email }).then((result) => {
         user = result
         var emailSent = false;
         //sync email sending
@@ -265,7 +330,7 @@ router.post('/update-password/:token', (req, res) => {
         console.log('updating password')
 
         const { user: { id } } = jwt.verify(req.params.token, process.env.EMAIL_SECRET)
-        Post.findById(id, function (err, user) {
+        User.findById(id, function (err, user) {
             if (err) return console.log(err);
             console.log("user")
             console.log(user)
@@ -294,22 +359,30 @@ router.post('/update-password/:token', (req, res) => {
 router.get('/confirmation/:token', async (req, res) => {
     try {
         const { user: { id } } = jwt.verify(req.params.token, process.env.EMAIL_SECRET)
-        Post.findByIdAndUpdate(id, { confirmed: true }, () => {
-            console.log('updated')
-            res.status(200).json({
-                result: true,
-                details: "Email confirmed"
+
+        User.findByIdAndUpdate({ _id: id },
+            { confirmed: true }, (err, docs) => {
+                if (err) {
+                    console.log('33');
+                    console.log(err)
+                    return res.send(err);
+                }
+
+                console.log("docs")
+                console.log(docs)
+
+                console.log('updated')
+
+                return res.redirect('http://localhost:4200/signin');
             })
-        })
     } catch (error) {
         console.log('/confirmation: token link expired')
         res.status(500).json({
             result: false,
             details: "the link has expired"
-        })
+        });
         // res.send(error)
     }
-    return res.redirect('http://localhost:4200/signin');
 })
 
 

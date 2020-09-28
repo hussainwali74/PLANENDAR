@@ -24,12 +24,12 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     public jwtHelper: JwtHelperService
-
-
   ) {
     this.baseUrl = this.baseUrl + '/auth/';
   }
-
+  saveGoogleCreds(body) {
+    return this.http.post(this.baseUrl + 'save-social-login', body, this.noAuthHeader);
+  }
   googleLogin() {
     // /auth/google
     console.log('serv')

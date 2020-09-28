@@ -1,12 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EventsService {
+export class UserService {
   baseUrl: string = environment.url
 
   constructor(private http: HttpClient,) {
@@ -19,24 +18,33 @@ export class EventsService {
     return this.http.post(url, JSON.stringify(body), { headers })
   }
 
-  getAllEvents() {
+  getAllUsers() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'view-events';
-    return this.http.get(url, { headers })
-  }
-  swalMsgSuccess(title, details?: string) {
-    swal.fire(title, details, "success");
-  }
-
-  getUserCreatedEvents() {
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'view-user-events';
+    let url = this.baseUrl + 'get-users';
     return this.http.get(url, { headers })
   }
 
+  getAllFriendRequests() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'friend-requests';
+    return this.http.get(url, { headers })
+  }
 
-  swalMsgError(title, details?: string) {
-    swal.fire(title, details, "error");
+  sendFriendRequest(id) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'friend-request';
+    return this.http.post(url, { id: id }, { headers })
+  }
+  acceptRequest(id) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'accept-friend-request';
+    return this.http.put(url, { id: id }, { headers })
+  }
+
+  rejectRequest(id) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'reject-friend-request';
+    return this.http.put(url, { id: id }, { headers })
   }
 
 }

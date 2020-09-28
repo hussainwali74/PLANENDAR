@@ -1,41 +1,23 @@
-export default (sequelize, DatatTypes) => {
-    const User = sequelize.define('User', {
-        email: {
-            type: String,
-            trim: true,
-            required: true,
-            unique: true,
-            lowercase: true
-        },
-        name: {
-            type: String,
-            trim: true,
-            required: true
-        },
-        password: {
-            type: String,
-            required: true
-        },
-        confirmed: {
-            type: DataTypes.BOOLEAN,
-            default: false
-        },
-        salt: String,
-        role: {
-            type: String,
-            default: 'subscriber'
-        },
-        resetPasswordLink: {
-            data: String,
-            default: ''
-        },
-        timestamps: true
+const mongo = require('mongoose');
+const uniqueValidater = require('mongoose-unique-validator');
+const Schema = mongo.Schema;
 
-    });
-
-    User.associate = (models) => {
-        // 1 to many with board
-        User.hasMany(models.B)
-    }
-
-}
+const userSchema = mongo.Schema({
+    "email": { type: String, required: true, unique: true },
+    "name": { type: String, },
+    "password": { type: String, required: true },
+    "confirmed": { type: Boolean, default: false },
+    "photo": { type: String, },
+    friendrequests: [{
+        type: Schema.Types.ObjectId,
+        ref: 'FriendRequest'
+    }],
+    notifications: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Notification',
+        },
+    ],
+});
+userSchema.plugin(uniqueValidater);
+module.exports = mongo.model('User', userSchema);

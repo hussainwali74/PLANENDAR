@@ -8,19 +8,21 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-2">
-
                         <div class="table-responsive">
                             <span>
                                 <h3 style="color:rgb(95, 6, 136)">
 
-                                    <i class="fa fa-trash-o"></i>
+                                    <fa-icon class="f-check" [icon]="faTrasho"></fa-icon>
+
                                     List 1 >
                                 </h3>
                             </span>
-
                             <h3 style="color:rgb(95, 6, 136)">
-                                <i class="fa fa-trash-o"></i>
-                                List 2</h3>
+                                <!-- <i class="fa fa-trash-o"></i> -->
+                                <fa-icon class="f-check" [icon]="faTrasho"></fa-icon>
+
+                                List 2
+                            </h3>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -84,16 +86,16 @@
                     </div>
                     <div class="col-md-1 sp">
                         <span style="vertical-align:bottom">
-                            <!-- <> -->
-
                             <div class="arrows">
-
-                                <i class="fa fa-arrow-left"></i>
-                                <i class="fa fa-arrow-right"></i>
+                                <fa-icon class="f-check" [icon]="faLeft"></fa-icon>
+                                <fa-icon class="f-check" [icon]="faRight"></fa-icon>
+                                <!-- <i class="fa fa-arrow-right"></i> -->
                             </div>
                             <div class="updown">
-                                <i class="fa fa-arrow-up"></i>
-                                <i class="fa fa-arrow-down"></i>
+                                <fa-icon class="f-check" [icon]="faUp"></fa-icon>
+                                <fa-icon class="f-check" [icon]="faDown"></fa-icon>
+                                <!-- <i class="fa fa-arrow-up"></i> -->
+                                <!-- <i class="fa fa-arrow-down"></i> -->
                             </div>
                         </span>
                     </div>
@@ -134,16 +136,18 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="input-group bsorder" style="padding:7px 6px;">
                     <!-- <mat-form-field> -->
+                    <br>
                     <input matInput placeholder="enter list name" value="">
                     <!-- </mat-form-field> -->
                     <button mat-raised-button type="submit" class="btn btn-success btn-just-icon">
-                        <i class="fa fa-plus"></i> Add List
+                        <fa-icon class="f-check" [icon]="faPlus"></fa-icon>
+
+                        Add List
                         <div class="ripple-container"></div>
                     </button>
                 </div>

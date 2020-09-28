@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 
 const Event = require('../models/event.model');
-const Post = require('../models/post');
-
+const User = require('../models/user.model');
+const Connect = require('../controllers/Connection.controller');
 
 require('dotenv').config()
 
@@ -22,7 +22,7 @@ router.post('/create-event', (req, res, next) => {
         }
         var email = decoded.email;
         // Fetch the user by id 
-        Post.findOne({ email: email }).then(function (user) {
+        User.findOne({ email: email }).then(function (user) {
             // Do something with the user
             const event = new Event({
                 title: req.body.title,
@@ -64,7 +64,7 @@ router.get('/view-user-events', (req, res, next) => {
     console.log('view event');
     var userId;
     var x = jwt.verify(req.headers.authorization, process.env.EMAIL_SECRET)
-    Post.findOne({ email: x.email }).then((docs) => {
+    User.findOne({ email: x.email }).then((docs) => {
         userId = docs._id;
         Event.find({ user_id: userId }).then((docs) => {
             // console.log(docs)
@@ -73,9 +73,17 @@ router.get('/view-user-events', (req, res, next) => {
                 details: docs,
                 result: true
             });
-
         })
     });
 });
+// ===========================================================================
+//              friend requests etc
+// ===========================================================================
+router.get('/get-users', Connect.getAllUsers)
+router.post('/friend-request', Connect.sendFriendRequest)
+router.get('/friend-requests', Connect.getFriendRequests)
+router.put('/accept-friend-request', Connect.acceptFriendRequests)
+router.put('/reject-friend-request', Connect.rejectFriendRequests)
+// ===========================================================================
 
 module.exports = router

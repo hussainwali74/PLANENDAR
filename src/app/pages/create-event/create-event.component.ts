@@ -31,7 +31,6 @@ export class CreateEventComponent implements OnInit {
     console.log('create event ')
   }
   privacityChange() {
-    console.log(this.privatee)
     this.privatee = !this.privatee;
   }
   // convenience getters for easy access to form fields
@@ -45,7 +44,6 @@ export class CreateEventComponent implements OnInit {
       description: [null, Validators.required],
     });
     control.push(newRow);
-    console.log(this.dynamicForm)
   };
 
   deleteField() {
@@ -64,15 +62,17 @@ export class CreateEventComponent implements OnInit {
       }
     }
     if (this.dynamicForm.invalid) {
-      console.log(invalid)
-      this.eventService.swalMsgError('Please check form entry in: ' + invalid.toString());
+
+      if (invalid.length > 1) {
+        this.eventService.swalMsgError("Invalid Form", 'Please fill these fields : ' + invalid.toString());
+      } else if (invalid.length == 1) {
+        this.eventService.swalMsgError("Invalid Form", 'Please fill the  ' + invalid.toString().toUpperCase() + " field");
+      }
       return;
     }
     this.dynamicForm.value.privacity = this.dynamicForm.value.privacity ? "private" : "public";
-    console.log(this.dynamicForm.value)
     this.eventService.createEvent(this.dynamicForm.value).subscribe(
       (data) => {
-        console.log(data)
         this.onReset();
         this.eventService.swalMsgSuccess('Event Created');
         this.router.navigateByUrl('/events/created');
@@ -81,6 +81,9 @@ export class CreateEventComponent implements OnInit {
         console.log(error)
       }
     )
+  }
+  onCancel() {
+    this.router.navigateByUrl('/')
   }
 
   onReset() {

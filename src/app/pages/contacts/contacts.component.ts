@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from 'src/app/services/user.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contacts',
@@ -8,7 +11,37 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ContactsComponent implements OnInit {
   closeResult: string;
-  constructor(private modalService: NgbModal) { }
+
+  faCheck = faCheck;
+  faTimes = faTimes
+  contacts: [];
+
+  constructor(private modalService: NgbModal,
+    private userService: UserService,
+  ) { }
+
+
+  ngOnInit(): void {
+    this.userService.getAllUsers().subscribe(
+      (data: []) => {
+        console.log(data)
+        this.contacts = data['details'];
+      }, (error) => {
+        console.log(error)
+      });
+  }
+  sendFriendRequest(id) {
+    console.log('send friend request')
+    this.userService.sendFriendRequest(id).subscribe(
+      (data) => {
+        console.log(data)
+        swal.fire("response", data['msg'], "success");
+
+      }, (error) => {
+        console.log(error)
+      }
+    )
+  }
 
 
   open(content, type, modalDimension) {
@@ -42,7 +75,5 @@ export class ContactsComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-  }
 
 }

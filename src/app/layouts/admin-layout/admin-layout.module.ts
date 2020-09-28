@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ContactListsComponent } from 'src/app/pages/contact-lists/contact-lists.component';
 import { ContactsComponent } from 'src/app/pages/contacts/contacts.component';
 import { CreateEventComponent } from 'src/app/pages/create-event/create-event.component';
@@ -19,7 +20,6 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { ViewEventsComponent } from '../../pages/view-event/view-event.component';
 import { AdminLayoutComponent } from './admin-layout.component';
 import { AdminRoutingModule } from './admin-layout.routing';
-
 
 @NgModule({
   declarations: [
@@ -45,6 +45,8 @@ import { AdminRoutingModule } from './admin-layout.routing';
     BrowserModule,
     ReactiveFormsModule,
     AdminRoutingModule,
+    FontAwesomeModule,
+
   ],
 })
 
