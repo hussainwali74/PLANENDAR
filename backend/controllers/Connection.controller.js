@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user.model');
 const FriendRequest = require('../models/request.model')
+const Notification = require('../models/notification.model')
 
 module.exports = {
 
@@ -75,8 +76,29 @@ module.exports = {
     acceptFriendRequests: async (req, res) => {
         console.log('acceptttt')
         if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization;
             try {
+                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+                var userId;
+                const user = await User.findOne({ email: decoded.email }).populate('friendrequests');
+                userId = user._id;
+                console.log("userId")
+                console.log(userId)
+
                 const acceptedFriendRequest = await FriendRequest.findOneAndUpdate({ _id: req.body.id }, { status: "accepted" });
+                const newNotification = new Notification({
+                    sender: userId,
+                    detail: user.name + " accepted your Friend Request",
+                    seen: false
+                })
+
+                console.log("username")
+                console.log(user.name)
+                newNotification.sender = user;
+                await newNotification.save();
+                user.notifications.push(newNotification);
+                await user.save();
+                console.log(user)
                 res.status(200).json({
                     msg: "acceptedFriendRequest",
                     result: true,
@@ -93,7 +115,16 @@ module.exports = {
     rejectFriendRequests: async (req, res) => {
         if (req.headers && req.headers.authorization) {
             try {
-                const acceptedFriendRequest = await FriendRequest.findOneAndUpdate({ _id: req.body.id }, { status: "rejected" });
+                const rejectedFriendRequest = await FriendRequest.findOneAndUpdate({ _id: req.body.id }, { status: "rejected" });
+                const newNotification = new Notification({
+                    sender: userId,
+                    detail: user.name + " rejected your Friend Request",
+                    seen: false
+                })
+                newNotification.sender = user;
+                await newNotification.save();
+                user.notifications.push(newNotification);
+                await user.save();
                 res.status(200).json({
                     msg: "FriendRequest rejected",
                     result: true,

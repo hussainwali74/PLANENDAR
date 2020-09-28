@@ -69,6 +69,8 @@ export class AuthService {
     const token = this.getToken();
     // Check whether the token is expired and return
     // true or false
+    console.log('token')
+    console.log(token)
     return !this.jwtHelper.isTokenExpired(token);
   }
   setTokens(response) {

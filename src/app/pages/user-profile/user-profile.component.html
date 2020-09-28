@@ -3,50 +3,39 @@
     <div class="row justify-content-center">
       <div class="col-md-4 text-center">
         <div class="card-profile-image">
-          <a href="javascript:void(0)">
-            <!-- <img src="./assets/img/theme/team-4-800x800.jpg" class="rounded-circle"> -->
-            <img class="rounded-circle" src="./assets/img/faces/marc.jpg" />
-          </a>
+          <!-- <a href="javascript:void(0)"> -->
+          <img class="rounded-circle" src="{{profile.photo?profile.photo:'./assets/img/faces/marc.jpg'}}" />
+          <!-- </a> -->
         </div>
-        <!-- <div class="carsd card-profile">
-          
-          <div class="card-avatar">
-            <a href="javascript:void(0)">
-              <img class="img" src="./assets/img/faces/marc.jpg" />
-            </a>
-          </div>
-
-        </div> -->
       </div>
       <div class="col-md-8">
         <div class="card">
           <div class="card-header card-header-info">
             <h4 class="card-title">Personal Data</h4>
-            <p class="card-category">Complete your profile</p>
+            <!-- <p class="card-category">Complete your profile</p> -->
           </div>
           <div class="card-body">
             <form>
               <div class="row">
-
                 <div class="col-md-12">
                   <div class="form-group ">
+                    <label for="name">Name</label><br>
                     <div class="input-group mb-4">
-                      <input class="form-control" placeholder="Name" type="text">
-                    </div>
-                  </div>
-                  <!-- <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Name">
-                  </mat-form-field> -->
-                </div>
-                <div class="col-md-12">
-                  <div class="form-group ">
-                    <div class="input-group mb-4">
-                      <input class="form-control" placeholder="Email Address" type="email">
+                      <input class="form-control" placeholder="Name" value="{{profile.name}}" type="text">
                     </div>
                   </div>
                 </div>
                 <div class="col-md-12">
                   <div class="form-group ">
+                    <label for="email">Email</label><br>
+                    <div class="input-group mb-4">
+                      <input class="form-control" placeholder="Email Address" value="{{profile.email}}" type="email">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group ">
+                    <label for="password">Password</label><br>
                     <div class="input-group mb-4">
                       <input class="form-control" placeholder="Password" type="password">
                     </div>
@@ -55,19 +44,19 @@
               </div>
               <div class="row">
                 <div class="col-md-6 col-sm-12">
-                  <button mat-raised-button type="submit" class="btn btn-info pull-right">Update Profile</button>
+                  <button mat-raised-button type="submit" disabled="true" class="btn btn-info pull-right">Update
+                    Profile</button>
                 </div>
                 <div class="col-md-6 col-sm-12">
-                  <button mat-raised-button type="submit" class="btn btn-success pull-right">Save Profile</button>
+                  <button mat-raised-button type="submit" disabled="true" class="btn btn-success pull-right">Save
+                    Profile</button>
                 </div>
               </div>
-
               <div class="clearfix"></div>
             </form>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>

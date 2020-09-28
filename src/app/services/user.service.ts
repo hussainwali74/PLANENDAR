@@ -29,6 +29,11 @@ export class UserService {
     let url = this.baseUrl + 'friend-requests';
     return this.http.get(url, { headers })
   }
+  getProfile() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'get-profile';
+    return this.http.get(url, { headers })
+  }
 
   sendFriendRequest(id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");

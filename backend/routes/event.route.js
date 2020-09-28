@@ -6,6 +6,7 @@ const _ = require('lodash');
 const Event = require('../models/event.model');
 const User = require('../models/user.model');
 const Connect = require('../controllers/Connection.controller');
+const ProfileController = require('../controllers/Profile.controller')
 
 require('dotenv').config()
 
@@ -84,6 +85,13 @@ router.post('/friend-request', Connect.sendFriendRequest)
 router.get('/friend-requests', Connect.getFriendRequests)
 router.put('/accept-friend-request', Connect.acceptFriendRequests)
 router.put('/reject-friend-request', Connect.rejectFriendRequests)
+// ===========================================================================
+
+// ===========================================================================
+//              friend requests etc
+// ===========================================================================
+router.get('/get-profile', ProfileController.getProfile)
+
 // ===========================================================================
 
 module.exports = router

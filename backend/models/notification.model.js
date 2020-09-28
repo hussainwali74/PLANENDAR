@@ -1,28 +1,17 @@
-import mongoose from 'mongoose';
-
+const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 /**
- * Notification schema that has references to User, Like, Follow and Comment schemas
+ * Notification schema that has references to User
  */
 const notificationSchema = Schema(
     {
-        author: {
+        sender: {
             type: Schema.Types.ObjectId,
             ref: 'User',
         },
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-        },
-        post: Schema.Types.ObjectId,
-        like: {
-            type: Schema.Types.ObjectId,
-            ref: 'Like',
-        },
-        follow: {
-            type: Schema.Types.ObjectId,
-            ref: 'Follow',
+        detail: {
+            type: String,
         },
         comment: {
             type: Schema.Types.ObjectId,
@@ -38,4 +27,4 @@ const notificationSchema = Schema(
     }
 );
 
-export default mongoose.model('Notification', notificationSchema);
+module.exports = mongoose.model('Notification', notificationSchema);
