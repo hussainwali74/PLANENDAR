@@ -35,40 +35,37 @@
     </div>
 </section>
 
-
-<div class="row">
-    <div class="col-md-4">
-
-        <ng-template #classic let-c="close" let-d="dismiss">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <!-- <h6 class="modal-title" id="modal-title-default">Type your modal title</h6> -->
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        (click)="d('Cross click')">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row justify-content-center">
-                        <div class="col-md-4 text-center">
-                            <div class="card-profile-image">
-                                <a href="javascript:void(0)">
-                                    <img class="rounded-circle" src="./assets/img/faces/marc.jpg" />
-                                </a>
-                            </div>
+<ng-template #classic let-c="close" let-d="dismiss">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h6 class="modal-title" id="modal-title-default">EVENT DETAILS</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row justify-conte2nt-center">
+                <div class=" row texst-center">
+                    <div class="col-md-4 text-center">
+                        <div class="card-profile-image">
+                            <a href="javascript:void(0)">
+                                <img class="rounded-circle"
+                                    src="{{modalUser.photo?modalUser.photo:'./assets/img/faces/marc.jpg'}}" />
+                            </a>
                         </div>
-                        <div class="col-md-7 offset-md-1">
-                            <div class="card">
-                                <div class="card-header card-header">
-                                    <h5 class="card-title">{{modalUser.name}}</h5>
-                                    <h5 class="card-title">{{modal.email}}</h5>
-                                </div>
+                    </div>
+                    <div class="col-md-7 offset-md-1">
+                        <div class="card">
+                            <div class="card-header card-header">
+                                <h6 class="card-title">{{modalUser.name}}</h6>
+                                <h6 class="card-title">{{modalUser.email}}</h6>
                             </div>
                         </div>
                     </div>
                 </div>
 
             </div>
-        </ng-template>
+        </div>
+
     </div>
-</div>
+</ng-template>

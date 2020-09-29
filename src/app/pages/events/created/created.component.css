@@ -10,6 +10,9 @@ ul li {
     width: 250px;
     text-align: center;
 }
+
+
+/* modal */
 .form-control-feedback {
     position: absolute;
     top: 10px;
