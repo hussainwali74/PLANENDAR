@@ -29,6 +29,13 @@ export class UserService {
     let url = this.baseUrl + 'friend-requests';
     return this.http.get(url, { headers })
   }
+
+  updateProfile(body) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'update-profile';
+    return this.http.put(url, JSON.stringify(body), { headers })
+  }
+
   getProfile() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'get-profile';

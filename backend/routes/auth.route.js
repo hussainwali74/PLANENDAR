@@ -50,7 +50,7 @@ router.get('/logout', (req, res) => {
 //Login Validation with Credentials and Issue token hhh
 router.post('/login', (req, res, next) => {
     let fetchedUser;
-    Post.findOne({ email: req.body.email }).then(result => {
+    User.findOne({ email: req.body.email }).then(result => {
         if (!result) {
             return res.status(401).json({
                 msg: "User not founds, please register !",

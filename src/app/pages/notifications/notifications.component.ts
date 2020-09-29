@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from 'src/app/services/user.service';
 import swal from 'sweetalert2';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-notifications',
@@ -12,8 +13,12 @@ export class NotificationsComponent implements OnInit {
   notifications: [] = [];
   faCheck = faCheck;
   faTimes = faTimes
+  closeResult: string;
+  modalUser: any;
 
-  constructor(private userService: UserService,) { }
+
+  constructor(private modalService: NgbModal,
+    private userService: UserService,) { }
 
   ngOnInit(): void {
     this.getRequests();
@@ -55,6 +60,29 @@ export class NotificationsComponent implements OnInit {
       }, (error) => {
         console.log(error)
       });
+  }
+  open(content, type, modalDimension, modalUser) {
+    console.log(modalUser)
+    this.modalUser = modalUser;
+    if (modalDimension === 'sm' && type === 'modal_mini') {
+      this.modalService.open(content, { windowClass: 'modal-mini', size: 'sm', centered: true }).result.then((result) => {
+        this.closeResult = 'Closed with: $result';
+      }, (reason) => {
+        this.closeResult = 'Dismissed $this.getDismissReason(reason)';
+      });
+    } else if (modalDimension === '' && type === 'Notification') {
+      this.modalService.open(content, { windowClass: 'modal-danger', centered: true }).result.then((result) => {
+        this.closeResult = 'Closed with: $result';
+      }, (reason) => {
+        this.closeResult = 'Dismissed $this.getDismissReason(reason)';
+      });
+    } else {
+      this.modalService.open(content, { centered: true }).result.then((result) => {
+        this.closeResult = 'Closed with: $result';
+      }, (reason) => {
+        this.closeResult = 'Dismissed $this.getDismissReason(reason)';
+      });
+    }
   }
 
 }

@@ -10,6 +10,10 @@ const notificationSchema = Schema(
             type: Schema.Types.ObjectId,
             ref: 'User',
         },
+        receiver: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
         detail: {
             type: String,
         },

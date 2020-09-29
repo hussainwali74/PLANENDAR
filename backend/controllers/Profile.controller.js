@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const User = require('../models/user.model');
 const FriendRequest = require('../models/request.model')
@@ -59,6 +60,32 @@ module.exports = {
 
                 return res.status(200).json({
                     msg: "user profile",
+                    details: user,
+                    result: true
+                })
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    },
+    updateProfile: async (req, res) => {
+        console.log('update profile')
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization;
+            try {
+                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            var email = decoded.email;
+            try {
+                const hash = await bcrypt.hash(req.body.password, 10);
+                console.log("hash")
+                console.log(hash)
+                const user = await User.findOneAndUpdate({ email: email }, { password: hash, email: req.body.email, name: req.body.name })
+
+                return res.status(200).json({
+                    msg: "user profile updated",
                     details: user,
                     result: true
                 })

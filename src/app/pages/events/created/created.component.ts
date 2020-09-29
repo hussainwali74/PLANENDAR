@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventsService } from 'src/app/services/events.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-created',
@@ -7,9 +8,11 @@ import { EventsService } from 'src/app/services/events.service';
   styleUrls: ['./created.component.css']
 })
 export class CreatedComponent implements OnInit {
-
+  modalEvent: any;
   events: [];
-  constructor(
+  closeResult: string;
+
+  constructor(private modalService: NgbModal,
     private eventService: EventsService,
   ) { }
 
@@ -22,6 +25,29 @@ export class CreatedComponent implements OnInit {
       console.log(error)
 
     })
+  }
+  open(content, type, modalDimension, event) {
+    this.modalEvent = event;
+    console.log(this.modalEvent)
+    if (modalDimension === 'sm' && type === 'modal_mini') {
+      this.modalService.open(content, { windowClass: 'modal-mini', size: 'sm', centered: true }).result.then((result) => {
+        this.closeResult = 'Closed with: $result';
+      }, (reason) => {
+        this.closeResult = 'Dismissed $this.getDismissReason(reason)';
+      });
+    } else if (modalDimension === '' && type === 'Notification') {
+      this.modalService.open(content, { windowClass: 'modal-danger', centered: true }).result.then((result) => {
+        this.closeResult = 'Closed with: $result';
+      }, (reason) => {
+        this.closeResult = 'Dismissed $this.getDismissReason(reason)';
+      });
+    } else {
+      this.modalService.open(content, { centered: true }).result.then((result) => {
+        this.closeResult = 'Closed with: $result';
+      }, (reason) => {
+        this.closeResult = 'Dismissed $this.getDismissReason(reason)';
+      });
+    }
   }
 
 }
