@@ -33,6 +33,7 @@ module.exports = {
         }
     },
 
+    // used in : contactlists/contact
     getAllUsers: async (req, res) => {
         console.log('get all users')
         if (req.headers && req.headers.authorization) {
@@ -46,37 +47,18 @@ module.exports = {
             try {
                 // ===================================================================================
                 const users = await User.find({ email: { $ne: email } }).populate('friends')
-                let payload = [];
-                let i = 0;
                 users.map(user => {
                     user.email,
                         user.name,
                         user.photo ? user.photo : "-",
                         user.id
                 })
-                console.log("--------------------------------")
-                console.log("users")
-                console.log(users)
-                console.log("--------------------------------")
                 // ===================================================================================
 
-                User.find({ email: { $ne: email } }).then((docs) => {
-                    let payload = [];
-                    let i = 0;
-                    docs.forEach(doc => {
-                        payload[i] = {
-                            email: doc.email,
-                            name: doc.name,
-                            photo: doc.photo ? doc.photo : "-",
-                            id: doc._id
-                        }
-                        i++;
-                    })
-                    return res.status(200).json({
-                        msg: "all users",
-                        details: payload,
-                        result: true
-                    })
+                return res.status(200).json({
+                    msg: "all users list",
+                    details: users,
+                    result: true
                 })
             } catch (error) {
                 console.log('error getting your friend:', error)
@@ -133,8 +115,6 @@ module.exports = {
                 receiver = await User.findById(sender_id);
                 sender.friends.push(receiver)
                 receiver.friends.push(sender)
-                sender.save()
-                receiver.save()
             } catch (error) {
                 console.log('error in User receiver findById')
                 console.log(error)
@@ -159,6 +139,8 @@ module.exports = {
             try {
                 receiver.notifications.push(newNotification);
                 await receiver.save();
+                sender.save()
+
                 res.status(200).json({
                     msg: "Friend Request Accepted",
                     result: true,
