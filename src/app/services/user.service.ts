@@ -18,6 +18,12 @@ export class UserService {
     return this.http.post(url, JSON.stringify(body), { headers })
   }
 
+  getNotifications() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'get-notifications';
+    return this.http.get(url, { headers })
+  }
+
   getAllUsers() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'get-users';
@@ -45,18 +51,18 @@ export class UserService {
   sendFriendRequest(id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'friend-request';
-    return this.http.post(url, { id: id }, { headers })
+    return this.http.post(url, { receiver_id: id }, { headers })
   }
-  acceptRequest(id) {
+  acceptRequest(notification_id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'accept-friend-request';
-    return this.http.put(url, { id: id }, { headers })
+    return this.http.put(url, { notification_id: notification_id }, { headers })
   }
 
-  rejectRequest(id) {
+  rejectRequest(notification_id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'reject-friend-request';
-    return this.http.put(url, { id: id }, { headers })
+    return this.http.put(url, { notification_id: notification_id }, { headers })
   }
 
 }

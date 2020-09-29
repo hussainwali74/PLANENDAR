@@ -91,6 +91,7 @@ router.put('/reject-friend-request', Connect.rejectFriendRequests)
 //              friend requests etc
 // ===========================================================================
 router.get('/get-profile', ProfileController.getProfile)
+router.get('/get-notifications', ProfileController.getNotifications)
 router.put('/update-profile', ProfileController.updateProfile)
 
 // ===========================================================================

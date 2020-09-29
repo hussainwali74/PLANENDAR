@@ -12,6 +12,10 @@ const userSchema = mongo.Schema({
         type: Schema.Types.ObjectId,
         ref: 'FriendRequest'
     }],
+    friends: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     notifications: [
         {
             type: Schema.Types.ObjectId,

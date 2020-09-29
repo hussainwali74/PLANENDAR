@@ -6,8 +6,8 @@ const FriendRequest = require('../models/request.model')
 const Notification = require('../models/notification.model')
 
 module.exports = {
-    getAllUsers: async (req, res) => {
-        console.log('get all users')
+    getsAllUsers: async (req, res) => {
+        console.log('get all usesrs')
         if (req.headers && req.headers.authorization) {
             var authorization = req.headers.authorization;
             try {
@@ -45,6 +45,32 @@ module.exports = {
         }
     },
 
+    getNotifications: async (req, res) => {
+        console.log('get notifications')
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization;
+            try {
+                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            var email = decoded.email;
+            try {
+                const user = await User.findOne({ email: email }).populate('friendrequests');
+                const receiver_id = user._id;
+                const notifications = await Notification.find({ receiver: receiver_id }).populate('sender');
+                user['notifications'] = notifications
+
+                return res.status(200).json({
+                    msg: "notifications",
+                    details: user,
+                    result: true
+                })
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    },
     getProfile: async (req, res) => {
         console.log('get user profile')
         if (req.headers && req.headers.authorization) {

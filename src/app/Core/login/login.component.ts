@@ -75,28 +75,18 @@ export class LoginComponent implements OnInit {
         this.authService.saveGoogleCreds({ email: profile.getEmail(), image: profile.getImageUrl(), password: '12345', }).subscribe(
           (data) => {
             console.log(data)
-
             localStorage.setItem('token', data['token']);
             localStorage.setItem('user', JSON.stringify(data['user']));
-
             swal.fire("Welcome Back!", "Your have successfully Logged IN! ", "success");
-
             setTimeout(() => {
-
               this.ngZone.run(() => {
                 console.log('navigating to  / 85')
                 this.router.navigateByUrl('/');
-                // this._router.navigate([to])
               })
             }, 1000);
-
-
           },
           (error) => { console.log(error) },
         )
-        setTimeout(() => {
-
-        }, 1500);
         this.ngZone.run(() => {
           console.log('navigating to  / 94')
           this.router.navigateByUrl('/');
@@ -114,10 +104,10 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.form.value).subscribe(res => {
         let temp: any = res;
         if (temp.result) {
-          this.router.navigate(['/']);
           console.log(temp);
           localStorage.setItem('token', temp.token);
           swal.fire("Welcome Back!", "Your have successfully Logged IN! ", "success");
+          this.router.navigate(['/']);
         } else {
           swal.fire("Invalid Credentials", "Failed Login!", "error");
         }

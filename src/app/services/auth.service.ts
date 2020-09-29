@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import 'rxjs/Rx';
@@ -22,6 +22,7 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
+    private ngZone: NgZone,
     private router: Router,
     public jwtHelper: JwtHelperService
   ) {
@@ -41,7 +42,10 @@ export class AuthService {
     window.localStorage.removeItem(this.TOKEN);
     window.localStorage.removeItem(this.REFRESH_TOKEN);
     window.localStorage.clear();
-    this.router.navigate(["/signin"]);
+
+    this.ngZone.run(() => {
+      this.router.navigate(['/signin']);
+    })
     return;
   }
 

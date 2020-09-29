@@ -24,7 +24,7 @@ export class NotificationsComponent implements OnInit {
     this.getRequests();
   }
   getRequests() {
-    this.userService.getAllFriendRequests().subscribe(
+    this.userService.getNotifications().subscribe(
       (data: []) => {
         console.log(data)
         this.notifications = data['details'];
@@ -34,8 +34,8 @@ export class NotificationsComponent implements OnInit {
 
   }
 
-  acceptRequest(id) {
-    this.userService.acceptRequest(id).subscribe(
+  acceptRequest(notification_id) {
+    this.userService.acceptRequest(notification_id).subscribe(
       (data) => {
         console.log(data)
         if (data['result']) {
@@ -46,7 +46,7 @@ export class NotificationsComponent implements OnInit {
       }, (error) => {
         console.log(error)
       });
-    console.log(id)
+    console.log(notification_id)
   }
 
   cancelRequest(id) {

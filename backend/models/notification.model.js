@@ -25,6 +25,9 @@ const notificationSchema = Schema(
             type: Boolean,
             default: false,
         },
+        type: {
+            type: String,
+        }
     },
     {
         timestamps: true,

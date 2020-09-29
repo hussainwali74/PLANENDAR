@@ -16,6 +16,10 @@ mongoose.connect('mongodb://localhost:27017/planendar', { useNewUrlParser: true,
 });
 // const User = require('./models/user.model')
 // User.remove({}, () => { })
+// const Notification = require('./models/notification.model')
+// Notification.remove({}, () => { })
+// const FriendRequest = require('./models/request.model')
+// FriendRequest.remove({}, () => { })
 
 const bodyParser = require('body-parser');
 //CORS ERROR PATCH
