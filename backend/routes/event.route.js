@@ -6,6 +6,8 @@ const _ = require('lodash');
 const Event = require('../models/event.model');
 const User = require('../models/user.model');
 const Connect = require('../controllers/Connection.controller');
+const AuthController = require('../controllers/Auth.controller')
+
 const ProfileController = require('../controllers/Profile.controller')
 
 require('dotenv').config()
@@ -93,6 +95,8 @@ router.put('/reject-friend-request', Connect.rejectFriendRequests)
 router.get('/get-profile', ProfileController.getProfile)
 router.get('/get-notifications', ProfileController.getNotifications)
 router.put('/update-profile', ProfileController.updateProfile)
+router.put('/save-profile-pic', AuthController.saveProfilePic);
+
 
 // ===========================================================================
 

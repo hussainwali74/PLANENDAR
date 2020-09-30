@@ -64,5 +64,12 @@ export class UserService {
     let url = this.baseUrl + 'reject-friend-request';
     return this.http.put(url, { notification_id: notification_id }, { headers })
   }
+  updateProfilePhoto(photo) {
+
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'save-profile-pic';
+    // console.log(url)
+    return this.http.put(url, { photo: photo }, { headers });
+  }
 
 }

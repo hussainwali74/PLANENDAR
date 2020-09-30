@@ -5,6 +5,20 @@
         <div class="card-profile-image">
           <!-- <a href="javascript:void(0)"> -->
           <img class="rounded-circle" src="{{profile.photo?profile.photo:'./assets/img/faces/marc.jpg'}}" />
+          <div *ngIf="enableEdit">
+
+            <br>
+            <br>
+
+            <label class="btn btn-default" style="width: 214px; padding:5px 8px;">
+              <input type="file" (change)="selectFile($event)">
+            </label>
+            <br>
+
+            <button class="btn btn-success" style="width: 55%;" type="button" [disabled]="!selectedFiles"
+              (click)="upload()">Upload</button>
+          </div>
+
           <!-- </a> -->
         </div>
       </div>

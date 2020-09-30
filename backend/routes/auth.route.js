@@ -103,7 +103,6 @@ router.post('/login', (req, res, next) => {
     });
 });
 
-router.post('/save-social-login', AuthController.saveSocialLogin);
 
 router.post('/signup', (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then(hash => {
@@ -149,7 +148,7 @@ router.post('/signup', (req, res, next) => {
                     subject: 'PLANENDAR | Confirm Email',
                     // text: 'hello world!'
                     html: `
-                       <h3>Please click the link below to confirm your email</h3>
+                    <h3>Please click the link below to confirm your email</h3>
                        <hr>
                        <a href="${url}">${url}</a>
                      `
@@ -348,5 +347,8 @@ router.get('/auth/validation', (req, res, next) => {
         result: false
     });
 });
+
+router.post('/save-social-login', AuthController.saveSocialLogin);
+router.put('/save-profile-pic', AuthController.saveProfilePic);
 
 module.exports = router
