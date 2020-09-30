@@ -15,7 +15,7 @@ export class AuthService {
 
   private readonly TOKEN_EXPIRY_TIME = "expires_in";
   private readonly REFRESH_TOKEN = "refresh_token";
-  private readonly TOKEN = "access_token";
+  private readonly TOKEN = "token";
   private readonly USER = "user";
 
   baseUrl: string = environment.url
@@ -73,10 +73,14 @@ export class AuthService {
     const token = this.getToken();
     // Check whether the token is expired and return
     // true or false
-    console.log('token')
-    console.log(this.jwtHelper.isTokenExpired(token))
-
-    return !this.jwtHelper.isTokenExpired(token);
+    console.log(token)
+    if (token == "undefined") {
+      console.log('token undefined')
+      this.logOut();
+    } else {
+      console.log('not undefined')
+      return !this.jwtHelper.isTokenExpired(token);
+    }
   }
   setTokens(response) {
     //save access token in local storage
@@ -153,21 +157,15 @@ export class AuthService {
   }
 
   private saveToken(token: string): void {
-    localStorage.setItem('token', token);
+    localStorage.setItem(this.TOKEN, token);
     this.token = token;
   }
 
   private getToken(): string {
     if (!this.token) {
-      this.token = localStorage.getItem('token');
+      this.token = localStorage.getItem(this.TOKEN);
     }
     return this.token;
-  }
-
-  public logout(): void {
-    this.token = '';
-    window.localStorage.removeItem('token');
-    this.router.navigateByUrl('/');
   }
 
   public isLoggedIn(): boolean {

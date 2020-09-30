@@ -41,6 +41,8 @@ module.exports = {
             try {
                 decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
             } catch (e) {
+                console.log('autherizing jwt')
+                console.log(e)
                 return res.status(401).send('unauthorized');
             }
             var email = decoded.email;
