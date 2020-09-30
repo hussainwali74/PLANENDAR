@@ -310,37 +310,39 @@ module.exports = {
                         status: 'pending',
                     });
                     newfriendRequest.receiver = receiver;
+                    let savedRequest;
                     try {
-                        let savedRequest = await newfriendRequest.save();
-                        const newNotification = new Notification({
-                            receiver: receiver_id,
-                            sender: senderId,
-                            detail: sender.name + " has sent you friend request",
-                            type: 'friendrequest'
-                        });
-                        newNotification.receiver = receiver;
-                        newNotification.sender = sender;
-                        try {
-                            await newNotification.save()
-                        } catch (error) {
-                            console.log('error in save notification')
-                            console.log(error)
-                        }
-                        receiver.friendrequests.push(newfriendRequest)
-                        receiver.notifications.push(newNotification)
-                        try {
-                            await receiver.save()
-                        } catch (error) {
-                            console.log('error in save receiver')
-                            console.log(error)
-                        }
-                        return res.status(200).json({
-                            msg: "Friend Request  sent",
-                            result: false
-                        });
+                        savedRequest = await newfriendRequest.save();
                     } catch (error) {
                         console.log('error in save new request')
+                        console.log(error)
                     }
+                    const newNotification = new Notification({
+                        receiver: receiver_id,
+                        sender: senderId,
+                        detail: sender.name + " has sent you friend request",
+                        type: 'friendrequest'
+                    });
+                    newNotification.receiver = receiver;
+                    newNotification.sender = sender;
+                    try {
+                        await newNotification.save()
+                    } catch (error) {
+                        console.log('error in save notification')
+                        console.log(error)
+                    }
+                    receiver.friendrequests.push(newfriendRequest)
+                    receiver.notifications.push(newNotification)
+                    try {
+                        await receiver.save()
+                    } catch (error) {
+                        console.log('error in save receiver')
+                        console.log(error)
+                    }
+                    return res.status(200).json({
+                        msg: "Friend Request  sent",
+                        result: false
+                    });
                 }
             } else {
                 console.log("==============================================================")
