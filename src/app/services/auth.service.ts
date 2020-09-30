@@ -56,8 +56,6 @@ export class AuthService {
     return this.http.post(this.baseUrl + '/register', user, this.noAuthHeader);
   }
   updatePassword(body, token) {
-    console.log(token);
-    console.log(body);
     // return;
     return this.http.post(this.baseUrl + '/update-password/' + token, body, this.noAuthHeader);
   }
@@ -73,12 +71,9 @@ export class AuthService {
     const token = this.getToken();
     // Check whether the token is expired and return
     // true or false
-    console.log(token)
     if (token == "undefined") {
-      console.log('token undefined')
       this.logOut();
     } else {
-      console.log('not undefined')
       return !this.jwtHelper.isTokenExpired(token);
     }
   }

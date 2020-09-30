@@ -5,9 +5,13 @@ const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 
 var expressjwt = require('express-jwt');
-
 const bcrypt = require('bcryptjs');
+
+//MODELS 
 const User = require('../models/user.model');
+
+// CONTROLLERS
+const AuthController = require('../controllers/Auth.controller')
 
 const nodemailer = require('nodemailer')
 require('dotenv').config()
@@ -99,71 +103,7 @@ router.post('/login', (req, res, next) => {
     });
 });
 
-router.post('/save-social-login', (req, res) => {
-    console.log('ssaving google login user data');
-    let fetchedUser;
-    User.findOne({ email: req.body.email }).then(result => {
-        console.log(req.body)
-        if (!result) {
-            console.log('hash');
-            bcrypt.hash(req.body.password, 10).then(hash => {
-                console.log('gasged')
-                const user = new User({
-                    email: req.body.email,
-                    name: req.body.email,
-                    password: hash,
-                    photo: req.body.image,
-                    confirmed: true
-                });
-                console.log('user.save');
-                user.save().then(result => {
-                    console.log('res.statsus');
-                    return res.status(201).json({
-                        result: true,
-                        details: result,
-                    });
-                });
-            });
-        }
-        if (result) {
-
-            fetchedUser = result;
-            console.log("result")
-            console.log(result)
-            return bcrypt.compare(req.body.password, result.password);
-        } else {
-            console.log('==================================================================================')
-            console.log(result)
-            console.log('==================================================================================')
-
-        }
-    }).then(result => {
-
-        //Creation of Token Since Credentials are matched
-        if (fetchedUser) {
-            const payload = {
-                email: fetchedUser.email
-            };
-            //Secret key to issue JWT token
-            const token = jwt.sign(payload, process.env.EMAIL_SECRET, { expiresIn: "1h" });
-            //Sending Token
-            fetchedUser = { email: fetchedUser.email, name: fetchedUser.name }
-            res.status(200).json({
-                msg: "Welcome Back..!!",
-                token: token,
-                user: fetchedUser,
-                result: "true"
-            });
-        }
-
-    }).catch(err => {
-        console.log(err);
-        res.status(401).json({
-            msg: "Authorization Failed..!!",
-            result: "false"
-        });
-    });
-});
+router.post('/save-social-login', AuthController.saveSocialLogin);
 
 router.post('/signup', (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then(hash => {

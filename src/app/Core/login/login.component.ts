@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit {
     this.auth2.attachClickHandler(this.loginElement.nativeElement, {},
       (googleUser) => {
         let profile = googleUser.getBasicProfile();
+
         console.log('Token || ' + googleUser.getAuthResponse().id_token);
         // this.show = true;
         // this.Name =  profile.getName();
@@ -72,7 +73,7 @@ export class LoginComponent implements OnInit {
         console.log('Email: ' + profile.getEmail(), profile.getName());
 
         // this.router.navigate(['/']);
-        this.authService.saveGoogleCreds({ email: profile.getEmail(), image: profile.getImageUrl(), password: '12345', }).subscribe(
+        this.authService.saveGoogleCreds({ email: profile.getEmail(), name: profile.getName(), image: profile.getImageUrl(), password: '12345', }).subscribe(
           (data) => {
             console.log(data)
             localStorage.setItem('token', data['token']);
