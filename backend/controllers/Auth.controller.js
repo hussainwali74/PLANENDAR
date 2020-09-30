@@ -48,7 +48,6 @@ module.exports = {
             return res.status(200).json({
                 msg: "Welcome to planendar",
                 token: token,
-                user: fetchedUser,
                 result: true
             });
         } else if (foundUser) {
@@ -56,11 +55,11 @@ module.exports = {
                 email: foundUser.email
             };
             const token = jwt.sign(payload, process.env.EMAIL_SECRET, { expiresIn: "1h" })
-            foundUser = { email: foundUser.email, name: fetchedUser.name }
+            foundUser = { email: foundUser.email, name: foundUser.name }
             res.status(200).json({
                 msg: "Welcome Back..!!",
                 token: token,
-                user: fetchedUser,
+                user: foundUser,
                 result: true
             });
             // return bcrypt.compare(req.body.password, foundUser.password)
