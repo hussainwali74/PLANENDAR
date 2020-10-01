@@ -265,6 +265,29 @@ module.exports = {
             return res.status(401).send('unauthorized');
         }
     },
+    getFriends: async (req, res) => {
+        console.log("get friends of loggedin user")
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization;
+            try {
+                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+                var userId;
+                const user = await User.findOne({ email: decoded.email }).populate('friends')
+                userId = user._id;
+                // const friendRequests = await FriendRequest.find({ receiver: userId }).populate('sender');
+                res.status(200).json({
+                    msg: "friendrequests",
+                    result: true,
+                    details: user
+                })
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+        } else {
+            console.log('no headers 51 ')
+            return res.status(401).send('unauthorized');
+        }
+    },
 
     sendFriendRequest: async (req, res, next) => {
         console.log('send friend requests')

@@ -5,7 +5,10 @@
                 <h3 class="card-title">Notifications</h3>
             </div>
             <div class="card-body">
-
+                {{!show_notifications}}
+                <div *ngIf="!show_notifications" class="card card-profile p-3">
+                    <h5>No Notifications </h5>
+                </div>
                 <div class="card card-profile" *ngFor="let notification of notifications.notifications; let i = index;">
                     <div class="row">
                         <div class="col-md-1">

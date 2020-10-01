@@ -85,8 +85,10 @@ router.get('/view-user-events', (req, res, next) => {
 router.get('/get-users', Connect.getAllUsers)
 router.post('/friend-request', Connect.sendFriendRequest)
 router.get('/friend-requests', Connect.getFriendRequests)
+router.get('/get-friends', Connect.getFriends)
 router.put('/accept-friend-request', Connect.acceptFriendRequests)
 router.put('/reject-friend-request', Connect.rejectFriendRequests)
+
 // ===========================================================================
 
 // ===========================================================================

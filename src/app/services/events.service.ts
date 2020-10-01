@@ -28,6 +28,14 @@ export class EventsService {
     swal.fire(title, details, "success");
   }
 
+  //used in events/promotions
+  //GET THE CONTACTS, FRIENDS OF THE USER
+  getUserContacts() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'get-friends';
+    return this.http.get(url, { headers })
+  }
+
   getUserCreatedEvents() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'view-user-events';

@@ -15,7 +15,7 @@ export class NotificationsComponent implements OnInit {
   faTimes = faTimes
   closeResult: string;
   modalUser: any;
-
+  show_notifications: boolean = false;
 
   constructor(private modalService: NgbModal,
     private userService: UserService,) { }
@@ -28,6 +28,9 @@ export class NotificationsComponent implements OnInit {
       (data: []) => {
         console.log(data)
         this.notifications = data['details'];
+        if (this.notifications['notifications'].length > 0) {
+          this.show_notifications = true;
+        }
       }, (error) => {
         console.log(error)
       });
@@ -39,7 +42,6 @@ export class NotificationsComponent implements OnInit {
       (data) => {
         console.log(data)
         if (data['result']) {
-
           swal.fire("success", "Friend request accepted", "success");
           this.getRequests();
         }

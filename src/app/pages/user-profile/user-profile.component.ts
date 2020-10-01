@@ -62,9 +62,9 @@ export class UserProfileComponent implements OnInit {
     const contentType = file.type;
     const bucket = new S3(
       {
-        accessKeyId: 'AKIASJPFOIKSRO746TXE',
-        secretAccessKey: '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',
-        region: 'eu-west-2'
+        accessKeyId: '',
+        secretAccessKey: '',
+        region: ''
       }
     );
     const params = {

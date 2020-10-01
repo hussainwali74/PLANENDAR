@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService,
     private router: Router,
     private ngZone: NgZone,
-  ) { localStorage.clear(); }
+  ) { }
   //properties
 
   auth2: any;
