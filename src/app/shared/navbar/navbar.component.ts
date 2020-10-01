@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faBell, faCalendar, faHome, faList, faUser, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
     selector: 'app-navbar',
@@ -18,14 +19,33 @@ export class NavbarComponent implements OnInit {
     faCalender = faCalendar;
     faBell = faBell;
     faUser = faUser;
+    new_notifications: number = 0;
     faUserCircle = faUserCircle;
     faList = faList;
     constructor(public location: Location,
         private authService: AuthService,
+        private userService: UserService,
         private router: Router) {
     }
 
     ngOnInit() {
+        // this.userService.getNotifications().subscribe(
+        //     (d) => {
+        //         let newnotifications = d['details']['notifications'];
+        //         newnotifications.forEach(element => {
+        //             if (element.seen) {
+
+        //             } else {
+        //                 this.new_notifications++;
+        //             }
+        //         });
+        //         // if(d['details'][])
+        //         // console.log("d['details']['notifications']")
+        //         // console.log(d['details']['notifications'])
+        //         // console.log("this.new_notifications")
+        //         // console.log(this.new_notifications)
+        //     }
+        // )
         // this.router.events.subscribe((event) => {
         //     this.isCollapsed = true;
         //     if (event instanceof NavigationStart) {

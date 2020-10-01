@@ -33,7 +33,19 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="card" *ngFor="let event of events">
+                    <div class="row" [class.selected]="event.selected">
+                        <div class="col-md-6" style="text-align: left; padding-left: 23px;">
+                            <a href="javascript:void(0)" (click)="selectEvent(event)">
+                                <h4>{{event.title}}</h4>
+                            </a>
+                        </div>
+                        <div class="col-md-6" style="text-align: left; padding-left: 23px;">
+                            <h4>{{event.date}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <hr>
                 <div class="card ">
                     <table class="table border" style="text-align: center;">
                         <thead>
@@ -144,26 +156,17 @@
                                             </th>
                                         </thead>
                                         <tbody>
-                                            <tr>
+                                            <tr [class.selected]="friend.selected" *ngFor=" let friend of friends"
+                                                (click)="selectEvent(friend)">
                                                 <td>
-                                                    List 1
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    List 2
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    List 3
+                                                    {{friend.name}}
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                     <br>
-                                    <button style="width:98%;" mat-raised-button type="button"
-                                        class="btn btn-success btn-just-icon">
+                                    <button (click)="sendInvitations()" style="width:98%;" mat-raised-button
+                                        type="button" class="btn btn-success btn-just-icon">
                                         Send Invitation
                                         <div class="ripple-container"></div>
                                     </button>

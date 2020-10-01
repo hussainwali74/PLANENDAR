@@ -33,7 +33,7 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   {
-    path: '', component: HomeComponent, canActivate: [AuthGuard], children: [
+    path: '', component: HomeComponent, children: [
       { path: '', component: LandingComponent }
     ]
   },

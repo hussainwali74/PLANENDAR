@@ -5,21 +5,20 @@
                 <h3 class="card-title">Notifications</h3>
             </div>
             <div class="card-body">
-                {{!show_notifications}}
                 <div *ngIf="!show_notifications" class="card card-profile p-3">
                     <h5>No Notifications </h5>
                 </div>
                 <div class="card card-profile" *ngFor="let notification of notifications.notifications; let i = index;">
                     <div class="row">
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <div class="carsd-avatar p-1">
                                 <a href="javascript:void(0)">
-                                    <img class="img" height="62px" style="margin-top: 2px;"
+                                    <img class="img" height="62px" style="margin-top: 2px; width: 85px;"
                                         src="{{notification.sender.photo}}" />
                                 </a>
                             </div>
                         </div>
-                        <div class="col-md-8 pl-3">
+                        <div class="col-md-7 pl-3">
                             <a href="javascript:void(0)" (click)="open(classic,'' , '',notification.sender)">
                                 <h5>{{notification.detail}} </h5>
                             </a>
@@ -31,6 +30,26 @@
                             <fa-icon *ngIf="!notification.seen" (click)="cancelRequest(notification._id)"
                                 class="f f-times" [icon]="faTimes">
                             </fa-icon>
+                        </div>
+                        <div *ngIf="notification.type=='eventinvite'" class="col-md-3 text-center p-2">
+                            <!-- <fa-icon *ngIf="!notification.seen" (click)="acceptInvite(notification._id)"
+                                class="f f-check " [icon]="faCheck">
+                            </fa-icon> -->
+
+                            <button (click)="acceptInvitations(notification)" style="width:46%;" mat-raised-button
+                                type="button" class="btn btn-success btn-just-icon">
+                                Accept
+                                <div class="ripple-container"></div>
+                            </button>
+                            <button (click)="rejectInvitations(notification)" style="width:46%;" mat-raised-button
+                                type="button" class="btn btn-success btn-just-icon">
+                                Reject
+                                <div class="ripple-container"></div>
+                            </button>
+
+                            <!-- <fa-icon *ngIf="!notification.seen" (click)="cancelRequest(notification._id)"
+                                class="f f-times" [icon]="faTimes">
+                            </fa-icon> -->
                         </div>
                     </div>
                 </div>

@@ -3,4 +3,10 @@ export class Person {
     name: string;
     mail: string;
     class: string;
+    selected?: boolean;
+    friends?: [];
+    friendrequests?: [];
+    notifications?: [];
+    photo?: string;
+
 }

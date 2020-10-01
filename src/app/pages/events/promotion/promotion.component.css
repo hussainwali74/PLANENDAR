@@ -1,7 +1,10 @@
 .main-content{
     margin-top: 10%;
 }
-
+.selected{
+    background:#f0f6f9;
+    padding-top: 10px;
+}
 th, td{
     border-right:1px solid #dee2e6;;
 }

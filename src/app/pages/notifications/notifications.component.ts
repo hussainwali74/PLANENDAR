@@ -23,6 +23,7 @@ export class NotificationsComponent implements OnInit {
   ngOnInit(): void {
     this.getRequests();
   }
+
   getRequests() {
     this.userService.getNotifications().subscribe(
       (data: []) => {
@@ -34,21 +35,28 @@ export class NotificationsComponent implements OnInit {
       }, (error) => {
         console.log(error)
       });
-
   }
-
+  // seeNotification
   acceptRequest(notification_id) {
     this.userService.acceptRequest(notification_id).subscribe(
       (data) => {
         console.log(data)
         if (data['result']) {
-          swal.fire("success", "Friend request accepted", "success");
+          swal.fire("success", data['msg'], "success");
           this.getRequests();
         }
       }, (error) => {
         console.log(error)
       });
     console.log(notification_id)
+  }
+
+  acceptInvitations(invitation) {
+    console.log(invitation)
+  }
+
+  rejectInvitations(invitation) {
+    console.log(invitation)
   }
 
   cancelRequest(id) {

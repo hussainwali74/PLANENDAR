@@ -107,8 +107,10 @@ export class LoginComponent implements OnInit {
         if (temp.result) {
           console.log(temp);
           localStorage.setItem('token', temp.token);
-          swal.fire("Welcome Back!", "Your have successfully Logged IN! ", "success");
-          this.router.navigate(['/']);
+          swal.fire("Welcome Back!", "Your have successfully Logged IN! ", "success").then((d) => {
+
+            this.router.navigate(['/']);
+          });
         } else {
           swal.fire("Invalid Credentials", "Failed Login!", "error");
         }

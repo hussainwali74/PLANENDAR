@@ -7,6 +7,7 @@ const Event = require('../models/event.model');
 const User = require('../models/user.model');
 const Connect = require('../controllers/Connection.controller');
 const AuthController = require('../controllers/Auth.controller')
+const EventController = require('../controllers/Event.controller');
 
 const ProfileController = require('../controllers/Profile.controller')
 
@@ -80,6 +81,14 @@ router.get('/view-user-events', (req, res, next) => {
     });
 });
 // ===========================================================================
+//             event related end points
+// ===========================================================================
+router.get('/get-event-invites', Connect.getAllUsers)
+router.post('/send-event-invites', EventController.sendEventInvites)
+
+// ===========================================================================
+
+// ===========================================================================
 //              friend requests etc
 // ===========================================================================
 router.get('/get-users', Connect.getAllUsers)
@@ -92,7 +101,7 @@ router.put('/reject-friend-request', Connect.rejectFriendRequests)
 // ===========================================================================
 
 // ===========================================================================
-//              friend requests etc
+//              profile 
 // ===========================================================================
 router.get('/get-profile', ProfileController.getProfile)
 router.get('/get-notifications', ProfileController.getNotifications)

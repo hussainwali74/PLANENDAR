@@ -3,33 +3,250 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 const FriendRequest = require('../models/request.model')
 const Notification = require('../models/notification.model')
-
+const EventInvite = require('../models/EventInvite.model')
+const Event = require('../models/event.model')
 module.exports = {
+    //POST
+    // /api/send-event-invites
+    // send event invitation to contacts
+    sendEventInvites: async (req, res) => {
+        console.log('send event invite')
+        const { event_id } = req.body.event_id;
+        var alreadyInvited = [];
+        var currentInvited = [];
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization;
+            try {
+                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+            } catch (e) {
+                console.log('autherizing jwt')
+                console.log(e)
+                return res.status(401).send('unauthorized');
+            }
+            var email = decoded.email;
 
-    //Friend Request
-    // Verify active or sent connection exists
-    // insert into connections table
-    // (requester_id, requestee_id, is_active (set to false),status (set sent)) 
+            var eventInvite;
+            var sender_id;
+            var receiver_id;
+            try {
+                sender = await User.findOne({ email: decoded.email });
+            } catch (error) {
+                console.log('error in finding sender')
+                console.log(error)
+            }
+            sender_id = sender._id;
+            var event;
+            try {
+                event = await Event.findOne({ _id: req.body.event_id });
+            } catch (error) {
+                console.log('error finding event')
+                console.log(error)
+            }
 
-    // send friend request
-    createRequest: async (req, res) => {
-        console.log('send freind request')
-        console.log(req.params)
-        try {
-            const db = req.app.get('db')
-            //need to insert check to verify connection doesn't exist already
-            // console.log(req.params, req.session.user)
-            let { id: requestee_id } = req.params;
-            let { id: requester_id } = req.session.user
+            for (let index = 0; index < req.body.receivers.length; index++) {
+                receiver_id = req.body.receivers[index];
 
-            let is_active = false
-            let status = "sent"
-            // let request = await db.friendRequest({ requester_id, requestee_id, is_active, status })
-            // console.log('sent friend request')
-            // res.send(request)
-        } catch (error) {
-            console.log('error sending friend request:', error)
-            res.status(500).send(error)
+                try {
+                    eventInvite = await EventInvite
+                        .find({ receiver: receiver_id, event_id }).populate('receiver')
+                } catch (error) {
+                    console.log('find user')
+                    console.log(e)
+                }
+                console.log("============event=======================")
+                console.log(eventInvite)
+
+                try {
+                    receiver = await User.findOne({ _id: receiver_id });
+                } catch (error) {
+                    console.log('error finding receiver')
+                    console.log(error)
+                }
+
+                if (eventInvite) {
+                    if (eventInvite.length != 0) {
+                        console.log('WHEN EVENT.LENGGTH==0')
+                        console.log(eventInvite);
+                        alreadyInvited.push({ invited: eventInvite['0']['receiver']['name'] });
+                    } else {
+
+                        const newInvite = new EventInvite({
+                            sender: sender_id,
+                            receiver: receiver_id,
+                            event: event._id
+                        });
+                        newInvite.sender = sender;
+                        newInvite.receiver = receiver;
+                        newInvite.event = event;
+
+                        try {
+                            saveInvite = await newInvite.save();
+                        } catch (error) {
+                            console.log('error in save new request')
+                            console.log(error)
+                        }
+                        const newNotification = new Notification({
+                            receiver: receiver_id,
+                            sender: sender_id,
+                            detail: sender.name + " has invited you to an event",
+                            type: 'eventinvite'
+                        });
+                        newNotification.receiver = receiver;
+                        newNotification.sender = sender;
+                        try {
+                            await newNotification.save()
+                        } catch (error) {
+                            console.log('error in save notification')
+                            console.log(error)
+                        }
+                        // receiver.friendrequests.push(newfriendRequest);
+                        receiver.notifications.push(newNotification);
+                        receiver.eventinvites.push(newInvite);
+                        try {
+                            await receiver.save()
+                            console.log(receiver.name)
+                            currentInvited.push({ invited: receiver.name });
+                        } catch (error) {
+                            console.log('error in save receiver')
+                            console.log(error)
+                        }
+
+                    } //END - ELSE EVENT.LENGTH==0
+                } else {
+                    console.log("==============================================================")
+                    console.log('ERROR eventInvite null')
+                    console.log("==============================================================")
+                }
+            }//END - FOR 
+        }
+        console.log('\n')
+        console.log("alreadyInvited")
+        console.log(alreadyInvited)
+        console.log('\n')
+        console.log("currentInvited")
+        console.log(currentInvited)
+        console.log('\n')
+        return res.status(200).json({
+            msg: "Event Invitations Sent ",
+            result: true,
+            details: null
+        });
+
+    },
+
+
+    acceptEventInvite: async (req, res) => {
+        console.log('acceptttt event invite')
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization;
+            var decoded;
+            try {
+                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+            } catch (error) {
+                console.log('error in verify jwt')
+                console.log(error)
+            }
+            var notification
+            var sender_id;
+            var receiver_id;
+            // notification: RECEIVER IS LOGGED IN USER, HE WILL BE NOW THE SENDER FOR newNotification
+            try {
+                notification = await Notification.findById(req.body.notification_id);
+            } catch (error) {
+                console.log('error in notification findbyId')
+                console.log(error)
+            }
+            try {
+                event = await Event.findById(req.body.event_id);
+            } catch (error) {
+                console.log('error in notification findbyId')
+                console.log(error)
+            }
+            notification.seen = true;
+            try {
+                await notification.save();
+            } catch (error) {
+                console.log('error in notification save')
+                console.log(error)
+            }
+            sender_id = notification.sender;
+            receiver_id = notification.receiver;
+
+            var sender;
+            var receiver;
+
+            try {
+                sender = await User.findById(receiver_id);
+            } catch (error) {
+                console.log('error in User  findById')
+                console.log(error)
+            }
+
+            try {
+                receiver = await User.findById(sender_id);
+            } catch (error) {
+                console.log('error in User sender findById')
+                console.log(error)
+            }
+
+            if (sender.events.includes(req.body.event_id)) {
+                console.log(sender)
+                return res.status(200).json({
+                    msg: "Invitation  Already Accepted",
+                    result: true,
+                    details: null
+                })
+            } else {
+                console.log('=-====================else')
+                var acceptedInvite;
+                //UPDATE THE FRIEND REQUEST STATUS
+                try {
+                    acceptedInvite = await EventInvite.findOneAndUpdate({ sender: sender_id, receiver: receiver_id }, { status: "accepted" });
+                } catch (error) {
+                    console.log('error in friendrequest  findoneandupdate')
+                    console.log(error)
+                }
+            }
+
+            receiver.events.push(sender)
+
+            const newNotification = new Notification({
+                sender: receiver_id,
+                receiver: sender_id,
+                detail: sender.name + " accepted your Friend Request",
+                seen: false,
+                type: 'normal'
+            })
+
+            newNotification.sender = sender;
+            newNotification.receiver = receiver;
+
+            try {
+                await newNotification.save();
+            } catch (error) {
+                console.log('error in newnotification save')
+                console.log(error)
+            }
+            //ADD THE NEW NOTIFICATION TO RECEIVER'S NOTIFICATIONS ARRAY
+            try {
+                receiver.notifications.push(newNotification);
+                await receiver.save();
+                sender.save()
+
+                return res.status(200).json({
+                    msg: "Friend Request Accepted",
+                    result: true,
+                    details: null
+                })
+            } catch (e) {
+                console.log("e===========================")
+                console.log(e)
+                return res.status(401).send('unauthorized');
+            }
+
+        } else {
+            console.log('no headers 51 ')
+            return res.status(401).send('accept friend request unauthorized');
         }
     },
 
@@ -83,25 +300,20 @@ module.exports = {
                 console.log('error in verify jwt')
                 console.log(error)
             }
-            var notification
+            var notification;
             var sender_id;
             var receiver_id;
             // notification: RECEIVER IS LOGGED IN USER, HE WILL BE NOW THE SENDER FOR newNotification
             try {
                 notification = await Notification.findById(req.body.notification_id);
+                notification.seen = true;
+                await notification.save();
+                sender_id = notification.sender;
+                receiver_id = notification.receiver;
             } catch (error) {
                 console.log('error in notification findbyId')
                 console.log(error)
             }
-            notification.seen = true;
-            try {
-                await notification.save();
-            } catch (error) {
-                console.log('error in notification save')
-                console.log(error)
-            }
-            sender_id = notification.sender;
-            receiver_id = notification.receiver;
 
             var sender;
             var receiver;
@@ -110,13 +322,6 @@ module.exports = {
                 sender = await User.findById(receiver_id);
             } catch (error) {
                 console.log('error in User  findById')
-                console.log(error)
-            }
-
-            try {
-                receiver = await User.findById(sender_id);
-            } catch (error) {
-                console.log('error in User sender findById')
                 console.log(error)
             }
 
@@ -179,6 +384,7 @@ module.exports = {
                     console.log(e)
                     return res.status(401).send('unauthorized');
                 }
+
             }
         } else {
             console.log('no headers 51 ')
@@ -230,7 +436,7 @@ module.exports = {
             try {
                 receiver = await User.findById(sender_id);
             } catch (error) {
-                console.log('error in reject request User receiver findById')
+                console.log('error in User receiver findById')
                 console.log(error)
             }
             const newNotification = new Notification({
@@ -383,12 +589,6 @@ module.exports = {
                         console.log('error in save notification')
                         console.log(error)
                     }
-                    console.log('\n')
-                    console.log('\n')
-                    console.log("newNotification")
-                    console.log(newNotification)
-                    console.log('\n')
-                    console.log('\n')
                     receiver.friendrequests.push(newfriendRequest)
                     receiver.notifications.push(newNotification)
                     try {

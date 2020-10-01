@@ -16,6 +16,14 @@ const userSchema = mongo.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
+    eventinvites: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    events: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Event'
+    }],
     notifications: [
         {
             type: Schema.Types.ObjectId,

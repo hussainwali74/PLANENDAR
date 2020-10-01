@@ -42,9 +42,14 @@ export class AuthService {
     window.localStorage.removeItem(this.TOKEN);
     window.localStorage.removeItem(this.REFRESH_TOKEN);
     window.localStorage.clear();
+    alert('login out')
+    console.log('----------------------------------------------------')
+    console.log('LOGGED OUT')
+    console.log('----------------------------------------------------')
 
     this.ngZone.run(() => {
-      this.router.navigate(['/signin']);
+      // this.router.navigateByUrl('/signin');
+      window.open("/signin", "_self")
     })
     return;
   }
@@ -87,62 +92,10 @@ export class AuthService {
       this.TOKEN_EXPIRY_TIME,
       String(token_expires_in_seconds)
     );
-    // let token_expires_in_miliseconds = +token_expires_in_seconds * 60;
-    // this.refreshTokenInterval = setInterval(() => {
-    //   this.refreshToken();
-    // }, +token_expires_in_miliseconds - 5000);
-
     // save refresh token
     localStorage.setItem(this.REFRESH_TOKEN, response.refresh_token);
     this.token = response[this.TOKEN];
   }
-  // refreshToken() {
-  //   let refresh_token = { refresh_token: this.getRefreshToken() };
-  //   let finalURL = this.baseUrl + `login/renew_token`;
-  //   const searchParams = Object.keys(refresh_token)
-  //     .map(key => {
-  //       return (
-  //         encodeURIComponent(key) + "=" + encodeURIComponent(refresh_token[key])
-  //       );
-  //     })
-  //     .join("&");
-
-  //   let headers = new HttpHeaders().set(
-  //     "Content-Type",
-  //     "application/x-www-form-urlencoded"
-  //   );
-  //   headers = headers.set("accept", "application/json");
-  //   headers = headers.set("refresh_token", this.getRefreshToken());
-  //   // console.log('inside refreshTOken()')
-  //   return this.http
-  //     .post(finalURL, searchParams, { headers })
-  //     .pipe(
-  //       tap(
-  //         (tokens: AccessToken) => {
-  //           console.log(tokens);
-  //           this.storeNewToken(tokens.access_token);
-  //         },
-  //         (error: any) => {
-  //           console.log(error);
-  //           if (error instanceof HttpErrorResponse) {
-  //             console.log(error);
-  //           }
-  //         }
-  //       )
-  //     )
-  //     .pipe(
-  //       catchError(error => {
-  //         console.log(error);
-  //         let errorMessage = "An error occurred!";
-  //         if (!error.error || !error.error.detail) {
-  //           return throwError(errorMessage);
-  //         }
-  //         errorMessage = error.error.detail;
-  //         this.router.navigate(["/login"]);
-  //         return throwError(errorMessage);
-  //       })
-  //     );
-  // }
 
   login(obj) {
     return this.http.post(this.baseUrl + 'login', obj);
@@ -151,10 +104,10 @@ export class AuthService {
     return this.http.post(this.baseUrl + 'signup', obj);
   }
 
-  private saveToken(token: string): void {
-    localStorage.setItem(this.TOKEN, token);
-    this.token = token;
-  }
+  // private saveToken(token: string): void {
+  //   localStorage.setItem(this.TOKEN, token);
+  //   this.token = token;
+  // }
 
   private getToken(): string {
     if (!this.token) {

@@ -7,15 +7,15 @@
             <div class="card-body" *ngFor="let user of contacts; let i=index;">
                 <div class="card card-profile">
                     <div class="row">
-                        <div class=" col col-md-1 col-sm-3">
+                        <div class=" col col-md-2 col-sm-3">
                             <div class="carsd-avatar p-1">
                                 <a href="javascript:void(0)">
-                                    <img class="img" height="62px" style="margin-top: 2px;"
+                                    <img width="85px" class="img" height="62px" style="margin-top: 2px; width: 85px;"
                                         src="{{user.photo!='-'?user.photo:'./assets/img/faces/marc.jpg'}}" />
                                 </a>
                             </div>
                         </div>
-                        <div class=" col col-md-8 col-sm-7">
+                        <div class=" col col-md-7 col-sm-7">
                             <h4 (click)="open(classic,'' , '')">{{user.name}} </h4>
                         </div>
                         <div class=" col col-md-3 col-sm-2" style="padding-top: 22px;">
