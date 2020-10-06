@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventsService } from 'src/app/services/events.service';
 import { UserService } from 'src/app/services/user.service';
 import swal from 'sweetalert2';
@@ -25,7 +25,6 @@ export class NotificationsComponent implements OnInit {
   modalEvent: Event;
 
   constructor(private modalService: NgbModal,
-    private activeModal: NgbActiveModal,
     private eventService: EventsService,
     private userService: UserService,) { }
 
@@ -83,7 +82,8 @@ export class NotificationsComponent implements OnInit {
         console.log(data)
         swal.fire("success", data['msg'], "success");
 
-        this.activeModal.close();
+        this.modalService.dismissAll();
+        this.getRequests();
 
       }, e => console.log(e)
     )
@@ -94,7 +94,8 @@ export class NotificationsComponent implements OnInit {
       (data) => {
         console.log(data)
         swal.fire("success", data['msg'], "error");
-        this.activeModal.close();
+        this.modalService.dismissAll();
+        this.getRequests();
       }, e => console.log(e)
     )
   }
@@ -112,6 +113,8 @@ export class NotificationsComponent implements OnInit {
       });
   }
   open(content, type, modalDimension, modalUser) {
+    console.log(modalUser)
+    this.modalUser = modalUser.sender
     if (modalDimension === 'sm' && type === 'modal_mini') {
       this.modalService.open(content, { windowClass: 'modal-mini', size: 'sm', centered: true }).result.then((result) => {
         this.closeResult = 'Closed with: $result';
@@ -125,7 +128,7 @@ export class NotificationsComponent implements OnInit {
         this.closeResult = 'Dismissed $this.getDismissReason(reason)';
       });
     } else {
-      this.modalService.open(content, { centered: true }).result.then((result) => {
+      this.modalService.open(content, { windowClass: 'mt-md-5', centered: true }).result.then((result) => {
         this.closeResult = 'Closed with: $result';
       }, (reason) => {
         this.closeResult = 'Dismissed $this.getDismissReason(reason)';

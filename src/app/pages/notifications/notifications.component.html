@@ -59,9 +59,9 @@
 </section>
 
 <ng-template #classic let-c="close" let-d="dismiss">
-    <div class="modal-content" style="margin-top: 93px;">
+    <div class="modal-content">
         <div class="modal-header">
-            <h6 class="modal-title" id="modal-title-default">Details</h6>
+            <h6 class="modal-title" id="modal-title-default">User Details</h6>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">×</span>
             </button>
@@ -108,8 +108,10 @@
                         <div class="card-header card-header">
                             <h3 class="card-title f-20">ATTENDEES</h3>
                         </div>
-                        <div class="card-body" *ngIf="modalEvent.attendees.length">
-                            <h4 *ngForm="let attendee of modalEvent.attendees">{{attendee.name}}</h4>
+                        <div class="card-body" style="padding:0px;" *ngIf="modalEvent.attendees.length">
+                            <ul style="padding-left: 28px; padding-top: 10px;">
+                                <li *ngFor="let attendee of modalEvent.attendees">{{attendee.name}}</li>
+                            </ul>
                         </div>
                         <div class="p-2 text-center" *ngIf="!modalEvent.attendees.length">
                             <p>
