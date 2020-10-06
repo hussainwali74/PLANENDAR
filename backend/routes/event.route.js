@@ -56,12 +56,6 @@ router.post('/create-event', (req, res, next) => {
     }
 });
 
-//@desc View event
-//@route post /api/view-event
-router.get('/view-event', (req, res, next) => {
-    console.log('view event');
-});
-
 //@desc View User created event
 //@route post /api/view-user-event
 router.get('/view-user-events', (req, res, next) => {
@@ -83,8 +77,13 @@ router.get('/view-user-events', (req, res, next) => {
 // ===========================================================================
 //             event related end points
 // ===========================================================================
+router.get('/get-event/:event_id', EventController.getEventByID)
+
 router.get('/get-event-invites', Connect.getAllUsers)
 router.post('/send-event-invites', EventController.sendEventInvites)
+router.put('/update-event/:event_id', EventController.updateEvent)
+router.post('/accept-event-invite/:event_id', EventController.acceptEventInvite)
+router.post('/reject-event-invite/:event_id', EventController.rejectEventInvite)
 
 // ===========================================================================
 

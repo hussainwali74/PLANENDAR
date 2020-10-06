@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventsService } from 'src/app/services/events.service';
 
 @Component({
@@ -11,11 +11,15 @@ import { EventsService } from 'src/app/services/events.service';
 export class CreateEventComponent implements OnInit {
   dynamicForm: FormGroup;
   submitted = false;
-  privatee: boolean = true;;
+  privatee: boolean = true;
+  event_id: string;
+  editing: boolean = false;
+  private sub: any;
   constructor(
     private formBuilder: FormBuilder,
     private eventService: EventsService,
     private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +33,28 @@ export class CreateEventComponent implements OnInit {
     });
 
     console.log('create event ')
+
+    this.sub = this.route.params.subscribe(params => {
+      console.log(params)
+      this.event_id = params['event_id']
+      console.log("this.event_id")
+      console.log(this.event_id)
+    });
+    if (this.event_id != undefined) {
+      this.eventService.getEventByID(this.event_id).subscribe(
+        (data) => {
+          console.log(data)
+          this.dynamicForm.patchValue(data['details'])
+          this.editing = true;
+        }
+      )
+    }
+
+
+  }
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+
   }
   privacityChange() {
     this.privatee = !this.privatee;
@@ -71,16 +97,31 @@ export class CreateEventComponent implements OnInit {
       return;
     }
     this.dynamicForm.value.privacity = this.dynamicForm.value.privacity ? "private" : "public";
-    this.eventService.createEvent(this.dynamicForm.value).subscribe(
-      (data) => {
-        this.onReset();
-        this.eventService.swalMsgSuccess('Event Created');
-        this.router.navigateByUrl('/events/created');
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
+
+    if (this.editing) {
+      this.eventService.updateEvent(this.dynamicForm.value, this.event_id).subscribe(
+        (data) => {
+          this.onReset();
+          this.eventService.swalMsgSuccess('Event Updated');
+          this.router.navigateByUrl('/events/created');
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    } else {
+
+      this.eventService.createEvent(this.dynamicForm.value).subscribe(
+        (data) => {
+          this.onReset();
+          this.eventService.swalMsgSuccess('Event Created');
+          this.router.navigateByUrl('/events/created');
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }
   }
   onCancel() {
     this.router.navigateByUrl('/')

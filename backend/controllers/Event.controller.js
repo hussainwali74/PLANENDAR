@@ -5,13 +5,14 @@ const FriendRequest = require('../models/request.model')
 const Notification = require('../models/notification.model')
 const EventInvite = require('../models/EventInvite.model')
 const Event = require('../models/event.model')
+
 module.exports = {
     //POST
     // /api/send-event-invites
     // send event invitation to contacts
     sendEventInvites: async (req, res) => {
-        console.log('send event invite')
-        const { event_id } = req.body.event_id;
+
+        const event_id = req.body.event_id;
         var alreadyInvited = [];
         var currentInvited = [];
         if (req.headers && req.headers.authorization) {
@@ -23,7 +24,6 @@ module.exports = {
                 console.log(e)
                 return res.status(401).send('unauthorized');
             }
-            var email = decoded.email;
 
             var eventInvite;
             var sender_id;
@@ -36,6 +36,7 @@ module.exports = {
             }
             sender_id = sender._id;
             var event;
+
             try {
                 event = await Event.findOne({ _id: req.body.event_id });
             } catch (error) {
@@ -48,14 +49,11 @@ module.exports = {
 
                 try {
                     eventInvite = await EventInvite
-                        .find({ receiver: receiver_id, event_id }).populate('receiver')
+                        .find({ receiver: receiver_id, event: event_id }).populate('receiver')
                 } catch (error) {
                     console.log('find user')
                     console.log(e)
                 }
-                console.log("============event=======================")
-                console.log(eventInvite)
-
                 try {
                     receiver = await User.findOne({ _id: receiver_id });
                 } catch (error) {
@@ -65,9 +63,9 @@ module.exports = {
 
                 if (eventInvite) {
                     if (eventInvite.length != 0) {
-                        console.log('WHEN EVENT.LENGGTH==0')
+                        console.log('WHEN EVENTinvite.LENGGTH==0')
                         console.log(eventInvite);
-                        alreadyInvited.push({ invited: eventInvite['0']['receiver']['name'] });
+                        alreadyInvited.push(eventInvite['0']['receiver']['name']);
                     } else {
 
                         const newInvite = new EventInvite({
@@ -85,27 +83,31 @@ module.exports = {
                             console.log('error in save new request')
                             console.log(error)
                         }
+
                         const newNotification = new Notification({
                             receiver: receiver_id,
                             sender: sender_id,
-                            detail: sender.name + " has invited you to an event",
-                            type: 'eventinvite'
+                            detail: sender.name + " has invited you to event: " + event.title,
+                            type: 'eventinvite',
+                            event: event._id,
                         });
+
                         newNotification.receiver = receiver;
                         newNotification.sender = sender;
+                        newNotification.event = event;
+
                         try {
                             await newNotification.save()
                         } catch (error) {
                             console.log('error in save notification')
                             console.log(error)
                         }
-                        // receiver.friendrequests.push(newfriendRequest);
                         receiver.notifications.push(newNotification);
                         receiver.eventinvites.push(newInvite);
+
                         try {
                             await receiver.save()
-                            console.log(receiver.name)
-                            currentInvited.push({ invited: receiver.name });
+                            currentInvited.push(receiver.name);
                         } catch (error) {
                             console.log('error in save receiver')
                             console.log(error)
@@ -119,24 +121,195 @@ module.exports = {
                 }
             }//END - FOR 
         }
-        console.log('\n')
-        console.log("alreadyInvited")
-        console.log(alreadyInvited)
-        console.log('\n')
-        console.log("currentInvited")
-        console.log(currentInvited)
-        console.log('\n')
+        let details = {}
+        details['alreadyinvited'] = alreadyInvited;
+        details['currentInvited'] = currentInvited;
         return res.status(200).json({
             msg: "Event Invitations Sent ",
             result: true,
-            details: null
+            details: details
         });
-
     },
 
+    updateEvent: async (req, res) => {
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization;
+            try {
+                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            // Fetch the user by id 
+            var event
+            try {
+                event = await Event.findById(req.params.event_id);
+
+            } catch (error) {
+                console.log('eventcontroller: error get event by id 147')
+                console.log(error)
+            }
+            event.title = req.body.title
+            event.date = req.body.date
+            // event.user_id = req.body.user_id
+            event.time = req.body.time
+            event.date = req.body.date
+            event.description = req.body.description
+            event.privacity = req.body.privacity
+            event.extra_fields = req.body.extra_fields
+            event.edited = true;
+            try {
+                event = await event.save();
+            } catch (error) {
+                console.log('eventcontroller: error save event 159')
+                console.log(error)
+            }
+        }
+
+        res.status(201).json({
+            result: true,
+            msg: "Event updated successfully",
+            details: event
+        })
+    },
 
     acceptEventInvite: async (req, res) => {
         console.log('acceptttt event invite')
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization;
+            var decoded;
+
+            try {
+                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+            } catch (error) {
+                console.log('error in verify jwt')
+                console.log(error)
+            }
+
+            var notification
+            var sender_id;
+            var receiver_id;
+            var event;
+            var receiver;
+            var sender;
+
+            // notification: RECEIVER IS LOGGED IN USER, HE WILL BE NOW THE SENDER FOR newNotification
+            try {
+                notification = await Notification.findById(req.body.notification_id);
+            } catch (error) {
+                console.log('error in notification findbyId')
+                console.log(error)
+            }
+            console.log("notification")
+            console.log(req.body)
+            sender_id = notification.sender;
+            receiver_id = notification.receiver;
+            try {
+                event = await Event.findById(req.params.event_id);
+            } catch (error) {
+                console.log('error in notification findbyId')
+                console.log(error)
+            }
+            notification.seen = true;
+            try {
+                await notification.save();
+            } catch (error) {
+                console.log('error in notification save')
+                console.log(error)
+            }
+
+            //now sender is : WHO SENT THE INVITE
+            //reciever is me: currently loggedin user
+
+            try {
+                sender = await User.findById(sender_id);
+            } catch (error) {
+                console.log('error in User  findById')
+                console.log(error)
+            }
+            try {
+                receiver = await User.findById(receiver_id);
+            } catch (error) {
+                console.log('error in User  findById')
+                console.log(error)
+            }
+
+            if (receiver.events.includes(req.params.event_id)) {
+                console.log(receiver)
+                return res.status(200).json({
+                    msg: "Invitation  Already Accepted",
+                    result: true,
+                    details: null
+                })
+            } else {
+                //UPDATE THE FRIEND REQUEST STATUS
+                try {
+                    await EventInvite.findOneAndUpdate({ sender: sender_id, receiver: receiver_id }, { status: "accepted" });
+                } catch (error) {
+                    console.log('error in friendrequest  findoneandupdate')
+                    console.log(error)
+                }
+                try {
+                    event.attendees.push(receiver)
+                    await event.save()
+                    //  await event.attendees.pus({ sender: sender_id, receiver: receiver_id }, { status: "accepted" });
+                } catch (error) {
+                    console.log('error in save event attendees ')
+                    console.log(error)
+                }
+
+                // ACCEPT EVENT ------ PUSH EVENT INTO receiver
+                receiver.events.push(event)
+
+                const newNotification = new Notification({
+                    sender: receiver_id,
+                    receiver: sender_id,
+                    detail: receiver.name + " accepted event invite",
+                    seen: false,
+                    type: 'normal'
+                })
+
+                newNotification.sender = receiver;
+                newNotification.receiver = sender;
+
+                try {
+                    await receiver.save();
+                } catch (error) {
+                    console.log('281 eventcontroller error in save receiver')
+                    console.log(error)
+                }
+                try {
+                    await newNotification.save();
+                } catch (error) {
+                    console.log('error in newnotification save')
+                    console.log(error)
+                }
+
+                //ADD THE NEW NOTIFICATION TO RECEIVER'S NOTIFICATIONS ARRAY
+                try {
+                    sender.notifications.push(newNotification);
+                    await sender.save();
+                    sender.save()
+
+                    return res.status(200).json({
+                        msg: "event invite accepted",
+                        result: true,
+                        details: null
+                    })
+                } catch (e) {
+                    console.log("e===========================")
+                    console.log(e)
+                    return res.status(401).send('unauthorized');
+                }
+            }
+
+        } else {
+            console.log('no headers 51 ')
+            return res.status(401).send('accept friend request unauthorized');
+        }
+    },
+
+    rejectEventInvite: async (req, res) => {
+        console.log('reject event invite')
         if (req.headers && req.headers.authorization) {
             var authorization = req.headers.authorization;
             var decoded;
@@ -149,6 +322,10 @@ module.exports = {
             var notification
             var sender_id;
             var receiver_id;
+            var event;
+            var receiver;
+            var sender;
+
             // notification: RECEIVER IS LOGGED IN USER, HE WILL BE NOW THE SENDER FOR newNotification
             try {
                 notification = await Notification.findById(req.body.notification_id);
@@ -156,8 +333,10 @@ module.exports = {
                 console.log('error in notification findbyId')
                 console.log(error)
             }
+            sender_id = notification.sender;
+            receiver_id = notification.receiver;
             try {
-                event = await Event.findById(req.body.event_id);
+                event = await Event.findById(req.params.event_id);
             } catch (error) {
                 console.log('error in notification findbyId')
                 console.log(error)
@@ -169,79 +348,83 @@ module.exports = {
                 console.log('error in notification save')
                 console.log(error)
             }
-            sender_id = notification.sender;
-            receiver_id = notification.receiver;
 
-            var sender;
-            var receiver;
+            //now sender is : WHO SENT THE INVITE
+            //reciever is me: currently loggedin user
 
             try {
-                sender = await User.findById(receiver_id);
+                sender = await User.findById(sender_id);
+            } catch (error) {
+                console.log('error in User  findById')
+                console.log(error)
+            }
+            try {
+                receiver = await User.findById(receiver_id);
             } catch (error) {
                 console.log('error in User  findById')
                 console.log(error)
             }
 
-            try {
-                receiver = await User.findById(sender_id);
-            } catch (error) {
-                console.log('error in User sender findById')
-                console.log(error)
-            }
-
-            if (sender.events.includes(req.body.event_id)) {
-                console.log(sender)
+            if (receiver.events.includes(req.params.event_id)) {
+                console.log(receiver)
                 return res.status(200).json({
                     msg: "Invitation  Already Accepted",
                     result: true,
                     details: null
                 })
             } else {
-                console.log('=-====================else')
-                var acceptedInvite;
+                var rejectedInvited;
                 //UPDATE THE FRIEND REQUEST STATUS
                 try {
-                    acceptedInvite = await EventInvite.findOneAndUpdate({ sender: sender_id, receiver: receiver_id }, { status: "accepted" });
+                    rejectedInvited = await EventInvite.findOneAndUpdate({ sender: sender_id, receiver: receiver_id }, { status: "rejected" });
                 } catch (error) {
                     console.log('error in friendrequest  findoneandupdate')
                     console.log(error)
                 }
-            }
 
-            receiver.events.push(sender)
+                // ACCEPT EVENT ------ PUSH EVENT INTO receiver
+                receiver.events.push(event)
 
-            const newNotification = new Notification({
-                sender: receiver_id,
-                receiver: sender_id,
-                detail: sender.name + " accepted your Friend Request",
-                seen: false,
-                type: 'normal'
-            })
-
-            newNotification.sender = sender;
-            newNotification.receiver = receiver;
-
-            try {
-                await newNotification.save();
-            } catch (error) {
-                console.log('error in newnotification save')
-                console.log(error)
-            }
-            //ADD THE NEW NOTIFICATION TO RECEIVER'S NOTIFICATIONS ARRAY
-            try {
-                receiver.notifications.push(newNotification);
-                await receiver.save();
-                sender.save()
-
-                return res.status(200).json({
-                    msg: "Friend Request Accepted",
-                    result: true,
-                    details: null
+                const newNotification = new Notification({
+                    sender: receiver_id,
+                    receiver: sender_id,
+                    detail: receiver.name + " rejected your event invite",
+                    seen: false,
+                    type: 'normal'
                 })
-            } catch (e) {
-                console.log("e===========================")
-                console.log(e)
-                return res.status(401).send('unauthorized');
+
+                newNotification.sender = receiver;
+                newNotification.receiver = sender;
+
+                try {
+                    await receiver.save();
+                } catch (error) {
+                    console.log('281 eventcontroller error in save receiver')
+                    console.log(error)
+                }
+                try {
+                    await newNotification.save();
+                } catch (error) {
+                    console.log('error in newnotification save')
+                    console.log(error)
+                }
+
+                //ADD THE NEW NOTIFICATION TO RECEIVER'S NOTIFICATIONS ARRAY
+                try {
+                    sender.notifications.push(newNotification);
+                    await sender.save();
+                    sender.save()
+
+                    return res.status(200).json({
+                        msg: "event invite unsubscribed",
+                        result: true,
+                        details: null
+                    })
+                } catch (e) {
+                    console.log("e===========================")
+                    console.log(e)
+                    return res.status(401).send('unauthorized');
+                }
             }
 
         } else {
@@ -250,6 +433,34 @@ module.exports = {
         }
     },
 
+    getEventByID: async (req, res) => {
+        console.log('get event by notification id')
+        console.log("req.params")
+        console.log(req.params)
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization;
+            var decoded;
+            try {
+                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+            } catch (error) {
+                console.log('error in verify jwt')
+                console.log(error)
+            }
+            var event;
+            try {
+                event = await Event.findById(req.params.event_id).populate('attendees')
+            } catch (error) {
+                console.log('error in event findbyId')
+                console.log(error)
+            }
+
+            return res.status(200).json({
+                result: true,
+                details: event,
+                msg: 'events'
+            })
+        }
+    },
     // used in : contactlists/contact
     getAllUsers: async (req, res) => {
         console.log('get all users')

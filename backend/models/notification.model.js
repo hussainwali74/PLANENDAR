@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 /**
  * Notification schema that has references to User
  */
+// event IS  FOR TRACKING WHICH EVENT THIS NOTIFICATION IS REGARDDING
 const notificationSchema = Schema(
     {
         sender: {
@@ -27,6 +28,10 @@ const notificationSchema = Schema(
         },
         type: {
             type: String,
+        },
+        event: {
+            type: Schema.Types.ObjectId,
+            ref: 'Event'
         }
     },
     {

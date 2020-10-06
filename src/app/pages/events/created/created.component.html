@@ -101,10 +101,15 @@
                             class=" full-width-btn btn btn-danger ">UNSUBSCRIBE</button>
                     </div> -->
                     <div class="col-md-6">
-                        <button mat-raised-button type="submit" class=" full-width-btn btn btn-warning ">EDIT</button>
+                        <a routerLink="/create-event/{{modalEvent._id}}" data-dismiss="modal" aria-label="Close"
+                            (click)="d('Cross click')">
+                            <button mat-raised-button type="button"
+                                class=" full-width-btn btn btn-warning ">EDIT</button>
+                        </a>
                     </div>
+
                     <div class="col-md-6">
-                        <a routerLink="/events/promotion" data-dismiss="modal" aria-label="Close"
+                        <a routerLink="/events/promotion/{{modalEvent._id}}" data-dismiss="modal" aria-label="Close"
                             (click)="d('Cross click')">
                             <button mat-raised-button type="submit"
                                 class=" full-width-btn btn btn-info ">PROMOTION</button>

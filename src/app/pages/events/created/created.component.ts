@@ -12,6 +12,7 @@ export class CreatedComponent implements OnInit {
   events: [];
   closeResult: string;
 
+
   constructor(private modalService: NgbModal,
     private eventService: EventsService,
   ) { }
@@ -26,6 +27,7 @@ export class CreatedComponent implements OnInit {
 
     })
   }
+
   open(content, type, modalDimension, event) {
     this.modalEvent = event;
     console.log(this.modalEvent)

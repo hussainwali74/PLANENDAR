@@ -159,7 +159,10 @@
                                             <tr [class.selected]="friend.selected" *ngFor=" let friend of friends"
                                                 (click)="selectEvent(friend)">
                                                 <td>
-                                                    {{friend.name}}
+                                                    {{friend.name}} <br>
+                                                    <small>
+                                                        {{friend.email}}
+                                                    </small>
                                                 </td>
                                             </tr>
                                         </tbody>

@@ -28,6 +28,7 @@ const AdminLayoutRoutes: Routes = [
             { path: 'user-profile', component: UserProfileComponent },
             { path: 'notifications', component: NotificationsComponent },
             { path: 'create-event', component: CreateEventComponent },
+            { path: 'create-event/:event_id', component: CreateEventComponent },
             { path: 'view-events', component: ViewEventsComponent },
             { path: 'calender', component: CalenderComponent },
             {
@@ -59,6 +60,10 @@ const AdminLayoutRoutes: Routes = [
                     },
                     {
                         path: 'promotion',
+                        component: PromotionComponent,
+                    },
+                    {
+                        path: 'promotion/:event_id',
                         component: PromotionComponent,
                     },
                     {

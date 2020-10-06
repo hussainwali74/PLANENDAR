@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
 const FriendRequest = require('../models/request.model')
 const Notification = require('../models/notification.model')
+const Event = require('../models/event.model');
+const EventInviteModel = require('../models/EventInvite.model');
 
 module.exports = {
     getsAllUsers: async (req, res) => {
@@ -46,9 +48,10 @@ module.exports = {
     },
 
     getNotifications: async (req, res) => {
-        console.log('get notifications')
+        console.log('get notifications 51 Profile.controller')
         if (req.headers && req.headers.authorization) {
             var authorization = req.headers.authorization;
+
             try {
                 decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
             } catch (e) {
@@ -59,11 +62,17 @@ module.exports = {
                 const user = await User.findOne({ email: email }).populate('friendrequests');
                 const receiver_id = user._id;
                 const notifications = await Notification.find({ receiver: receiver_id }).populate('sender');
-                user['notifications'] = notifications
+                const eventInvitedTo = await EventInviteModel.find({ receiver: receiver_id }).populate('event');
+                let events;
+                events = eventInvitedTo.filter(invite => { return invite['event'] })
+                let newuser = {}
+                newuser['user'] = user;
+                newuser['notifications'] = notifications;
+                newuser['events'] = events;
 
                 return res.status(200).json({
                     msg: "notifications",
-                    details: user,
+                    details: newuser,
                     result: true
                 })
             } catch (e) {

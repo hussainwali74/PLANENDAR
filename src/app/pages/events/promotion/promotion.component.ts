@@ -60,16 +60,12 @@ export class PromotionComponent implements OnInit {
   sendInvitations() {
     var selected_events = this.events.filter(e => e.selected)
     var selected_contactss = this.friends.filter(e => e.selected)
-    console.log("selected_events")
-    console.log(selected_events)
-    console.log("selected_contactss")
-    console.log(selected_contactss)
+
     let receivers = []
     selected_contactss.forEach(contact => {
       receivers.push(contact._id);
     });
-    console.log("receivers")
-    console.log(receivers)
+
     let body = {}
     body['event_id'] = selected_events[0]['_id'];
     body['receivers'] = receivers;
@@ -79,8 +75,26 @@ export class PromotionComponent implements OnInit {
     console.log('\n')
     this.eventService.sendEventInvitations(body).subscribe(
       (data) => {
-        console.log(data)
-        swal.fire("response", data['msg'], "success");
+        if (data) {
+          console.log(data)
+          if (data['details']) {
+            console.log(data['details'])
+            if (data['details']['alreadyinvited']) {
+
+              if ((data['details']['alreadyinvited']).length) {
+                console.log((data['details']['alreadyinvited']).toString())
+                let x = `Invitation already sent to these contacts: ${(data['details']['alreadyinvited']).toString()}`;
+                swal.fire("response", x, "success");
+              }
+            }
+            if (data['details']['currentInvited']) {
+              if (data['details']['currentInvited'].length) {
+                let x = 'Invitation sent to these contacts: ' + data['details']['currentInvited'].toString()
+                swal.fire("response", x, "success");
+              }
+            }
+          }
+        }
       },
       (e) => {
         console.log("error sending invitation")
@@ -88,7 +102,6 @@ export class PromotionComponent implements OnInit {
         swal.fire("response", "couldn't send invitations", "error");
       }
     )
-
-
   }
+
 }

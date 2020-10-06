@@ -13,11 +13,33 @@ export class EventsService {
     this.baseUrl = this.baseUrl + '/api/';
   }
 
+  acceptEventInvitation(event_id, notification_id) {
+    console.log("notification_id")
+    console.log(notification_id)
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + `accept-event-invite/${event_id}`;
+    return this.http.post(url, { notification_id: notification_id }, { headers })
+  }
+  rejecteEventInvitation(event_id, notification_id) {
+    console.log("notification_id")
+    console.log(notification_id)
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + `reject-event-invite/${event_id}`;
+    return this.http.post(url, { notification_id: notification_id }, { headers })
+  }
+
   createEvent(body) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'create-event';
     return this.http.post(url, JSON.stringify(body), { headers })
   }
+
+  updateEvent(body, event_id) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'update-event/' + event_id;
+    return this.http.put(url, JSON.stringify(body), { headers })
+  }
+
   sendEventInvitations(body) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'send-event-invites';
@@ -28,6 +50,13 @@ export class EventsService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'view-events';
     return this.http.get(url, { headers })
+  }
+
+  getEventByID(event_id) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'get-event/' + event_id;
+    return this.http.get(url, { headers })
+
   }
   swalMsgSuccess(title, details?: string) {
     swal.fire(title, details, "success");
