@@ -8,47 +8,48 @@
                 <div *ngIf="!show_notifications" class="card card-profile p-3">
                     <h5>No Notifications </h5>
                 </div>
-                <div class="card card-profile" *ngFor="let notification of notifications.notifications; let i = index;">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="carsd-avatar p-1">
-                                <a href="javascript:void(0)">
-                                    <img class="img" height="62px" style="margin-top: 2px; width: 85px;"
-                                        src="{{notification.sender.photo}}" />
-                                </a>
-                            </div>
+                <div [ngClass]="(notification.seen==false)?'unseen-card':'seen-card'" class="row"
+                    *ngFor="let notification of notifications.notifications; let i = index;">
+                    <div class="col-2 pl-1">
+                        <div class="carsd-avatar p-1">
+                            <a href="javascript:void(0)">
+                                <img class="img" height="35px" width="40px" style="margin-top: 2px;"
+                                    src="{{notification.sender.photo!='-'?notification.sender.photo:'./assets/img/faces/marc.jpg'}}" />
+                            </a>
                         </div>
-                        <div class="col-md-7 pl-4">
-                            <div *ngIf="notification.type == 'eventinvite'">
-                                <a href="javascript:void(0)" (click)="getEventByID(notification.event)">
-                                    <h5>{{notification.detail}} </h5>
-                                </a>
-                            </div>
-                            <div *ngIf="notification.type != 'eventinvite'">
-                                <a href="javascript:void(0)" (click)="open(classic,'' , '',notification)">
-                                    <h5>{{notification.detail}} </h5>
-                                </a>
-                            </div>
-                            <span>{{notification.sender.email}}</span>
+                    </div>
+                    <div class="col-8 pl-4">
+                        <div *ngIf="notification.type == 'eventinvite'">
+                            <a href="javascript:void(0)" (click)="getEventByID(notification.event)">
+                                {{notification.detail}}
+                            </a>
+                            <span>
+                                {{notification.sender.email}}
+                            </span>
                         </div>
-                        <div *ngIf="!notification.seen" class="col-md-3 text-center p-2">
-
-                            <div *ngIf="notification.type=='friendrequest'">
-                                <fa-icon *ngIf="!notification.seen" (click)="acceptRequest(notification._id)"
-                                    class="f f-check " [icon]="faCheck">
-                                </fa-icon>
-                                <fa-icon *ngIf="!notification.seen" (click)="cancelRequest(notification._id)"
-                                    class="f f-times" [icon]="faTimes">
-                                </fa-icon>
-                            </div>
-                            <div *ngIf="notification.type=='eventinvite'">
-                                <button (click)="open2(classic2,'' , '',notification)" style="width:86%;"
-                                    mat-raised-button type="button" class="btn btn-success btn-just-icon">
-                                    See Details
-                                    <div class="ripple-container"></div>
-                                </button>
-
-                            </div>
+                        <div *ngIf="notification.type != 'eventinvite'">
+                            <a href="javascript:void(0)" (click)="open(classic,'' , '',notification)">
+                                {{notification.detail}}
+                            </a>
+                            <span>
+                                {{notification.sender.email}}</span>
+                        </div>
+                    </div>
+                    <div *ngIf="!notification.seen" class="col-2">
+                        <div *ngIf="notification.type=='friendrequest'">
+                            <fa-icon *ngIf="!notification.seen" (click)="acceptRequest(notification._id)"
+                                class="f f-check " [icon]="faCheck">
+                            </fa-icon>
+                            <fa-icon *ngIf="!notification.seen" (click)="cancelRequest(notification._id)"
+                                class="f f-times" [icon]="faTimes">
+                            </fa-icon>
+                        </div>
+                        <div *ngIf="notification.type=='eventinvite'">
+                            <button (click)="open2(classic2,'' , '',notification)" style="width:86%;" mat-raised-button
+                                type="button" class="btn btn-success btn-just-icon">
+                                See Details
+                                <div class="ripple-container"></div>
+                            </button>
                         </div>
                     </div>
                 </div>

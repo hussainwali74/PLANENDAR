@@ -4,31 +4,26 @@
             <div class="card-header card-header-danger">
                 <h3 class="card-title">Contacts</h3>
             </div>
-            <div class="card-body" *ngFor="let user of contacts; let i=index;">
-                <div class="card card-profile">
-                    <div class="row">
-                        <div class=" col col-md-2 col-sm-3">
-                            <div class="carsd-avatar p-1">
-                                <a href="javascript:void(0)">
-                                    <img width="85px" class="img" height="62px" style="margin-top: 2px; width: 85px;"
-                                        src="{{user.photo!='-'?user.photo:'./assets/img/faces/marc.jpg'}}" />
-                                </a>
-                            </div>
-                        </div>
-                        <div class=" col col-md-7 col-sm-7">
-                            <h4 (click)="open(classic,'' , '')">{{user.name}} </h4>
-                            <span>{{user.email}}</span>
-                        </div>
-                        <div class=" col col-md-3 col-sm-2" style="padding-top: 22px;">
-                            <fa-icon (click)="sendFriendRequest(user._id)"
-                                style="margin-right: 18px; font-size: 34px;  color: green;" class="f-check"
-                                [icon]="faCheck"></fa-icon>
-                            <!-- <fa-icon style="    font-size: 34px;
-                            color: rgba(255, 0, 0, 0.568);" class="f-times" [icon]="faTimes"></fa-icon> -->
-                        </div>
+            <div class="row card-body" *ngFor="let user of contacts; let i=index;">
+                <div class="col-2">
+                    <div class="carsd-avatar p-1">
+                        <a href="javascript:void(0)">
+                            <img width="55px" class="img" height="45px" style="margin-top: 2px; "
+                                src="{{user.photo!='-'?user.photo:'./assets/img/faces/marc.jpg'}}" />
+                        </a>
                     </div>
                 </div>
-
+                <div class="col-8 ">
+                    <p (click)="open(classic,'' , '')">{{user.name}} </p>
+                    <span>{{user.email}}</span>
+                </div>
+                <div class="col-2" style="padding-top: 22px;">
+                    <fa-icon (click)="sendFriendRequest(user._id)" class="f-success f-check" [icon]="faCheck">
+                    </fa-icon>
+                    <!-- <fa-icon style="    font-size: 34px;
+                            color: rgba(255, 0, 0, 0.568);" class="f-times" [icon]="faTimes"></fa-icon> -->
+                </div>
+                <hr>
             </div>
         </div>
     </div>

@@ -84,6 +84,7 @@ router.post('/send-event-invites', EventController.sendEventInvites)
 router.put('/update-event/:event_id', EventController.updateEvent)
 router.post('/accept-event-invite/:event_id', EventController.acceptEventInvite)
 router.post('/reject-event-invite/:event_id', EventController.rejectEventInvite)
+router.post('/notification_see', EventController.notificationSeen)
 
 // ===========================================================================
 
@@ -106,7 +107,7 @@ router.get('/get-profile', ProfileController.getProfile)
 router.get('/get-notifications', ProfileController.getNotifications)
 router.put('/update-profile', ProfileController.updateProfile)
 router.put('/save-profile-pic', AuthController.saveProfilePic);
-
+router.get('/get-new-notification-count', ProfileController.getNotificationCount)
 
 // ===========================================================================
 

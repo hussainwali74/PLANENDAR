@@ -1,15 +1,42 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   baseUrl: string = environment.url
+  private notificationSource = new BehaviorSubject<number>(0);
+
+  current_notifications_count = this.notificationSource.asObservable();
+  notifications_count: number = 0;
 
   constructor(private http: HttpClient,) {
     this.baseUrl = this.baseUrl + '/api/';
+
+    // this.getNewNotificationCount().subscribe(
+    //   (data) => {
+    //     console.log(data)
+    //     this.notifications_count = data['details']
+    //     this.notificationSource.next(this.notifications_count)
+    //   }, e => console.log(e)
+    // )
+  }
+  changeNotificationCount(count: number) {
+    this.notificationSource.next(count)
+  }
+
+
+
+
+
+  getNewNotificationCount() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'get-new-notification-count';
+    return this.http.get(url, { headers })
   }
 
   createEvent(body) {

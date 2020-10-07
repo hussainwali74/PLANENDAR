@@ -20,6 +20,11 @@ export class EventsService {
     let url = this.baseUrl + `accept-event-invite/${event_id}`;
     return this.http.post(url, { notification_id: notification_id }, { headers })
   }
+  notificationSeen(notification_id) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + `notification_see`;
+    return this.http.post(url, { notification_id: notification_id }, { headers })
+  }
   rejecteEventInvitation(event_id, notification_id) {
     console.log("notification_id")
     console.log(notification_id)

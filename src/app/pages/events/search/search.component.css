@@ -5,15 +5,48 @@
     color: #fff;
     background:#11cdef;
 }
+
 .card-title{
     color:#fff;
 }
 @media (max-width: 425px){
+    .container-fluid {
+        width: 100%;
+        padding-right: 4px;
+        padding-left: 4px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    h3{
+        font-size: 0.875em;
+    }
+    .card-body{
+        padding: 0px;
+    }
     .main-content{
         margin-top: 30.6%;
         margin-left: 3px;         
     }
+    .card-header{
+        background:#11cdef;
+        text-align: center;
+        padding: 8px;
+        height: 54px;
+    }
 }
 .card-body .card {
     margin-bottom:10px;
+}
+
+@media (max-width:375px){
+    .main-content{
+        margin-top: 40%;         
+    }
+    .container-fluid {
+        width: 100%;
+        padding-right: 4px;
+        padding-left: 4px;
+        margin-right: auto;
+        margin-left: auto;
+    }
 }

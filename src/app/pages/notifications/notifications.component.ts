@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventsService } from 'src/app/services/events.service';
@@ -12,6 +12,10 @@ import { Event } from '../../models/Event.model';
   styleUrls: ['./notifications.component.css']
 })
 export class NotificationsComponent implements OnInit {
+
+  @Output() notifyEvent: EventEmitter<number> = new EventEmitter<number>();
+
+
   notifications: [] = [];
   faCheck = faCheck;
   faTimes = faTimes
@@ -23,6 +27,7 @@ export class NotificationsComponent implements OnInit {
   @ViewChild('classic2') eventModal;
 
   modalEvent: Event;
+  notifications_count: number;
 
   constructor(private modalService: NgbModal,
     private eventService: EventsService,
@@ -32,16 +37,31 @@ export class NotificationsComponent implements OnInit {
     this.getRequests();
 
   }
+  onNotify(notifications) {
+    this.notifyEvent.emit(notifications)
+  }
 
   getRequests() {
     this.userService.getNotifications().subscribe(
       (data: []) => {
-        console.log(data)
+        // console.log(data)
         this.notifications = data['details'];
 
         if (this.notifications['notifications'].length > 0) {
           this.show_notifications = true;
         }
+        let x = this.notifications['notifications'].filter(x => !x['seen']).length
+        this.userService.getNewNotificationCount().subscribe(
+          d => {
+            this.userService.changeNotificationCount(d['details']);
+            this.userService.current_notifications_count.subscribe(count => {
+              this.notifications_count = count
+            })
+            // this.userService.current_notifications_count.subscribe(count => {
+            //   this.notifications_count = count
+            // })
+          }
+        )
       }, (error) => {
         console.log(error)
       });
@@ -113,6 +133,7 @@ export class NotificationsComponent implements OnInit {
       });
   }
   open(content, type, modalDimension, modalUser) {
+    this.notificationSeen(modalUser);
     console.log(modalUser)
     this.modalUser = modalUser.sender
     if (modalDimension === 'sm' && type === 'modal_mini') {
@@ -133,6 +154,16 @@ export class NotificationsComponent implements OnInit {
       }, (reason) => {
         this.closeResult = 'Dismissed $this.getDismissReason(reason)';
       });
+    }
+  }
+  notificationSeen(notification) {
+    console.log(notification)
+    if (!notification.seen) {
+      this.eventService.notificationSeen(notification['_id']).subscribe(
+        (data) => {
+          this.getRequests();
+        }
+      )
     }
   }
   open2(content, type, modalDimension, modalUser) {

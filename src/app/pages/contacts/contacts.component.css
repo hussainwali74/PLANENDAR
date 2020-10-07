@@ -9,8 +9,56 @@
 }
 .rounded-circle{
     height: 162px;
-    }
+}
+.f-success{
+    margin-right: 18px; font-size: 34px;  color: green;
+}
 @media(max-width:425px){
+    .col-8 {
+        padding-left: 28px;
+        -webkit-box-flex: 0;
+        flex: 0 0 66.6666666667%;
+        max-width: 66.6666666667%;
+    }
+    .col-8 span {
+        font-size: 12px;
+    }
+    .f-success{
+        margin-right: 18px; font-size: 18px;  color: green;
+    }
+    .card-body{
+        -webkit-box-flex: 1;
+        flex: 1 1 auto;
+        padding: .4rem;
+        border-bottom: 1px solid rgb(175, 175, 175);
+    }
+    .row{
+        display: -webkit-box;
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0px;
+    }
+    .card-header{
+        background:#11cdef;
+        text-align: center;
+        padding: 8px;
+        height: 54px;
+    }
+    .card-profile .row{
+        padding:10px;
+    }
+    .modal-content{
+        margin-top: 118px;
+    width: 98%;
+    }
+}
+.f-check:hover{
+    cursor: pointer;
+}
+@media(max-width:370px){
+.col-2{
+    padding-left: 0px !important;
+}
     .card-profile .row{
         padding:10px;
     }

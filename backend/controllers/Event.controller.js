@@ -171,6 +171,28 @@ module.exports = {
             details: event
         })
     },
+    //post method
+    notificationSeen: async (req, res) => {
+        try {
+            notification = await Notification.findById(req.body.notification_id);
+        } catch (error) {
+            console.log('error in notification findbyId')
+            console.log(error)
+        }
+        notification.seen = true;
+        try {
+            await notification.save();
+        } catch (error) {
+            console.log('error in notification save')
+            console.log(error)
+        }
+        return res.status(200).json({
+            msg: "event invite accepted",
+            result: true,
+            details: null
+        });
+
+    },
 
     acceptEventInvite: async (req, res) => {
         console.log('acceptttt event invite')
@@ -199,6 +221,13 @@ module.exports = {
                 console.log('error in notification findbyId')
                 console.log(error)
             }
+            notification.seen = true;
+            try {
+                await notification.save();
+            } catch (error) {
+                console.log('error in notification save')
+                console.log(error)
+            }
             console.log("notification")
             console.log(req.body)
             sender_id = notification.sender;
@@ -207,13 +236,6 @@ module.exports = {
                 event = await Event.findById(req.params.event_id);
             } catch (error) {
                 console.log('error in notification findbyId')
-                console.log(error)
-            }
-            notification.seen = true;
-            try {
-                await notification.save();
-            } catch (error) {
-                console.log('error in notification save')
                 console.log(error)
             }
 

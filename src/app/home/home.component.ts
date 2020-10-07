@@ -1,11 +1,8 @@
-import { Component, OnInit, Renderer2, Inject, ElementRef, HostListener } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-
-import { Subscription } from 'rxjs/Subscription';
+import { DOCUMENT, Location } from '@angular/common';
+import { Component, ElementRef, HostListener, Inject, OnInit, Renderer2 } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
-
-import { DOCUMENT } from '@angular/common';
-import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
+import { Subscription } from 'rxjs/Subscription';
 
 var didScroll;
 var lastScrollTop = 0;
@@ -18,7 +15,7 @@ var navbarHeight = 0;
 })
 
 export class HomeComponent implements OnInit {
-
+    notifications_count: number = 0;
     private _router: Subscription;
 
     constructor(private renderer: Renderer2, private router: Router, @Inject(DOCUMENT,) private document: any, private element: ElementRef, public location: Location) { }
@@ -58,8 +55,6 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
 
-
-
         var navbar: HTMLElement = this.element.nativeElement.children[0].children[0];
         this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
             if (window.outerWidth > 991) {
@@ -80,5 +75,11 @@ export class HomeComponent implements OnInit {
         });
         this.hasScrolled();
 
+    }
+
+    receiveNotificationsEvent($event) {
+        alert('message receiver')
+        console.log($event)
+        this.notifications_count = $event;
     }
 }

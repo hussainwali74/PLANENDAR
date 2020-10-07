@@ -47,8 +47,36 @@ module.exports = {
         }
     },
 
+    getNotificationCount: async (req, res) => {
+        console.log('get new notifications count 51 Profile.controller')
+        if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization;
+            try {
+                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+            } catch (e) {
+                return res.status(401).send('unauthorized');
+            }
+            var email = decoded.email;
+            try {
+                const user = await User.findOne({ email: email }).populate('notifications');
+                let newnotifications = user.notifications.filter(x => x.seen != true)
+                console.log("\n");
+                console.log("newnotifications");
+                console.log(newnotifications.length);
+                console.log("\n");
+                return res.status(200).json({
+                    msg: "new_notifications",
+                    details: newnotifications.length,
+                    result: true
+                })
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    },
+
     getNotifications: async (req, res) => {
-        console.log('get notifications 51 Profile.controller')
+        console.log('get notifications 81 Profile.controller')
         if (req.headers && req.headers.authorization) {
             var authorization = req.headers.authorization;
 

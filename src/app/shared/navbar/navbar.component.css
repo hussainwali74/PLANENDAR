@@ -226,7 +226,32 @@ ul{
 }
 }
 
+
 @media(min-width:320px){
+    .badge{
+        font-size: 13px;
+    }
+    .navbar-expand{
+        margin-top: 8px;
+        display: inherit;
+    }
+    .navbar{
+        position: fixed !important;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        -webkit-transition: 0.6s;
+        transition: 0.6s;
+        z-index: 10000000;
+        height: 102px;
+        background: #eee;
+        bottom: 10px;
+    }
+    #notifications{
+        padding: 12.5px 0.5px 0.5px 0.5px;
+        margin-left: 6px;
+        overflow: visible;
+    }
     .nav-link.active{
         padding-bottom:5px !important;
     
@@ -265,8 +290,20 @@ ul{
     */
 }
 .navbar-transparent .navbar-nav .nav-link {
-    padding: 12.5px ;
+    padding: 10px ;
 }
+.navbar-brand {
+    
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: .875rem;
+    letter-spacing: .05px;
+
+}
+       .navbar-brand img {
+            height: 40px;
+            margin-bottom: -11px;
+        }
 }
 @media(min-width:375px){
     .nav-link.active{
@@ -305,6 +342,25 @@ ul{
 
 
 @media(min-width:425px){
+    #notifications{
+        padding: 12.5px 0.5px 0.5px 0.5px;
+        margin-left: 6px;
+        overflow: visible;
+    }
+    .badge {
+        background-color: #fe6030;
+        border-radius: 63%;
+        color: #fff;
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        min-width: 10px;
+        padding: 4px 3px;
+        text-align: center;
+        vertical-align: top;
+        white-space: nowrap;
+    }
     .navbar{
         position: fixed !important;
         top: 0px;
@@ -313,7 +369,7 @@ ul{
         -webkit-transition: 0.6s;
         transition: 0.6s;
         z-index: 10000000;
-        height: 110px;
+        height: 120px;
         background: #eee;
         bottom: 10px;
     }
@@ -354,4 +410,19 @@ ul{
     overflow: scroll;
     height: 100vh !important;
     }
+}
+
+.badge {
+    background-color: #fe6030;
+    border-radius: 63%;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    min-width: 10px;
+    padding: 4px 3px;
+    text-align: center;
+    vertical-align: top;
+    white-space: nowrap;
 }
