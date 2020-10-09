@@ -11,6 +11,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  loading:boolean = false;
 
   @ViewChild('loginRef', { static: true }) loginElement: ElementRef;
 
@@ -100,6 +101,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.loading = true;
     if (this.form.valid) {
       console.log(this.form.value);
       this.authService.login(this.form.value).subscribe(res => {

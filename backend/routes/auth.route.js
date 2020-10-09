@@ -113,6 +113,7 @@ router.post('/signup', (req, res, next) => {
         });
         //remove this line
         var emailSent = false;
+        
         user.save().then(result => {
             console.log("user saved");
             //sync email sending

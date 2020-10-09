@@ -1,4 +1,6 @@
-<main>
+
+
+  <main>
   <section class="section section-shaped section-lg">
     <div class="shape shape-style-1 bg-gradient-default">
       <span></span>
@@ -35,6 +37,19 @@
               <div class="text-center text-muted mb-4">
                 <small>Or sign in with credentials</small>
               </div>
+              <div *ngIf="loading" class="overlay">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="lds-ripple"><div></div><div></div></div> 
+                <br>  
+              </div>
+              <div *ngIf="!loading">
               <form [formGroup]="form" (ngSubmit)="login()">
                 <div class="form-group mb-3" [ngClass]="{'focused':focus===true}">
                   <div class="input-group input-group-alternative">
@@ -78,6 +93,7 @@
                   <button type="submit" class="btn btn-primary my-4">Sign in</button>
                 </div>
               </form>
+            </div>
             </div>
           </div>
           <div class="row mt-3">
