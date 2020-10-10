@@ -1,5 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* modal */
+.form-control-feedback {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  z-index: 2;
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  pointer-events: none;
+}
+/* ----------------------------------end modal ------------------------------------------  */
+
+.full-width-btn{
+  width: 100%;margin-bottom: 10px;
+}
+
+.rounded-circle{
+    height: 162px;
+}
+
+.card-title{
+  color:#fff;
+}
+.card-header{
+  color: #fff;
+  background:#11cdef !important;
+  margin-bottom: 10px !important;
+}
 
 .lds-ripple {
     display: inline-block;
@@ -37,3 +68,169 @@
       opacity: 0;
     }
   }
+
+  @media only screen and (max-width: 425px) {
+
+ 
+   .card-title{
+    font-size: 0.875em; 
+  }
+  .card-body{
+    -webkit-box-flex: 1;
+    flex: 1 1 auto;
+    padding: .4rem;
+    border-bottom: 1px solid rgb(175, 175, 175);
+  }
+  .card-header{
+    background:#11cdef;
+    text-align: center;
+    padding: 8px;
+    height: 54px;
+  }
+  .card-profile .row{
+    padding:10px;
+  }
+  .card-body{
+    padding: 0px;
+  }
+  .col-8 {
+    padding-left: 28px;
+    -webkit-box-flex: 0;
+    flex: 0 0 66.6666666667%;
+    max-width: 66.6666666667%;
+  }
+
+  .col-8 span {
+    font-size: 12px;
+  }
+
+  .container-fluidd {
+    width: 100% ;
+    padding-right: 4px ;
+    padding-left: 4px ;
+    margin-right: auto ;
+    margin-left: auto ;
+  }
+
+  .f-success{
+    margin-right: 18px;
+    font-size: 18px;
+    color: green;
+  }
+    
+  h3{
+    font-size: 0.875em;
+  }
+
+  .main-content{
+    margin-top: 30.6%;
+   }
+
+  .modal-content{
+    margin-top: 0px;
+    width: 98%;
+  }
+
+  .modal-dialog {
+    margin-top: 40% !important;
+    position: relative;
+    width: auto;
+    margin: 0.5rem;
+    pointer-events: none;
+}
+
+
+  .row{
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px;
+  } 
+
+}
+
+ 
+@media(max-width:375px){
+
+  /* --------------------------------------------------------- */
+  /*                          events pages styles              */
+  /* --------------------------------------------------------- */
+  .container-fluidd {
+    margin-top: 10px;
+      width: 100%;
+      padding-right: 4px;
+      padding-left: 4px;
+      margin-right: auto;
+      margin-left: auto;
+  }
+
+  .main-content{
+    margin-top: 33%;     
+    margin-left: 0px;    
+  }
+
+  .modal-content{
+    margin-top: 0px;
+    width: 100% !important;
+  }
+
+  
+  .modal-dialog {
+    margin-top: 35% !important;
+    position: relative;
+    width: auto;
+    margin: 0.5rem;
+    pointer-events: none;
+  }
+
+}
+
+@media(max-width:320px){
+  .card-header {
+    background: #11cdef;
+    text-align: center;
+    padding: 8px;
+    padding-top: 16px;
+    height: 54px;
+    vertical-align: center;
+    padding-top: 16px;
+  }
+
+  /* --------------------------------------------------------- */
+  /*                          events pages styles              */
+  /* --------------------------------------------------------- */
+
+  .main-content{
+    margin-top: 38%;     
+    margin-left: 0px;    
+  }
+
+
+
+}
+.f-check:hover{
+    cursor: pointer;
+}
+
+
+
+
+/* --------------------------------------------------------- */
+/*                          Helper Classes                    */
+/* --------------------------------------------------------- */
+.mt-120{
+  margin-top: 120px;
+}
+.mt-100{
+  margin-top: 100px;
+}
+.mt-20{
+  margin-top: 20px;
+}
+.mt-10{
+  margin-top: 10px;
+}
+
+/* --------------------------------------------------------- */
+/*                         End Helper                        */
+/* --------------------------------------------------------- */

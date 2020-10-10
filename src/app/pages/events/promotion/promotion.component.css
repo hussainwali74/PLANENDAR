@@ -1,6 +1,4 @@
-.main-content{
-    margin-top: 10%;
-}
+
 .selected{
     background:#f0f6f9;
     padding-top: 10px;
@@ -11,9 +9,7 @@ th, td{
 th h4{
         font-weight: 500;
 }
-.card-header{
-    background:#11cdef;
-}
+
 .arrows{
     align-content: center;
     margin-top: 62%;
@@ -24,18 +20,12 @@ th h4{
 .updown{
     display: none;
 }
-.card-header{
-    background:#11cdef;
-}
-.card-title{
-    color:#fff;
-}
-@media (max-width:1090px){
+/* @media (max-width:1090px){
     .main-content{
         margin-top: 10%;
         background: #eee;
     }
-}
+} */
 @media (max-width:425px){
     th h4{
         font-size: 15px;
@@ -54,7 +44,7 @@ th h4{
     .updown i {
         margin-left: 10px;
     }
-    .main-content{
+    /* .main-content{
         margin-top: 30.6%;
     }
     .container-fluid{
@@ -63,6 +53,6 @@ th h4{
         padding-left: 1px;
         margin-right: auto;
         margin-left: auto;
-    }
+    } */
    
 }

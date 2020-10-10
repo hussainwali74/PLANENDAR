@@ -106,6 +106,8 @@ export class LoginComponent implements OnInit {
       console.log(this.form.value);
       this.authService.login(this.form.value).subscribe(res => {
         let temp: any = res;
+      
+        this.loading = false;
         if (temp.result) {
           console.log(temp);
           localStorage.setItem('token', temp.token);
@@ -117,6 +119,7 @@ export class LoginComponent implements OnInit {
           swal.fire("Invalid Credentials", "Failed Login!", "error");
         }
       }, err => {
+        this.loading = false;
         console.log(err);
         if (err.error) {
 
@@ -132,8 +135,10 @@ export class LoginComponent implements OnInit {
 
   loginGoogle() {
     console.log('comp')
+    this.loading = true;
     this.authService.googleLogin().subscribe(
       (data) => {
+        this.loading = false;
         console.log(data)
       },
       (error) => {

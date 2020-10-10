@@ -3,61 +3,20 @@ ul li {
     width: 250px;
     text-align: center;
 }
-.form-control-feedback {
-    position: absolute;
-    top: 10px;
-    right: 0;
-    z-index: 2;
-    display: block;
-    width: 34px;
-    height: 34px;
-    line-height: 34px;
-    text-align: center;
-    pointer-events: none;
-}
-.full-width-btn{
-    width: 100%;margin-bottom: 10px;
-}
-.card-header{
-    background:#11cdef;
-}
-.card-title{
-    color:#fff;
-}
-.rounded-circle{
-    height: 162px;
-    }
+
+
 .description{
     text-align: left;
 }
-.modal-content{
-    width: 250%;
-    right: 390px;
-    margin-top: 34px;
+@media (min-width:1024px){
+        
+    .modal-content{
+        width: 250%;
+        right: 390px;
+        margin-top: 34px;
+    }
 }
+
 .link a:hover{
     color: rgb(50, 50, 93);
 }
-
-.main-content{
-    margin-top:10%;
-}
-
-@media (max-width: 1024px){
-    
-.modal-content {
-    width: 185%;
-    right: 215px;
-}
-}
-@media (max-width: 425px){
-    .main-content{
-        margin-top:30%;
-    }
-    .modal-content{
-        margin-top: 118px;
-
-        width: 100%;
-        right: auto;
-    }
-    }
