@@ -26,6 +26,15 @@ th h4{
         background: #eee;
     }
 } */
+
+@media (min-width: 576px)
+{
+
+  .d-sm-none {
+    display: block !important;
+  }
+}
+
 @media (max-width:425px){
     th h4{
         font-size: 15px;

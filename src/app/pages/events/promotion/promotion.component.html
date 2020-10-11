@@ -15,9 +15,9 @@
                     <div class="col-sm-6">
                         <div class="form-group ">
                             <div class="input-group mb-4">
-                                <input class="form-control" placeholder="Title" type="text">
+                                <input class="form-control input-sm form-control-sm" placeholder="Title" type="text">
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                    <span class="input-group-text sm-padding"><i class="ni ni-zoom-split-in"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -25,28 +25,65 @@
                     <div class="col-sm-6">
                         <div class="form-group ">
                             <div class="input-group mb-4">
-                                <input class="form-control" placeholder="Date" type="text">
+                                <input class="form-control input-sm form-control-sm" placeholder="Date" type="text">
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                    <span class="input-group-text sm-padding"><i class="ni ni-zoom-split-in"></i></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card" *ngFor="let event of events">
-                    <div class="row" [class.selected]="event.selected">
-                        <div class="col-md-6" style="text-align: left; padding-left: 23px;">
-                            <a href="javascript:void(0)" (click)="selectEvent(event)">
-                                <h4>{{event.title}}</h4>
-                            </a>
-                        </div>
-                        <div class="col-md-6" style="text-align: left; padding-left: 23px;">
-                            <h4>{{event.date}}</h4>
+                <div class="events_list" *ngIf="events">
+
+                    <div class="card event_text" *ngFor="let event of events">
+                        <div class="row" [class.selected]="event.selected">
+                            <div class="col-6" style="text-align: left; padding-left: 23px;">
+                                <a href="javascript:void(0)" (click)="selectEvent(event)">
+                                    <h4>{{event.title}}</h4>
+                                </a>
+                            </div>
+                            <div class="col-6" style="text-align: left; padding-left: 23px;">
+                                <h4>{{event.date}}</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <hr>
-                <div class="card ">
+                <div class="card d-lg-none hidden-lg ">
+                    <div class="card">
+
+                        <div class="card-header">
+                            <h4>Confirmed</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>Andrew jack</p>
+                            <p>Andrew Mik</p>
+                            <p>Andrew ike</p>
+                        </div>
+                    </div>
+                    <div class="card">
+
+                        <div class="card-header">
+                            <h4>Eliminated</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>Andrew jack</p>
+                            <p>Andrew Mik</p>
+                            <p>Andrew ike</p>
+                        </div>
+                    </div>
+                    <div class="card">
+
+                        <div class="card-header">
+                            <h4>Blocked</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>Andrew jack</p>
+                            <p>Andrew Mik</p>
+                            <p>Andrew ike</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card d-sm-none d-lg-block">
                     <table class="table border" style="text-align: center;">
                         <thead>
                             <tr>
@@ -98,9 +135,11 @@
                             <div class="col-sm-6">
                                 <div class="form-group ">
                                     <div class="input-group mb-4">
-                                        <input class="form-control" placeholder="Search" type="text">
+                                        <input class="form-control input-sm form-control-sm" placeholder="Search"
+                                            type="text">
                                         <div class="input-group-append">
-                                            <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                            <span class="input-group-text sm-padding"><i
+                                                    class="ni ni-zoom-split-in"></i></span>
                                         </div>
                                     </div>
                                 </div>

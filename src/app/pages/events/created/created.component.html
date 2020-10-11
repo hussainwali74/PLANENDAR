@@ -9,9 +9,9 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="input-group mb-4">
-                                <input class="form-control" placeholder="Title" type="text">
+                                <input class="form-control form-control-sm" placeholder="Title" type="text">
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                    <span class="input-group-text sm-padding"><i class="ni ni-zoom-split-in"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -19,33 +19,35 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="input-group mb-4">
-                                <input class="form-control" placeholder="Date" type="text">
+                                <input class="form-control form-control-sm" placeholder="Date" type="text">
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                                    <span class="input-group-text sm-padding"><i class="ni ni-zoom-split-in"></i></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card " *ngIf="events">
+                <div class="card  d-none d-sm-block " *ngIf="events">
                     <div class="row">
                         <div class="col-md-6" style="text-align: left; padding-left: 23px;">
-                            <h3>Title</h3>
+                            <h3 class="event_title ">Title</h3>
                         </div>
                         <div class="col-md-6" style="text-align: left; padding-left: 23px;">
-                            <h3>Date</h3>
+                            <h3 class="event_date">Date</h3>
                         </div>
                     </div>
                 </div>
-                <div class="card " *ngFor="let event of events">
-                    <div class="row">
-                        <div class="col-md-6" style="text-align: left; padding-left: 23px;">
-                            <a href="javascript:void(0)" (click)="open(classic,'' , '',event)">
-                                <h4>{{event.title}}</h4>
-                            </a>
-                        </div>
-                        <div class="col-md-6" style="text-align: left; padding-left: 23px;">
-                            <h4>{{event.date}}</h4>
+                <div class="events_list" *ngIf="events">
+                    <div class="card event_text " *ngFor="let event of events">
+                        <div class="row ">
+                            <div class="col-6 ">
+                                <a href="javascript:void(0)" (click)="open(classic,'' , '',event)">
+                                    <h4>{{event.title}}</h4>
+                                </a>
+                            </div>
+                            <div class="col-6 ">
+                                <h4>{{event.date}}</h4>
+                            </div>
                         </div>
                     </div>
                 </div>

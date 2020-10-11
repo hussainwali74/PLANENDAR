@@ -14,7 +14,11 @@
   pointer-events: none;
 }
 /* ----------------------------------end modal ------------------------------------------  */
-
+.event_text{
+  text-align: left;
+   padding-left: 23px;
+   font-size: 1rem;
+}
 .full-width-btn{
   width: 100%;margin-bottom: 10px;
 }
@@ -68,12 +72,43 @@
       opacity: 0;
     }
   }
-
-  @media only screen and (max-width: 425px) {
-
  
+@media only screen and (min-width: 576px) {
+  .d-sm-none{
+    display: block !important;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .d-sm-none{
+    display: block !important;
+  }
+}
+.sm-padding{
+  padding:0px 8px !important;
+}
+@media only screen and (max-width: 425px) {
+
+    input-group-text {
+      display: -webkit-box;
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      padding: 0.325rem 0.75rem !important;
+      margin-bottom: 0;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #adb5bd;
+      text-align: center;
+      white-space: nowrap;
+      background-color: #fff;
+      border: 1px solid #cad1d7;
+      border-radius: 0.25rem;
+  }
+
    .card-title{
-    font-size: 0.875em; 
+    font-size: 1.2em; 
+
   }
   .card-body{
     -webkit-box-flex: 1;
@@ -84,7 +119,6 @@
   .card-header{
     background:#11cdef;
     text-align: center;
-    padding: 8px;
     height: 54px;
   }
   .card-profile .row{
@@ -104,6 +138,13 @@
     font-size: 12px;
   }
 
+  .container {
+    width: 100% !important;
+    padding-right: 4px !important ;
+    padding-left: 4px !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+  }
   .container-fluidd {
     width: 100% ;
     padding-right: 4px ;
@@ -111,7 +152,21 @@
     margin-right: auto ;
     margin-left: auto ;
   }
-
+  .d-sm-none{
+    display: none !important;
+  }
+  .events_list .card{
+    margin-bottom: 5px;
+  }
+  .event_text{
+    text-align: left;
+     padding-left: 10px;
+     padding-top: 6px;
+     font-size: 1rem;
+  }
+.event_text h4{
+  font-size: 1rem !important;
+}
   .f-success{
     margin-right: 18px;
     font-size: 18px;
@@ -119,7 +174,7 @@
   }
     
   h3{
-    font-size: 0.875em;
+    font-size: 1.0em;
   }
 
   .main-content{
@@ -189,12 +244,17 @@
   .card-header {
     background: #11cdef;
     text-align: center;
-    padding: 8px;
-    padding-top: 16px;
+    padding-top: 0.9rem !important;
+
     height: 54px;
     vertical-align: center;
-    padding-top: 16px;
   }
+
+  .card-body {
+    -webkit-box-flex: 1;
+    flex: 1 1 auto;
+    padding: 0.6rem !important;
+}
 
   /* --------------------------------------------------------- */
   /*                          events pages styles              */
@@ -205,14 +265,14 @@
     margin-left: 0px;    
   }
 
-
-
 }
 .f-check:hover{
     cursor: pointer;
 }
 
-
+h3{
+  font-size: 1.25rem !important;
+}
 
 
 /* --------------------------------------------------------- */
@@ -229,6 +289,9 @@
 }
 .mt-10{
   margin-top: 10px;
+}
+.mb-0{
+  margin-top: 0px !important;
 }
 
 /* --------------------------------------------------------- */
