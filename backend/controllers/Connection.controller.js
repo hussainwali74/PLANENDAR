@@ -373,8 +373,8 @@ module.exports = {
             }
             //DELETE FRIENDSHIP FROM FRIEND'S END
             try {
-                me = await User.findOneAndUpdate({"_id":  myId },
-                {$pull:{'friends':friend_id}}
+                me = await User.findOneAndUpdate({"_id":  friend_id },
+                {$pull:{'friends':myId}}
                 ).exec();
             } catch (error) {
                 console.log("\n")

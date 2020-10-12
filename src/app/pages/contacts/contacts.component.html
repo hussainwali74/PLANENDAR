@@ -13,17 +13,16 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-6 font-12 ">
+                <div class="col-6 font-12 pt-3 ">
                     <p class="font-12" (click)="open(classic,'' , '')">{{user.name}} </p>
-                    <span>{{user.email}}</span>
                 </div>
                 <div *ngIf="!isFriend(user)" class="col-4 text-center"
                     [ngClass]="{'mt-3':!isFriendReqSent(user.friendrequests)}">
                     <fa-icon *ngIf="!isFriendReqSent(user.friendrequests)" (click)="sendFriendRequest(user._id)"
                         class="f-success f-check " [icon]="faCheck">
                     </fa-icon>
-                    <span *ngIf="isFriendReqSent(user.friendrequests)" (click)="cancelFriendRequest(user._id)" style="
-                        font-size: 14px; color: rgba(18, 116, 56, 0.568);">Friend request sent</span>
+                    <span *ngIf="isFriendReqSent(user.friendrequests)"
+                        style="font-size: 14px; color: rgba(18, 116, 56, 0.568);">Friend equest sent</span>
                 </div>
                 <div *ngIf="isFriend(user)" class="col-4 text-center">
                     <fa-icon (click)="unFriend(user._id)" style="

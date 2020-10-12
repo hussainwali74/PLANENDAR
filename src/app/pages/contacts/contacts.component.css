@@ -14,6 +14,9 @@
     margin-right: 18px; font-size: 34px;  color: green;
 }
 @media(max-width:425px){
+    .card-body{
+padding: 0px;
+    }
     .col-8 {
         padding-left: 28px;
         -webkit-box-flex: 0;

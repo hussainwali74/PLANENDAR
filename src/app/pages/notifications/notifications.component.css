@@ -96,7 +96,7 @@ img{
 .full-width-btn{
    width: 100%;margin-bottom: 10px;
 }
-@media (max-width: 1024px){
+@media (min-width: 1024px){
     
     .modal-content {
         width: 185%;
