@@ -33,10 +33,8 @@ module.exports = {
     },
 
     saveSocialLogin: async (req, res) => {
-        console.log("save social creds")
-        console.log('ssaving google login user data');
-        let fetchedUser;
-        let foundUser;
+         console.log('ssaving google login user data');
+         let foundUser;
         try {
             foundUser = await User.findOne({ email: req.body.email });
         } catch (error) {
@@ -74,6 +72,7 @@ module.exports = {
             return res.status(200).json({
                 msg: "Welcome to planendar",
                 token: token,
+                user: user,
                 result: true
             });
         } else if (foundUser) {
@@ -81,7 +80,7 @@ module.exports = {
                 email: foundUser.email
             };
             const token = jwt.sign(payload, process.env.EMAIL_SECRET, { expiresIn: "1h" })
-            foundUser = { email: foundUser.email, name: foundUser.name }
+            foundUser = { email: foundUser.email, name: foundUser.name,_id:foundUser._id }
             res.status(200).json({
                 msg: "Welcome Back..!!",
                 token: token,

@@ -2,7 +2,10 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user.model');
 const FriendRequest = require('../models/request.model')
-const Notification = require('../models/notification.model')
+const Notification = require('../models/notification.model');
+const { mongo } = require('mongoose');
+const Schema = mongo.Schema;
+
 
 module.exports = {
 
@@ -35,7 +38,7 @@ module.exports = {
 
     // used in : contactlists/contact
     getAllUsers: async (req, res) => {
-        console.log('get all users')
+        console.log('38: connectioncontollerget all users')
         if (req.headers && req.headers.authorization) {
             var authorization = req.headers.authorization;
             try {
@@ -48,7 +51,9 @@ module.exports = {
             var email = decoded.email;
             try {
                 // ===================================================================================
-                const users = await User.find({ email: { $ne: email } }).populate('friends')
+                //removing populate friends because need friends_idz in contactlist/contact page:
+                const users = await User.find({ email: { $ne: email } }).populate('friendrequests');
+                // const users = await User.find({ email: { $ne: email } }).populate('friends').populate('friendrequests');
                 users.map(user => {
                     user.email,
                         user.name,
@@ -56,7 +61,6 @@ module.exports = {
                         user.id
                 })
                 // ===================================================================================
-
                 return res.status(200).json({
                     msg: "all users list",
                     details: users,
@@ -73,7 +77,7 @@ module.exports = {
     },
 
     acceptFriendRequests: async (req, res) => {
-        console.log('acceptttt')
+        console.log('76: connectioncontroller: acceptttt')
         if (req.headers && req.headers.authorization) {
             var authorization = req.headers.authorization;
             var decoded;
@@ -316,6 +320,79 @@ module.exports = {
         }
     },
 
+    unFriend: async (req, res, next) => {
+        console.log('320: conn controller unfriend')
+        const friend_id  = req.body.receiver_id;
+        var friend;
+
+        try {
+            friend = await User.findOne({ _id: friend_id });
+        } catch (error) {
+            console.log('error finding friend')
+            console.log(error)
+        }
+        var authorization = req.headers.authorization;
+        if (req.headers && req.headers.authorization) {
+            decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+            var senderId;
+            var me;
+            try {
+                me = await User.findOne({ email: decoded.email });
+            } catch (error) {
+                console.log('error in finding me')
+                console.log(error)
+            }
+            myId = me._id;
+            var friendRequests;
+            try {
+                friendRequests = await FriendRequest
+                    .findOneAndDelete({ sender: myId, receiver: friend_id });
+            } catch (error) {
+
+                console.log("\n")
+                console.log('347:error in finding friend requests 196')
+                console.log(error)
+                console.log("\n")
+            }
+
+            //DELETE FRIENDSHIP FROM MY END
+            try {
+                me = await User.findOneAndUpdate({"_id":  myId },
+                {$pull:{'friends':friend_id}}
+                ).exec();
+            } catch (error) {
+                console.log("\n")
+                console.log('357:error in delete friendship ')
+                console.log(error)
+                console.log("\n")                
+                return res.status(200).json({
+                    msg: "error",
+                    result: false,
+                    error:error
+                });
+            }
+            //DELETE FRIENDSHIP FROM FRIEND'S END
+            try {
+                me = await User.findOneAndUpdate({"_id":  myId },
+                {$pull:{'friends':friend_id}}
+                ).exec();
+            } catch (error) {
+                console.log("\n")
+                console.log('357:error in delete friendship ')
+                console.log(error)
+                console.log("\n")                
+                return res.status(200).json({
+                    msg: "error",
+                    result: false,
+                    error:error
+                });
+            }
+            return res.status(200).json({
+                msg: "Friend removed ",
+                result: false
+            });
+        }
+    },
     sendFriendRequest: async (req, res, next) => {
         console.log('send friend requests')
         const { receiver_id } = req.body;
@@ -409,6 +486,48 @@ module.exports = {
 
             }
 
+        }
+    },
+    cancelFriendRequest: async (req, res, next) => {
+        console.log('415: connectioncontroller: cancel friend requests')
+        const { receiver_id } = req.body;
+        var receiver;
+
+        try {
+            receiver = await User.findOne({ _id: receiver_id });
+        } catch (error) {
+            console.log('error finding receiver')
+            console.log(error)
+        }
+        var authorization = req.headers.authorization;
+        if (req.headers && req.headers.authorization) {
+            decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+            var senderId;
+            var sender;
+            try {
+                sender = await User.findOne({ email: decoded.email });
+            } catch (error) {
+                console.log('error in finding sender')
+                console.log(error)
+            }
+            senderId = sender._id;
+            var friendRequests;
+            try {
+                friendRequests = await FriendRequest
+                    .findOneAndDelete({ sender: senderId, receiver: receiver_id });
+            } catch (error) {
+                console.log('error in finding friend requests 196')
+                console.log(error)
+                return res.status(200).json({
+                    msg: "Could not cancel the request",
+                    result: false,
+                    error:error
+                });
+            }
+            return res.status(200).json({
+                msg: "Friend Request canceled",
+                result: false
+            });   
         }
     }
 }

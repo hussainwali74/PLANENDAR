@@ -1,64 +1,62 @@
-<section class="section">
-    <div class="container">
+<div class="main-content">
+    <div class="container-fluidd">
         <div class="card">
             <div class="card-header card-header-info">
                 <h3 class="card-title">Notifications</h3>
             </div>
-            <div class="card-body">
-                <div *ngIf="!show_notifications" class="card card-profile p-3">
-                    <h5>No Notifications </h5>
-                </div>
-                <div [ngClass]="(notification.seen==false)?'unseen-card':'seen-card'" class="row"
-                    *ngFor="let notification of notifications.notifications; let i = index;">
-                    <div class="col-2 pl-1">
-                        <div class="carsd-avatar p-1">
-                            <a href="javascript:void(0)">
-                                <img class="img" height="35px" width="40px" style="margin-top: 2px;"
-                                    src="{{notification.sender.photo!='-'?notification.sender.photo:'./assets/img/faces/marc.jpg'}}" />
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-8 pl-4">
-                        <div *ngIf="notification.type == 'eventinvite'">
-                            <a href="javascript:void(0)" (click)="getEventByID(notification.event)">
-                                {{notification.detail}}
-                            </a>
-                            <span>
-                                {{notification.sender.email}}
-                            </span>
-                        </div>
-                        <div *ngIf="notification.type != 'eventinvite'">
-                            <a href="javascript:void(0)" (click)="open(classic,'' , '',notification)">
-                                {{notification.detail}}
-                            </a>
-                            <span>
-                                {{notification.sender.email}}</span>
-                        </div>
-                    </div>
-                    <div *ngIf="!notification.seen" class="col-2">
-                        <div *ngIf="notification.type=='friendrequest'">
-                            <fa-icon *ngIf="!notification.seen" (click)="acceptRequest(notification._id)"
-                                class="f f-check " [icon]="faCheck">
-                            </fa-icon>
-                            <fa-icon *ngIf="!notification.seen" (click)="cancelRequest(notification._id)"
-                                class="f f-times" [icon]="faTimes">
-                            </fa-icon>
-                        </div>
-                        <div *ngIf="notification.type=='eventinvite'">
-                            <button (click)="open2(classic2,'' , '',notification)" style="width:86%;" mat-raised-button
-                                type="button" class="btn btn-success btn-just-icon">
-                                See Details
-                                <div class="ripple-container"></div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div *ngIf="!show_notifications" class="card card-profile p-3">
+                <h5>No Notifications </h5>
+            </div>
+            <div [ngClass]="(notification.seen==false)?'unseen-card':'seen-card'" class="row card-body p-1"
+                *ngFor="let notification of notifications.notifications; let i = index;">
 
+                <div class="col-2  p-0 ">
+                    <div class="carsd-avatar">
+                        <a href="javascript:void(0)">
+                            <img class="img img-round" height="45px" width="46px" style="margin-top: 2px;"
+                                src="{{notification.sender.photo!='-'?notification.sender.photo:'./assets/img/faces/marc.jpg'}}" />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-8   p-0f-15 ">
+                    <div *ngIf="notification.type == 'eventinvite'">
+                        <a href="javascript:void(0)" (click)="getEventByID(notification.event)">
+                            {{notification.detail}}
+                        </a>
+                        <!-- <span>
+                            {{notification.sender.email}}
+                        </span> -->
+                    </div>
+                    <div *ngIf="notification.type != 'eventinvite'">
+                        <a href="javascript:void(0)" (click)="open(classic,'' , '',notification)">
+                            {{notification.detail}}
+                        </a>
+                        <!-- <span>
+                            {{notification.sender.email}}</span> -->
+                    </div>
+                </div>
+                <div *ngIf="!notification.seen" class="col-2  p-0">
+                    <div *ngIf="notification.type=='friendrequest'">
+                        <fa-icon *ngIf="!notification.seen" (click)="acceptRequest(notification._id)" class="f f-check "
+                            [icon]="faCheck">
+                        </fa-icon>
+                        <fa-icon *ngIf="!notification.seen" (click)="cancelRequest(notification._id)" class="f f-times"
+                            [icon]="faTimes">
+                        </fa-icon>
+                    </div>
+                    <div *ngIf="notification.type=='eventinvite'">
+                        <button (click)="open2(classic2,'' , '',notification)" style="width:86%;" mat-raised-button
+                            type="button" class="btn btn-success btn-just-icon">
+                            See Details
+                            <div class="ripple-container"></div>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
 
+    </div>
+</div>
 <ng-template #classic let-c="close" let-d="dismiss">
     <div class="modal-content">
         <div class="modal-header">

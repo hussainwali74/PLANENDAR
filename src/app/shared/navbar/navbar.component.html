@@ -8,26 +8,20 @@
         <li class="nav-item ">
           <a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/"
             class="nav-link no-caret">
-            <!-- <i class="f-50 fa fa-home f-home"></i> -->
-
             <fa-icon class="f-50" [icon]="faHome"></fa-icon>
 
           </a>
         </li>
         <li class="nav-item ">
           <a class="nav-link no-caret" routerLinkActive="active" routerLink="/events">
-            <!-- <i class="f-50 fa fa-calendar d-lg"></i> -->
             <fa-icon class="f-50 " [icon]="faCalender"></fa-icon>
-
           </a>
         </li>
         <li class="nav-item" style="margin-right: 0px;">
           <a id="notifications" class="nav-link no-caret" routerLinkActive="active"
             [routerLinkActiveOptions]="{exact: true}" routerLink="/notifications">
-            <!-- <i class="f-50 fa fa-bell"></i> -->
             <fa-icon class="f-50 " [icon]="faBell"></fa-icon>
             <span *ngIf="notifications_count" class="badge badge-light">{{notifications_count}}</span>
-            <!-- <span class="sr-only">unread messages</span> -->
           </a>
         </li>
         <li class="nav-item ">
@@ -45,10 +39,7 @@
       <ul class="navbar-nav align-items-lg-center ml-lg-auto">
         <li class="nav-item  d-lg-block ml-lg-4 right-menu">
           <div class="" ngbDropdown>
-            <!-- <i class="f-50 fa fa-list " id="dropdownMenuButton" ngbDropdownToggle></i> -->
             <fa-icon class="f-50 " [icon]="faList" id="dropdownMenuButton" ngbDropdownToggle></fa-icon>
-
-
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" ngbDropdownMenu>
               <a (click)="logout()" class="dropdown-item" href="javascript:void(0)">Logout</a>
             </div>

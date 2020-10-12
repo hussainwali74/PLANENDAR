@@ -22,6 +22,9 @@ export class ContactsComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getAllUsers();
+  }
+  getAllUsers(){
     this.userService.getAllUsers().subscribe(
       (data: []) => {
         console.log(data)
@@ -34,15 +37,56 @@ export class ContactsComponent implements OnInit {
     console.log('send friend request')
     this.userService.sendFriendRequest(id).subscribe(
       (data) => {
-        console.log(data)
-        swal.fire("response", data['msg'], "success");
-
+         swal.fire("response", data['msg'], "success");
+        this.getAllUsers();
       }, (error) => {
         console.log(error)
       }
     )
   }
-
+  cancelFriendRequest(id) {
+    console.log('send friend request')
+    this.userService.cancelFriendRequest(id).subscribe(
+      (data) => {
+         swal.fire("response", data['msg'], "success");
+        this.getAllUsers();
+      }, (error) => {
+        console.log(error)
+      }
+    )
+  }
+  unFriend(id) {
+     this.userService.unFriend(id).subscribe(
+      (data) => {
+        console.log(data)
+         swal.fire("response", data['msg'], "success");
+        this.getAllUsers();
+      }, (error) => {
+        console.log(error)
+      }
+    )
+  }
+  isFriendReqSent(friendReq:any[]){
+    let myId= JSON.parse(localStorage.getItem('user'))['_id']
+    let x = friendReq.filter(x=> x.sender==myId)
+    if(x.length>0){ 
+      return true
+    }else{
+      return false;
+    } 
+  }
+  isFriend(friend){
+    let myId= JSON.parse(localStorage.getItem('user'))['_id']
+    if(friend.friends){
+      if(friend.friends.length>0){
+      if(friend.friends.includes(myId)){ 
+           return true
+        }else{
+            return false;
+          } 
+          } 
+        }
+  }
 
   open(content, type, modalDimension) {
     if (modalDimension === 'sm' && type === 'modal_mini') {

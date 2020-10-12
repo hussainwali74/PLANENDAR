@@ -53,6 +53,7 @@ router.get('/logout', (req, res) => {
 
 //Login Validation with Credentials and Issue token hhh
 router.post('/login', (req, res, next) => {
+    console.log('56: authroute login')
     let fetchedUser;
     User.findOne({ email: req.body.email }).then(result => {
         if (!result) {
@@ -84,7 +85,7 @@ router.post('/login', (req, res, next) => {
                 //Secret key to issue JWT token
                 const token = jwt.sign(payload, process.env.EMAIL_SECRET, { expiresIn: "1h" });
                 //Sending Token
-                fetchedUser = { email: fetchedUser.email, name: fetchedUser.name }
+                fetchedUser = { email: fetchedUser.email, name: fetchedUser.name, _id:fetchedUser._id}
                 res.status(200).json({
                     msg: "Welcome Back..!!",
                     token: token,

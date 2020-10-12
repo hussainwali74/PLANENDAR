@@ -93,6 +93,8 @@ router.post('/notification_see', EventController.notificationSeen)
 // ===========================================================================
 router.get('/get-users', Connect.getAllUsers)
 router.post('/friend-request', Connect.sendFriendRequest)
+router.post('/cancel-friend-request', Connect.cancelFriendRequest)
+router.post('/unfriend', Connect.unFriend)
 router.get('/friend-requests', Connect.getFriendRequests)
 router.get('/get-friends', Connect.getFriends)
 router.put('/accept-friend-request', Connect.acceptFriendRequests)

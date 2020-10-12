@@ -4,24 +4,30 @@
             <div class="card-header card-header-danger">
                 <h3 class="card-title">Contacts</h3>
             </div>
-            <div class="row card-body" *ngFor="let user of contacts; let i=index;">
+            <div class="row card-body " *ngFor="let user of contacts; let i=index;">
                 <div class="col-2">
                     <div class="carsd-avatar p-1">
                         <a href="javascript:void(0)">
-                            <img width="55px" class="img" height="45px" style="margin-top: 2px; "
+                            <img width="46px" class="img" height="45px" style="margin-top: 2px; "
                                 src="{{user.photo!='-'?user.photo:'./assets/img/faces/marc.jpg'}}" />
                         </a>
                     </div>
                 </div>
-                <div class="col-8 ">
-                    <p (click)="open(classic,'' , '')">{{user.name}} </p>
+                <div class="col-6 font-12 ">
+                    <p class="font-12" (click)="open(classic,'' , '')">{{user.name}} </p>
                     <span>{{user.email}}</span>
                 </div>
-                <div class="col-2" style="padding-top: 22px;">
-                    <fa-icon (click)="sendFriendRequest(user._id)" class="f-success f-check" [icon]="faCheck">
+                <div *ngIf="!isFriend(user)" class="col-4 text-center"
+                    [ngClass]="{'mt-3':!isFriendReqSent(user.friendrequests)}">
+                    <fa-icon *ngIf="!isFriendReqSent(user.friendrequests)" (click)="sendFriendRequest(user._id)"
+                        class="f-success f-check " [icon]="faCheck">
                     </fa-icon>
-                    <!-- <fa-icon style="    font-size: 34px;
-                            color: rgba(255, 0, 0, 0.568);" class="f-times" [icon]="faTimes"></fa-icon> -->
+                    <span *ngIf="isFriendReqSent(user.friendrequests)" (click)="cancelFriendRequest(user._id)" style="
+                        font-size: 14px; color: rgba(18, 116, 56, 0.568);">Friend request sent</span>
+                </div>
+                <div *ngIf="isFriend(user)" class="col-4 text-center">
+                    <fa-icon (click)="unFriend(user._id)" style="
+                        font-size: 34px; color: rgba(255, 0, 0, 0.568);" class="f-times" [icon]="faTimes"></fa-icon>
                 </div>
                 <hr>
             </div>

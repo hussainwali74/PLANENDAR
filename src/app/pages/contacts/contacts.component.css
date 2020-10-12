@@ -59,11 +59,19 @@
 .f-check:hover{
     cursor: pointer;
 }
+img{
+    border-radius: 50%;
+}
 
 @media(max-width:375px){
     .main-content {
         margin-top: 0%;
         margin-left: 0px;
+    }
+    .card-body {
+        -webkit-box-flex: 1;
+        flex: 1 1 auto;
+        padding: 6px;
     }
     .col-2{
         padding-left: 0px !important;

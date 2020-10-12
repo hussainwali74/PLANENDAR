@@ -80,6 +80,17 @@ export class UserService {
     let url = this.baseUrl + 'friend-request';
     return this.http.post(url, { receiver_id: id }, { headers })
   }
+  cancelFriendRequest(id) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'cancel-friend-request';
+    return this.http.post(url, { receiver_id: id }, { headers })
+  }
+  unFriend(id) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'unfriend';
+    console.log('id')
+     return this.http.post(url, { receiver_id: id }, { headers })
+  }
   acceptRequest(notification_id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'accept-friend-request';

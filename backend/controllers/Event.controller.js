@@ -485,7 +485,7 @@ module.exports = {
     },
     // used in : contactlists/contact
     getAllUsers: async (req, res) => {
-        console.log('get all users')
+        console.log('488: eventcontroller get all users')
         if (req.headers && req.headers.authorization) {
             var authorization = req.headers.authorization;
             try {
@@ -506,7 +506,6 @@ module.exports = {
                         user.id
                 })
                 // ===================================================================================
-
                 return res.status(200).json({
                     msg: "all users list",
                     details: users,

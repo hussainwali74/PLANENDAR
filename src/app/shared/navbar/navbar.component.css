@@ -340,6 +340,20 @@ ul{
     }
 }
 
+.badge {
+    background-color: #fe6030;
+    border-radius: 63%;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    min-width: 10px;
+    padding: 4px 3px;
+    text-align: center;
+    vertical-align: top;
+    white-space: nowrap;
+}
 
 @media(min-width:425px){
     #notifications{
@@ -410,19 +424,18 @@ ul{
     overflow: scroll;
     height: 100vh !important;
     }
-}
-
-.badge {
-    background-color: #fe6030;
-    border-radius: 63%;
-    color: #fff;
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 1;
-    min-width: 10px;
-    padding: 4px 3px;
-    text-align: center;
-    vertical-align: top;
-    white-space: nowrap;
+    .badge {
+        background-color: #fe6030;
+        border-radius: 63%;
+        color: #fff;
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        min-width: 10px;
+        padding: 4px 6px;
+        text-align: center;
+        vertical-align: top;
+        white-space: nowrap;
+    }
 }
