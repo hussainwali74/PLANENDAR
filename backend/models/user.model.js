@@ -16,6 +16,10 @@ const userSchema = mongo.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
+    lists: [{
+        type: Schema.Types.ObjectId,
+        ref: 'List'
+    }],
     eventinvites: [{
         type: Schema.Types.ObjectId,
         ref: 'User'

@@ -9,7 +9,8 @@ const Connect = require('../controllers/Connection.controller');
 const AuthController = require('../controllers/Auth.controller')
 const EventController = require('../controllers/Event.controller');
 
-const ProfileController = require('../controllers/Profile.controller')
+const ProfileController = require('../controllers/Profile.controller');
+const ListController = require('../controllers/List.controller');
 
 require('dotenv').config()
 
@@ -87,6 +88,19 @@ router.post('/reject-event-invite/:event_id', EventController.rejectEventInvite)
 router.post('/notification_see', EventController.notificationSeen)
 
 // ===========================================================================
+
+// ===========================================================================
+//              Contact List end points
+// ===========================================================================
+router.post('/create-list', ListController.createList)
+router.post('/delete-list', ListController.deleteList)
+router.get('/get-my-lists', ListController.getMyLists)
+// router.get('/get-lists', ListController.sendEventInvites)
+// router.get('/get-list/:list_id', ListController.sendEventInvites)
+// router.put('/update-list/:list_id', ListController.sendEventInvites)
+
+// ===========================================================================
+
 
 // ===========================================================================
 //              friend requests etc

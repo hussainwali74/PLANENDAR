@@ -3,6 +3,7 @@ import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from 'src/app/services/user.service';
 import swal from 'sweetalert2';
+ 
 
 @Component({
   selector: 'app-contacts',
@@ -55,16 +56,56 @@ export class ContactsComponent implements OnInit {
       }
     )
   }
+
+
+
+  
+
+
   unFriend(id) {
-     this.userService.unFriend(id).subscribe(
-      (data) => {
-        console.log(data)
-         swal.fire("response", data['msg'], "success");
-        this.getAllUsers();
-      }, (error) => {
-        console.log(error)
+    
+    swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to unfriend this friend?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Unfriend',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.value) {
+        console.log(result.value)
+        this.userService.unFriend(id).subscribe(
+          (data) => {
+            console.log(data)
+             swal.fire("response", data['msg'], "success");
+            this.getAllUsers();
+          }, (error) => {
+            console.log(error)
+          }
+        )
+        // swal.fire(
+        //   'Deleted!',
+        //   'Your imaginary file has been deleted.',
+        //   'success'
+        // )
+      // For more information about handling dismissals please visit
+      // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === swal.DismissReason.cancel) {
+        // swal.fire(
+        //   'Cancelled',
+        //   'Your imaginary file is safe :)',
+        //   'error'
+        // )
       }
-    )
+    })
+
+
+
+
+
+
+
+     
   }
   isFriendReqSent(friendReq:any[]){
     let myId= JSON.parse(localStorage.getItem('user'))['_id']

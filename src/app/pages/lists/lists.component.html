@@ -9,20 +9,30 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="table-responsive">
-                            <span>
+                            <span *ngFor="let item of lists">
                                 <h3 style="color:rgb(95, 6, 136)">
 
-                                    <fa-icon class="f-check" [icon]="faTrasho"></fa-icon>
-
-                                    List 1 >
+                                    <fa-icon (click)="thisList( item._id)" class="f-check" [icon]="faTrasho">
+                                    </fa-icon>
+                                    {{item.name}}
                                 </h3>
                             </span>
-                            <h3 style="color:rgb(95, 6, 136)">
-                                <!-- <i class="fa fa-trash-o"></i> -->
-                                <fa-icon class="f-check" [icon]="faTrasho"></fa-icon>
 
-                                List 2
-                            </h3>
+                            <!-- <div class="form-group">
+                                <label for="list">Lists select</label>
+                                <select #t (change)="thisList(t.value)" [(ngModel)]="selected_list_name"
+                                    class="form-control" id="list">
+                                    <option style="color:rgb(95, 6, 136)" *ngFor="let item of lists"
+                                        value="{{item.name}}">
+                                        {{item.name}}
+                                    </option>
+
+                                </select>
+                                {{selected_list_name}}
+                                <fa-icon (click)="thisList(' item._id')" class=" f-check" [icon]="faTrasho"></fa-icon>
+                            </div> -->
+
+
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -142,9 +152,10 @@
                 <div class="input-group bsorder" style="padding:7px 6px;">
                     <!-- <mat-form-field> -->
                     <br>
-                    <input matInput placeholder="enter list name" value="">
+                    <input matInput [(ngModel)]="list_name" name="list_name" placeholder="enter list name" value="">
                     <!-- </mat-form-field> -->
-                    <button mat-raised-button type="submit" class="btn btn-success btn-just-icon">
+                    <button mat-raised-button type="button" (click)="createList()"
+                        class="btn btn-success btn-just-icon">
                         <fa-icon class="f-check" [icon]="faPlus"></fa-icon>
 
                         Add List
