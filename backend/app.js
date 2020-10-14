@@ -15,7 +15,7 @@ mongoose.connect('mongodb://localhost:27017/planendar', { useNewUrlParser: true,
   console.log("Connection Failed: " + error);
 });
 
-WIPE OUT DATABASE MODELS
+// WIPE OUT DATABASE MODELS
 const User = require('./models/user.model')
 User.remove({}, () => { })
 const Notification = require('./models/notification.model')
