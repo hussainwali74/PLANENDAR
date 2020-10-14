@@ -76,7 +76,7 @@ module.exports = {
             }
             let sender_id = sender._id;
             let lists;
-            lists = await  List.find({creator:sender_id });
+            lists = await  List.find({creator:sender_id }).populate('contacts');
             return res.status(200).json({
                 msg: "My Lists  ",
                 result: true,
@@ -86,6 +86,40 @@ module.exports = {
             console.log('62: list contorller')
         }
     },
+    getListDetails: async (req, res) => {
+        console.log('60 list controller get my lists')
+        console.log("req.params.list_id")
+        console.log(req.params.list_id)
+        let list_id = req.params.list_id;
+         if (req.headers && req.headers.authorization) {
+            var authorization = req.headers.authorization;
+            try {
+                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+            } catch (e) {
+                console.log('autherizing jwt')
+                console.log(e)
+                return res.status(401).send('unauthorized');
+            }
+            let sender;
+            try {
+                sender = await User.findOne({ email: decoded.email });
+            } catch (error) {
+                console.log('error in finding sender')
+                console.log(error)
+            }
+            let sender_id = sender._id;
+            let lists;
+            lists = await  List.findOne({_id:list_id, creator:sender_id }).populate('contacts');
+            return res.status(200).json({
+                msg: "My Lists  ",
+                result: true,
+                details: lists
+            });
+        }else{
+            console.log('62: list contorller')
+        }
+    },
+    
     deleteList: async (req, res) => {
         console.log('90 delete list controller get my lists')
          if (req.headers && req.headers.authorization) {
@@ -136,200 +170,86 @@ module.exports = {
             console.log('62: list contorller')
         }
     },
+ 
 
-    updateEvent: async (req, res) => {
-        if (req.headers && req.headers.authorization) {
-            var authorization = req.headers.authorization;
+    addContactsToList: async (req, res) => {
+        console.log('175: list controller addcontactstolist')
+        if (req.headers && req.headers.authorization) { 
+            var list 
+            var sender; 
+            // list: RECEIVER IS LOGGED IN USER, HE WILL BE NOW THE SENDER FOR newlist
             try {
-                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
-            } catch (e) {
-                return res.status(401).send('unauthorized');
-            }
-            // Fetch the user by id 
-            var event
-            try {
-                event = await Event.findById(req.params.event_id);
-
-            } catch (error) {
-                console.log('eventcontroller: error get event by id 147')
-                console.log(error)
-            }
-            event.title = req.body.title
-            event.date = req.body.date
-            // event.user_id = req.body.user_id
-            event.time = req.body.time
-            event.date = req.body.date
-            event.description = req.body.description
-            event.privacity = req.body.privacity
-            event.extra_fields = req.body.extra_fields
-            event.edited = true;
-            try {
-                event = await event.save();
-            } catch (error) {
-                console.log('eventcontroller: error save event 159')
-                console.log(error)
-            }
-        }
-
-        res.status(201).json({
-            result: true,
-            msg: "Event updated successfully",
-            details: event
-        })
-    },
-    //post method
-    notificationSeen: async (req, res) => {
-        try {
-            notification = await Notification.findById(req.body.notification_id);
-        } catch (error) {
-            console.log('error in notification findbyId')
-            console.log(error)
-        }
-        notification.seen = true;
-        try {
-            await notification.save();
-        } catch (error) {
-            console.log('error in notification save')
-            console.log(error)
-        }
-        return res.status(200).json({
-            msg: "event invite accepted",
-            result: true,
-            details: null
-        });
-
-    },
-
-    acceptEventInvite: async (req, res) => {
-        console.log('acceptttt event invite')
-        if (req.headers && req.headers.authorization) {
-            var authorization = req.headers.authorization;
-            var decoded;
-
-            try {
-                decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
-            } catch (error) {
-                console.log('error in verify jwt')
-                console.log(error)
-            }
-
-            var notification
-            var sender_id;
-            var receiver_id;
-            var event;
-            var receiver;
-            var sender;
-
-            // notification: RECEIVER IS LOGGED IN USER, HE WILL BE NOW THE SENDER FOR newNotification
-            try {
-                notification = await Notification.findById(req.body.notification_id);
+                list = await List.findOne({_id:req.body.list_id});
             } catch (error) {
                 console.log('error in notification findbyId')
                 console.log(error)
             }
-            notification.seen = true;
-            try {
-                await notification.save();
+            for (let i = 0; i < req.body.contacts.length; i++) {
+                const element = req.body.contacts[i];
+                try {
+                    sender = await User.findById(element);
+                } catch (error) {
+                    console.log('error in User  findById')
+                    console.log(error)
+                }
+                if(!list.contacts.includes(sender._id)){
+                    list.contacts.push(sender)
+                }
+            }
+             try {
+                await list.save();
             } catch (error) {
                 console.log('error in notification save')
                 console.log(error)
             }
-            console.log("notification")
-            console.log(req.body)
-            sender_id = notification.sender;
-            receiver_id = notification.receiver;
-            try {
-                event = await Event.findById(req.params.event_id);
-            } catch (error) {
-                console.log('error in notification findbyId')
-                console.log(error)
-            }
+            return res.status(200).json({
+                msg: "Contacts added to list",
+                result: true,
+                details: list
+            })
+        } else {
+            console.log('no headers 51 ')
+            return res.status(401).send('accept friend request unauthorized');
+        }
+    },
 
-            //now sender is : WHO SENT THE INVITE
-            //reciever is me: currently loggedin user
+    removeContactsToList: async (req, res) => {
+        console.log('217: list controller removecontactstolist')
+        if (req.headers && req.headers.authorization) { 
+            var list 
+            var sender; 
+            // list: RECEIVER IS LOGGED IN USER, HE WILL BE NOW THE SENDER FOR newlist
 
-            try {
-                sender = await User.findById(sender_id);
-            } catch (error) {
-                console.log('error in User  findById')
-                console.log(error)
-            }
-            try {
-                receiver = await User.findById(receiver_id);
-            } catch (error) {
-                console.log('error in User  findById')
-                console.log(error)
-            }
-
-            if (receiver.events.includes(req.params.event_id)) {
-                console.log(receiver)
-                return res.status(200).json({
-                    msg: "Invitation  Already Accepted",
-                    result: true,
-                    details: null
-                })
-            } else {
-                //UPDATE THE FRIEND REQUEST STATUS
+            for (let i = 0; i < req.body.contacts.length; i++) {
+                const element = req.body.contacts[i]; 
                 try {
-                    await EventInvite.findOneAndUpdate({ sender: sender_id, receiver: receiver_id }, { status: "accepted" });
+                    list = await List.findOneAndUpdate({"_id":req.body.list_id},
+                    {$pull:{'contacts':element}}
+                    ).exec();
                 } catch (error) {
-                    console.log('error in friendrequest  findoneandupdate')
+                    console.log("\n")
+                    console.log('231 list controller :error in removing from list  ')
                     console.log(error)
-                }
-                try {
-                    event.attendees.push(receiver)
-                    await event.save()
-                    //  await event.attendees.pus({ sender: sender_id, receiver: receiver_id }, { status: "accepted" });
-                } catch (error) {
-                    console.log('error in save event attendees ')
-                    console.log(error)
-                }
-
-                // ACCEPT EVENT ------ PUSH EVENT INTO receiver
-                receiver.events.push(event)
-
-                const newNotification = new Notification({
-                    sender: receiver_id,
-                    receiver: sender_id,
-                    detail: receiver.name + " accepted event invite",
-                    seen: false,
-                    type: 'normal'
-                })
-
-                newNotification.sender = receiver;
-                newNotification.receiver = sender;
-
-                try {
-                    await receiver.save();
-                } catch (error) {
-                    console.log('281 eventcontroller error in save receiver')
-                    console.log(error)
-                }
-                try {
-                    await newNotification.save();
-                } catch (error) {
-                    console.log('error in newnotification save')
-                    console.log(error)
-                }
-
-                //ADD THE NEW NOTIFICATION TO RECEIVER'S NOTIFICATIONS ARRAY
-                try {
-                    sender.notifications.push(newNotification);
-                    await sender.save();
-                    sender.save()
-
+                    console.log("\n")                
                     return res.status(200).json({
-                        msg: "event invite accepted",
-                        result: true,
-                        details: null
-                    })
-                } catch (e) {
-                    console.log("e===========================")
-                    console.log(e)
-                    return res.status(401).send('unauthorized');
+                        msg: "error",
+                        result: false,
+                        error:error
+                    });
                 }
+          
             }
-
+             try {
+                await list.save();
+            } catch (error) {
+                console.log('error in notification save')
+                console.log(error)
+            }
+            return res.status(200).json({
+                msg: "Contacts removed from list",
+                result: true,
+                details: list
+            })
         } else {
             console.log('no headers 51 ')
             return res.status(401).send('accept friend request unauthorized');

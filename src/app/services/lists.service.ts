@@ -14,6 +14,16 @@ export class ListService {
   }
 
 
+  addContactsToList(id,contacts) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'add-list-contacts';
+    return this.http.post(url, {list_id:id,contacts:contacts}, { headers })
+  }
+  removeFromSelectedList(id,contacts) {
+     let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'remove-list-contacts';
+    return this.http.post(url, {list_id:id,contacts:contacts}, { headers })
+  }
   createList(body) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'create-list';
@@ -25,9 +35,14 @@ export class ListService {
     return this.http.post(url, {list_id:body}, { headers })
   }
 
-getMyLists() {
+  getMyLists() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + 'get-my-lists';
+    return this.http.get(url, { headers })
+  }
+  getListDetails(id) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + 'get-list/'+id;
     return this.http.get(url, { headers })
   }
 

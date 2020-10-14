@@ -42,7 +42,7 @@ export class AuthService {
     window.localStorage.removeItem(this.TOKEN);
     window.localStorage.removeItem(this.REFRESH_TOKEN);
     window.localStorage.clear();
-    alert('login out')
+    // alert('login out')
     console.log('----------------------------------------------------')
     console.log('LOGGED OUT')
     console.log('----------------------------------------------------')

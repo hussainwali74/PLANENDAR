@@ -94,9 +94,11 @@ router.post('/notification_see', EventController.notificationSeen)
 // ===========================================================================
 router.post('/create-list', ListController.createList)
 router.post('/delete-list', ListController.deleteList)
+router.post('/add-list-contacts', ListController.addContactsToList)
+router.post('/remove-list-contacts', ListController.removeContactsToList)
 router.get('/get-my-lists', ListController.getMyLists)
 // router.get('/get-lists', ListController.sendEventInvites)
-// router.get('/get-list/:list_id', ListController.sendEventInvites)
+router.get('/get-list/:list_id', ListController.getListDetails)
 // router.put('/update-list/:list_id', ListController.sendEventInvites)
 
 // ===========================================================================

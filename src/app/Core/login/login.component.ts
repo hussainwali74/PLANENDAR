@@ -2,6 +2,7 @@ import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 import swal from 'sweetalert2';
 
 
@@ -26,6 +27,8 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService,
     private router: Router,
     private ngZone: NgZone,
+    private userService: UserService,
+
   ) { }
   //properties
 
@@ -76,7 +79,7 @@ export class LoginComponent implements OnInit {
         // this.router.navigate(['/']);
         this.authService.saveGoogleCreds({ email: profile.getEmail(), name: profile.getName(), image: profile.getImageUrl(), password: '12345', }).subscribe(
           (data) => {
-            console.log(data)
+            // console.log(data)
             localStorage.setItem('token', data['token']);
             localStorage.setItem('user', JSON.stringify(data['user']));
             swal.fire("Welcome Back!", "Your have successfully Logged IN! ", "success");
@@ -89,11 +92,11 @@ export class LoginComponent implements OnInit {
           },
           (error) => { console.log(error) },
         )
-        this.ngZone.run(() => {
-          console.log('navigating to  / 94')
-          this.router.navigateByUrl('/');
-          // this._router.navigate([to])
-        })
+        // this.ngZone.run(() => {
+        //   console.log('navigating to  / 94')
+        //   this.router.navigateByUrl('/');
+        //   // this._router.navigate([to])
+        // })
       }, (error) => {
         console.log(error)
         // alert(JSON.stringify(error, undefined, 2));

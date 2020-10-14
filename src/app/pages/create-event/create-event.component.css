@@ -1,4 +1,4 @@
-.main-content{
+ .main-content{
     margin-top:10%;
 }
 
@@ -15,6 +15,30 @@
     .btn{
         width: 100%;
         margin-bottom: 10px;
+    }
+
+    .row {
+        display: -webkit-box;
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0px; 
+         margin-left: 0px;
+    }
+    .col-md-12{
+        position: relative;
+        width: 100%;
+        min-height: 1px;
+         padding-right: 0px; 
+         padding-left: 0px; 
+    
+    }
+    .col-md-6{
+        position: relative;
+        width: 100%;
+        min-height: 1px;
+         padding-right: 0px; 
+         padding-left: 0px; 
+    
     }
 
 }

@@ -5,91 +5,50 @@
             <div class="card-header card-header-danger">
                 <h3 class="card-title ">Contacts Lists</h3>
             </div>
-            <div class="card-body">
+            <div class="card-body p-0">
                 <div class="row">
                     <div class="col-md-2">
-                        <div class="table-responsive">
+                        <div class="table-responsive pl-2">
                             <span *ngFor="let item of lists">
                                 <h3 style="color:rgb(95, 6, 136)">
-
                                     <fa-icon (click)="thisList( item._id)" class="f-check" [icon]="faTrasho">
                                     </fa-icon>
-                                    {{item.name}}
+                                    <span (click)="getListDetails(item._id)">
+                                        {{item.name}}
+                                    </span>
                                 </h3>
                             </span>
-
-                            <!-- <div class="form-group">
-                                <label for="list">Lists select</label>
-                                <select #t (change)="thisList(t.value)" [(ngModel)]="selected_list_name"
-                                    class="form-control" id="list">
-                                    <option style="color:rgb(95, 6, 136)" *ngFor="let item of lists"
-                                        value="{{item.name}}">
-                                        {{item.name}}
-                                    </option>
-
-                                </select>
-                                {{selected_list_name}}
-                                <fa-icon (click)="thisList(' item._id')" class=" f-check" [icon]="faTrasho"></fa-icon>
-                            </div> -->
-
+                            <span *ngIf="!lists.length">
+                                <h3> No Lists created yet</h3>
+                            </span>
 
                         </div>
                     </div>
                     <div class="col-md-6">
-
                         <div class="table-responsive">
-                            <table class="table" style="border: 1px solid #d1d1d1;
+                            <table *ngIf="selected_list" class="table" style="border: 1px solid #d1d1d1;
                             border-collapse: collapse;">
                                 <thead class=" text-primary">
                                     <th>
-                                        List 1 Contacts
+                                        {{selected_list_name}}
                                     </th>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="row">
+                                    <tr [class.selected]="item.selected"
+                                        *ngFor="let item of selected_list_contacts; let i=index;">
+                                        <td (click)="selectList(item)" class="row p-1 ">
                                             <div class="col-md-8" style="width: 60%;">
-                                                1 Dakota Rice Niger
+                                                <span>
+                                                    {{item.name}}
+                                                </span>
                                             </div>
                                             <div style="width: 40%; text-align:center;">
-                                                <img class="img" height="40px" src="./assets/img/faces/marc.jpg"
-                                                    alt="img" />
+                                                <img class="img img-round" height="40px" style="margin-top: 2px;"
+                                                    src="{{item.photo!='-'?item.photo:'./assets/img/faces/marc.jpg'}}" />
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="row">
-                                            <div class="col-md-8" style="width: 60%;">
-                                                1 Dakota Rice Niger
-                                            </div>
-                                            <div style="width: 40%; text-align:center;">
-                                                <img class="img" height="40px" src="./assets/img/faces/marc.jpg"
-                                                    alt="img" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="row">
-                                            <div class="col-md-8" style="width: 60%;">
-                                                1 Dakota Rice Niger
-                                            </div>
-                                            <div style="width: 40%; text-align:center;">
-                                                <img class="img" height="40px" src="./assets/img/faces/marc.jpg"
-                                                    alt="img" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="row">
-                                            <div class="col-md-8" style="width: 60%;">
-                                                1 Dakota Rice Niger
-                                            </div>
-                                            <div style="width: 40%; text-align:center;">
-                                                <img class="img" height="40px" src="./assets/img/faces/marc.jpg"
-                                                    alt="img" />
-                                            </div>
-                                        </td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -99,17 +58,18 @@
                             <div class="arrows">
                                 <fa-icon class="f-check" [icon]="faLeft"></fa-icon>
                                 <fa-icon class="f-check" [icon]="faRight"></fa-icon>
-                                <!-- <i class="fa fa-arrow-right"></i> -->
                             </div>
                             <div class="updown">
-                                <fa-icon class="f-check" [icon]="faUp"></fa-icon>
-                                <fa-icon class="f-check" [icon]="faDown"></fa-icon>
-                                <!-- <i class="fa fa-arrow-up"></i> -->
-                                <!-- <i class="fa fa-arrow-down"></i> -->
+                                <span (click)="addContactsTOList()">
+                                    <fa-icon class="f-check" [icon]="faUp"></fa-icon>
+                                </span>
+                                <span (click)="removeFromSelectedList()">
+                                    <fa-icon class="f-check" [icon]="faDown"></fa-icon>
+                                </span>
                             </div>
                         </span>
                     </div>
-                    <div class="col-md-3">
+                    <div *ngIf="mycontacts" class="col-md-3">
 
                         <div class="table-responsive">
                             <table class="table" style="border: 1px solid #d1d1d1;
@@ -120,24 +80,9 @@
                                     </th>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            1 Dakota Rice Niger
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            1 Dakota Rice Niger
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            1 Dakota Rice Niger
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            1 Dakota Rice Niger
+                                    <tr [class.selected]="item.selected" *ngFor="let item of mycontacts">
+                                        <td (click)="selectContact(item)">
+                                            {{item.name}}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -147,7 +92,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mh-0">
             <div class="col-md-8 offset-md-2">
                 <div class="input-group bsorder" style="padding:7px 6px;">
                     <!-- <mat-form-field> -->
