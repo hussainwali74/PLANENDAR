@@ -174,6 +174,12 @@ module.exports = {
 
     addContactsToList: async (req, res) => {
         console.log('175: list controller addcontactstolist')
+        console.log('\n')
+        console.log('\n')
+        console.log("req.body.contacts")
+        console.log(req.body.contacts)
+        console.log('\n')
+        console.log('\n')
         if (req.headers && req.headers.authorization) { 
             var list 
             var sender; 
@@ -202,6 +208,7 @@ module.exports = {
                 console.log('error in notification save')
                 console.log(error)
             }
+        
             return res.status(200).json({
                 msg: "Contacts added to list",
                 result: true,
@@ -215,6 +222,8 @@ module.exports = {
 
     removeContactsToList: async (req, res) => {
         console.log('217: list controller removecontactstolist')
+        console.log('req.body.list_id')
+        console.log(req.body.list_id)
         if (req.headers && req.headers.authorization) { 
             var list 
             var sender; 
