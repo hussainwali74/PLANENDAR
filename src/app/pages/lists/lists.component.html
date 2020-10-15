@@ -1,6 +1,15 @@
 <div class="main-content">
+    <div class="col-md-6 offset-md-3 mt-4">
+        <div class="form-group">
+            <div class="input-group ">
+                <input class="form-control form-control-sm input-sm" [(ngModel)]="term" placeholder="Title" type="text">
+                <div class="input-group-append">
+                    <span class="input-group-text sm-padding "><i class="ni ni-zoom-split-in"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluidd">
-
         <div class="card">
             <div class="card-header card-header-danger">
                 <h3 class="card-title ">Contacts Lists</h3>
@@ -9,7 +18,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="table-responsive pl-2">
-                            <span *ngFor="let item of allMylists">
+                            <span *ngFor="let item of allMylists|filter:term">
                                 <h3 style="color:rgb(95, 6, 136)">
                                     <span (click)="deleteThisList( item._id)">
                                         <fa-icon class="f-check" [icon]="faTrasho">
@@ -37,7 +46,7 @@
                                 </thead>
                                 <tbody>
                                     <tr [class.selected]="item.selected"
-                                        *ngFor="let item of selected_list_contacts; let i=index;">
+                                        *ngFor="let item of selected_list_contacts|filter:term; let i=index;">
                                         <td (click)="selectList(item)" class="row p-1 ">
                                             <div class="col-md-8" style="width: 60%;">
                                                 <span>
@@ -82,7 +91,8 @@
                                     </th>
                                 </thead>
                                 <tbody>
-                                    <tr [class.selected]="item.selected" *ngFor="let item of allMyContactsTemp">
+                                    <tr [class.selected]="item.selected"
+                                        *ngFor="let item of allMyContactsTemp |filter:term">
                                         <td (click)="selectContact(item)">
                                             {{item.name}}
                                         </td>

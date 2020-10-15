@@ -15,27 +15,29 @@
                     <div class="col-sm-6">
                         <div class="form-group ">
                             <div class="input-group mb-4">
-                                <input class="form-control input-sm form-control-sm" placeholder="Title" type="text">
+                                <input class="form-control input-sm form-control-sm" [(ngModel)]="term"
+                                    placeholder="Title" type="text">
                                 <div class="input-group-append">
                                     <span class="input-group-text sm-padding"><i class="ni ni-zoom-split-in"></i></span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                         <div class="form-group ">
                             <div class="input-group mb-4">
-                                <input class="form-control input-sm form-control-sm" placeholder="Date" type="text">
+                                <input class="form-control input-sm form-control-sm"  
+                                    placeholder="Date" type="text">
                                 <div class="input-group-append">
                                     <span class="input-group-text sm-padding"><i class="ni ni-zoom-split-in"></i></span>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="events_list" *ngIf="events">
 
-                    <div class="card event_text" *ngFor="let event of events">
+                    <div class="card event_text" *ngFor="let event of events |filter:term">
                         <div class="row" [class.selected]="event.selected">
                             <div class="col-6" style="text-align: left; padding-left: 23px;">
                                 <a href="javascript:void(0)" (click)="selectEvent(event)">
@@ -195,13 +197,14 @@
                                             </th>
                                         </thead>
                                         <tbody>
-                                            <tr [class.selected]="friend.selected" *ngFor=" let friend of friends"
+                                            <tr [class.selected]="friend.selected"
+                                                *ngFor=" let friend of friends |filter:term"
                                                 (click)="selectEvent(friend)">
                                                 <td>
                                                     {{friend.name}} <br>
-                                                    <small>
+                                                    <!-- <small>
                                                         {{friend.email}}
-                                                    </small>
+                                                    </small> -->
                                                 </td>
                                             </tr>
                                         </tbody>

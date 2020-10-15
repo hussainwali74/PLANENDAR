@@ -19,6 +19,7 @@ import { ListService } from "src/app/services/lists.service";
   styleUrls: ["./lists.component.css"],
 })
 export class ListsComponent implements OnInit {
+  term;
   faTrasho = faTrash;
   faLeft = faArrowLeft;
   faRight = faArrowRight;
