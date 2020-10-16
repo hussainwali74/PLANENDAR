@@ -21,6 +21,17 @@ export class ViewEventsComponent implements OnInit {
       (data) => {
         console.log(data);
         this.all_events = data["details"];
+        this.all_events.sort(function (a, b) {
+          let date1 = new Date(a.date);
+          let date2 = new Date(b.date);
+          if (date1 > date2) return 1;
+          if (date1 < date2) return -1;
+        });
+        // this.all_events.sort(function (a, b) {
+        //   // Turn your strings into dates, and then subtract them
+        //   // to get a value that is either negative, positive, or zero.
+        //   return new Date(a.date) - new Date(b.date);
+        // });
       },
       (e) => {
         console.log(e);
