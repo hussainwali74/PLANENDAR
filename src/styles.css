@@ -324,7 +324,23 @@ h3{
 .p-0{
   padding: 0px !important;
 }
-
+@media (max-width:320px){
+  .p-sm-0{
+    padding: 0px !important;
+  }
+  .pl-sm-0{
+    padding-left: 0px !important;
+  }
+  .pr-sm-0{
+    padding-right: 0px !important;
+  }
+  .pt-sm-0{
+    padding-top: 0px !important;
+  }
+  .pb-sm-0{
+    padding-top: 0px !important;
+  }
+}
 /* --------------------------------------------------------- */
 /*                         End Helper                        */
 /* --------------------------------------------------------- */

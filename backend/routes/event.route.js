@@ -14,48 +14,6 @@ const ListController = require("../controllers/List.controller");
 
 require("dotenv").config();
 
-//@desc Create event
-//@route post /api/create-event
-router.post("/create-event", (req, res, next) => {
-  if (req.headers && req.headers.authorization) {
-    var authorization = req.headers.authorization;
-    try {
-      decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
-    } catch (e) {
-      return res.status(401).send("unauthorized");
-    }
-    var email = decoded.email;
-    // Fetch the user by id
-    User.findOne({ email: email }).then(function (user) {
-      // Do something with the user
-      const event = new Event({
-        title: req.body.title,
-        date: req.body.date,
-        user_id: user._id,
-        time: req.body.time,
-        description: req.body.description,
-        privacity: req.body.privacity,
-        extra_fields: req.body.extra_fields,
-      });
-      event.save().then((result) => {
-        if (!result) {
-          return res.status(401).json({
-            msg: "Could not create the event Please try again",
-            result: "false",
-          });
-        }
-        res.status(201).json({
-          result: true,
-          msg: "Event Created successfully",
-          details: result,
-        });
-      });
-    });
-  } else {
-    console.log("no headers 51 ");
-  }
-});
-
 //@desc View User created event
 //@route post /api/view-user-event
 router.get("/view-user-events", (req, res, next) => {
@@ -77,6 +35,7 @@ router.get("/view-user-events", (req, res, next) => {
 // ===========================================================================
 //             event related end points
 // ===========================================================================
+router.post("/create-event", EventController.createEvent);
 router.get("/get-event/:event_id", EventController.getEventByID);
 router.get("/get-all-events", EventController.getAllEvents);
 router.get("/get-event-invites", Connect.getAllUsers);

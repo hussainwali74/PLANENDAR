@@ -63,11 +63,11 @@ export class EventsService {
     return this.http.post(url, JSON.stringify(body), { headers });
   }
 
-  getAllEvents() {
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + "view-events";
-    return this.http.get(url, { headers });
-  }
+  // getAllEvents() {
+  //   let headers = new HttpHeaders().set("Content-Type", "application/json");
+  //   let url = this.baseUrl + "view-events";
+  //   return this.http.get(url, { headers });
+  // }
 
   getAllPublicEvents() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");

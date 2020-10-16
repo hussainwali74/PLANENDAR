@@ -28,8 +28,15 @@ export class ContactsComponent implements OnInit {
   getAllUsers() {
     this.userService.getAllUsers().subscribe(
       (data: []) => {
-        console.log(data);
+        data["details"].forEach((element) => {
+          element.rank = 0;
+        });
+
         this.contacts = data["details"];
+        console.log(this.contacts);
+        this.contacts.forEach((element) => {
+          this.isFriend(element);
+        });
       },
       (error) => {
         console.log(error);
@@ -104,6 +111,10 @@ export class ContactsComponent implements OnInit {
     if (friend.friends) {
       if (friend.friends.length > 0) {
         if (friend.friends.includes(myId)) {
+          friend.rank = 1;
+          this.contacts.sort(function (a, b) {
+            return b["rank"] - a["rank"];
+          });
           return true;
         } else {
           return false;

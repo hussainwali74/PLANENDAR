@@ -7,6 +7,56 @@ const EventInvite = require("../models/EventInvite.model");
 const Event = require("../models/event.model");
 
 module.exports = {
+  //@desc Create event
+  //@route post /api/create-event
+  createEvent: async (req, res) => {
+    if (req.headers && req.headers.authorization) {
+      var authorization = req.headers.authorization;
+      try {
+        decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+      } catch (e) {
+        return res.status(401).send("unauthorized");
+      }
+      var email = decoded.email;
+      // Fetch the user by id
+      var user;
+      try {
+        user = await User.findOne({ email: email });
+      } catch (error) {
+        console.log("33: event route: error createevent");
+        console.log(error);
+      }
+      const event = new Event({
+        title: req.body.title,
+        date: req.body.date,
+        user_id: user._id,
+        creator: user._id,
+        time: req.body.time,
+        description: req.body.description,
+        privacity: req.body.privacity,
+        extra_fields: req.body.extra_fields,
+      });
+      event.creator = user;
+      try {
+        await event.save();
+      } catch (error) {
+        console.log("error in save new event");
+        console.log(error);
+        return res.status(401).json({
+          msg: "Could not create the event Please try again",
+          result: "false",
+        });
+      }
+      res.status(201).json({
+        result: true,
+        msg: "Event Created successfully",
+        details: event,
+      });
+    } else {
+      console.log("no headers 51 ");
+    }
+  },
+
   //POST
   // /api/send-event-invites
   // send event invitation to contacts
@@ -473,9 +523,10 @@ module.exports = {
       }
       var events;
       try {
-        events = await Event.find({ privacity: "public" }).populate(
-          "attendees"
-        );
+        events = await Event.find({ privacity: "public" })
+          .populate("attendees")
+          .populate("creator")
+          .populate("user_id");
       } catch (error) {
         console.log("error in event findbyId");
         console.log(error);
