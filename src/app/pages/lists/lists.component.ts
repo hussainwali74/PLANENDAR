@@ -42,6 +42,7 @@ export class ListsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.selected_list_id = localStorage.getItem("selected_list_id");
     this.getMyLists();
     this.getAllMyContacts();
   }
@@ -50,10 +51,8 @@ export class ListsComponent implements OnInit {
     this.allMyContacts = [];
     this.eventService.getUserContacts().subscribe(
       (data) => {
-        console.log("allmycontacts");
         this.allMyContactsTemp = this.allMyContacts =
           data["details"]["friends"];
-        console.log(this.allMyContacts);
       },
       (error) => {
         console.log("error");
@@ -169,6 +168,7 @@ export class ListsComponent implements OnInit {
 
   setSelectedListName(id) {
     this.selected_list_id = id;
+    localStorage.setItem("selected_list_id", this.selected_list_id);
     let x = this.allMylists.find((x) => x["_id"] == id);
     this.selected_list_name = x["name"];
   }
@@ -216,9 +216,18 @@ export class ListsComponent implements OnInit {
           this.allMylists = data["details"];
           this.selected_list_name = this.allMylists["0"]["name"];
           if (!this.selected_list_id) {
-            this.selected_list_id = this.allMylists["0"]["_id"];
+            console.log('localStorage.getItem("selected_list_id")');
+            console.log(localStorage.getItem("selected_list_id"));
+            if (!localStorage.getItem("selected_list_id")) {
+              this.selected_list_id = this.allMylists["0"]["_id"];
+            } else {
+              this.selected_list_id = localStorage.getItem("selected_list_id");
+            }
             this.getListDetails(this.selected_list_id);
+          } else {
+            this.selected_list_id = localStorage.getItem("selected_list_id");
           }
+          this.getListDetails(this.selected_list_id);
         }
       },
       (error) => {
