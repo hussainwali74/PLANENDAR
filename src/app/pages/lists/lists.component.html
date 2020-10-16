@@ -89,12 +89,19 @@
                                     <th>
                                         Contacts
                                     </th>
+                                    <th></th>
                                 </thead>
                                 <tbody>
                                     <tr [class.selected]="item.selected"
                                         *ngFor="let item of allMyContactsTemp |filter:term">
                                         <td (click)="selectContact(item)">
                                             {{item.name}}
+                                        </td>
+                                        <td>
+                                            <img width="46px" class="img img-round" height="45px"
+                                                style="margin-top: 2px; "
+                                                src="{{item.photo!='-'?item.photo:'./assets/img/faces/marc.jpg'}}" />
+
                                         </td>
                                     </tr>
                                 </tbody>
