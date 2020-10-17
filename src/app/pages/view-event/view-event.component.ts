@@ -10,7 +10,7 @@ import { Event } from "../../models/Event.model";
 export class ViewEventsComponent implements OnInit {
   closeResult: string;
   all_events: Event[] = [];
-
+  term;
   constructor(
     private modalService: NgbModal,
     private eventService: EventsService

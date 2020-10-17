@@ -12,7 +12,7 @@ export class CreatedComponent implements OnInit {
   events: [];
   closeResult: string;
 
-
+term;
   constructor(private modalService: NgbModal,
     private eventService: EventsService,
   ) { }

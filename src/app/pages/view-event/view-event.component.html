@@ -9,27 +9,8 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <div class="input-group mb-2">
-                                <input class="form-control form-control-sm" placeholder="Title" type="text">
-                                <div class="input-group-append">
-                                    <span class="input-group-text sm-padding"><i class="ni ni-zoom-split-in"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <div class="input-group mb-2">
-                                <input class="form-control form-control-sm" placeholder="Date" type="text">
-                                <div class="input-group-append">
-                                    <span class="input-group-text sm-padding"><i class="ni ni-zoom-split-in"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <div class="input-group ">
-                                <input class="form-control form-control-sm" placeholder="Author" type="text">
+                                <input class="form-control form-control-sm" [(ngModel)]="term" placeholder="Title"
+                                    type="text">
                                 <div class="input-group-append">
                                     <span class="input-group-text sm-padding"><i class="ni ni-zoom-split-in"></i></span>
                                 </div>
@@ -49,7 +30,7 @@
                     </div>
                 </div>
                 <div class="events_list">
-                    <div class=" card event_text " *ngFor="let item of all_events">
+                    <div class=" card event_text " *ngFor="let item of all_events |filter:term">
                         <div class="row ">
                             <div class="col-4 " style="text-align: center ">
                                 <h4 class="link font-12 " (click)="open(classic,'' , '')">
