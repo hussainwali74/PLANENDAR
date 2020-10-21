@@ -78,7 +78,6 @@
                                                     <div *ngIf="f.title.errors.required">Number of tickets is
                                                         required</div>
                                                 </div>
-
                                             </div>
                                             <div class="col-md-6">
                                                 <br>
@@ -91,31 +90,30 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-md-12">
-                                    <br>
-                                    <br>
                                     <span class="clearfix"></span>
-                                    Privacity : {{privatee?"Private":"Public"}} <br>
+                                    Privacity : {{privatee?"Public":"Private"}} <br>
                                     <span>
                                         <label class="custom-toggle">
                                             <input (change)="privacityChange()" type="checkbox"
-                                                formControlName="privacity" checked="true">
+                                                formControlName="privacity">
                                             <span class="custom-toggle-slider rounded-circle"></span>
                                         </label>
                                     </span>
 
                                 </div>
                             </div>
-                            <br>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div *ngIf="!editing" class="col-md-4">
                                     <button mat-raised-button type="submit" class="btn btn-info pull-right">
                                         CREATE</button>
+                                </div>
+                                <div *ngIf="editing" class="col-md-4">
+                                    <button mat-raised-button type="submit" class="btn btn-info pull-right">
+                                        UPDATE</button>
                                 </div>
                                 <div class="col-md-4">
                                     <button mat-raised-button type="button" (click)="onCancel()"

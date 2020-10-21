@@ -18,9 +18,9 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-8   p-0f-15 ">
+                <div class="col-7   p-0f-15 ">
                     <div *ngIf="notification.type == 'eventinvite'">
-                        <a href="javascript:void(0)" (click)="getEventByID(notification.event)">
+                        <a href="javascript:void(0)" (click)="getEventByID(notification.event,notification._id)">
                             {{notification.detail}}
                         </a>
                         <!-- <span>
@@ -35,7 +35,7 @@
                             {{notification.sender.email}}</span> -->
                     </div>
                 </div>
-                <div *ngIf="!notification.seen" style="max-width: 11.666667%;" class="col-2  p-0">
+                <div *ngIf="!notification.seen" class="col-2  p-0">
                     <div *ngIf="notification.type=='friendrequest'">
                         <fa-icon *ngIf="!notification.seen" (click)="acceptRequest(notification._id)" class="f f-check "
                             [icon]="faCheck">
@@ -44,9 +44,9 @@
                             [icon]="faTimes">
                         </fa-icon>
                     </div>
-                    <div *ngIf="notification.type=='eventinvite'">
-                        <button (click)="open2(classic2,'' , '',notification)" style="width:86%;" mat-raised-button
-                            type="button" class="btn btn-success btn-just-icon">
+                    <div id="seedetails" *ngIf="notification.type=='eventinvite'">
+                        <button (click)="open2(classic2,'' , '',notification)" mat-raised-button type="button"
+                            class="btn btn-success btn-just-icon">
                             See Details
                             <div class="ripple-container"></div>
                         </button>
@@ -57,8 +57,8 @@
 
     </div>
 </div>
-<ng-template #classic let-c="close" let-d="dismiss">
-    <div class="modal-content">
+<ng-template id="modal-content" #classic let-c="close" let-d="dismiss">
+    <div class="modal-content w-80">
         <div class="modal-header">
             <h6 class="modal-title" id="modal-title-default">User Details</h6>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
@@ -121,32 +121,36 @@
                 </div>
                 <div class="col-md-7 row texst-center">
                     <div class="col-md-6">
-                        <h4>{{modalEvent.title}}</h4>
+                        <strong>{{modalEvent.title}}</strong>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 lh-1">
                         <p>{{modalEvent.date}}</p>
                         <p>{{modalEvent.time}}</p>
                     </div>
                     <hr>
                     <div class="col-md-12">
-                        <h5>Description </h5>
-
+                        <strong>Description </strong>
                         <div class="description">
                             <p>{{modalEvent.description}}</p>
                         </div>
                     </div>
-                    <div *ngIf="!dontshowbuttons" class="col-md-12">
+                    <div *ngIf="modalEvent.extra_fields.length" class="col-md-12">
+                        <!-- <h5>Extra Fields </h5>  -->
+                        <div class="description" *ngFor="let item of modalEvent.extra_fields">
+                            <strong>{{item.title}}</strong>
+                            <p>{{item.description}}</p>
+                        </div>
+                    </div>
+                    <div *ngIf="showIamIn" class="col-md-12">
                         <button mat-raised-button type="button" (click)="acceptInvitations(modalEvent._id)"
                             class=" full-width-btn btn btn-success ">I'm In</button>
                     </div>
 
-                    <div *ngIf="!dontshowbuttons" class="col-md-12">
+                    <div *ngIf="showUnsubButton" class="col-md-12">
                         <button mat-raised-button type="button" (click)="rejectInvitations(modalEvent._id)"
                             class=" full-width-btn btn btn-warning ">Unsubscribe</button>
                     </div>
-
                 </div>
-
             </div>
         </div>
 

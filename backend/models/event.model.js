@@ -1,28 +1,37 @@
-const mongo = require('mongoose');
-const uniqueValidater = require('mongoose-unique-validator');
+const mongo = require("mongoose");
+const uniqueValidater = require("mongoose-unique-validator");
 const Schema = mongo.Schema;
-const eventSchema = mongo.Schema({
-    "title": { type: String },
-    "user_id": { type: String },
-    "date": { type: String },
-    "time": { type: String },
-    "description": { type: String },
-    "privacity": { type: String },
+const eventSchema = mongo.Schema(
+  {
+    title: { type: String },
+    user_id: { type: String },
+    date: { type: String },
+    time: { type: String },
+    description: { type: String },
+    privacity: { type: String },
     edited: { type: Boolean, default: false },
-    "extra_fields": [],
-    attendees: [{
+    extra_fields: [],
+    attendees: [
+      {
         type: Schema.Types.ObjectId,
-        ref: 'User'
-    }],
+        ref: "User",
+      },
+    ],
     creator: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
-},
+    invitees: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+  },
 
-    {
-        timestamps: true,
-    }
+  {
+    timestamps: true,
+  }
 );
 eventSchema.plugin(uniqueValidater);
-module.exports = mongo.model('Event', eventSchema);
+module.exports = mongo.model("Event", eventSchema);

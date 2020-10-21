@@ -103,6 +103,36 @@ img{
         right: 215px;
     }
 }
+@media (max-width: 425px){
+    #modal-content {
+        width: 84.5% !important;
+        right: 0px;
+    }
+    .modal-dialog {
+        width: 84.5% !important;
+        right: 0px;
+    }
+    .w-80{
+        width: 84.5% !important;
+    }
+
+    #seedetails .btn{
+        height: 22px;
+        margin-top: 15px;
+        font-size: 10px;
+      padding: 0px 5px;
+    }
+    .col-7{
+        position: relative;
+        width: 100%;
+        min-height: 1px;
+        padding-right: 1px; 
+        padding-left: 1px;
+    }
+    .modal-body{
+        padding: 5px;
+    }
+}
 /* 
 @media (max-width: 425px){
     .row{

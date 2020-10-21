@@ -303,6 +303,9 @@ h3{
   margin-left: 0px !important;
   margin-right: 0px !important;
 }
+.lh-1{
+  line-height: 1.0;
+}
 .font-12{
   font-size: 12px !important;
 }

@@ -18,6 +18,28 @@ ul li {
         width: 100%;
         right: 0px;
     }
+    .row {
+        display: -webkit-box;
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 0px; 
+        margin-left: 0px;
+    }
+    .events_list{
+        width: 100%;
+    }
+    .modal-body{
+        padding: 0px;
+        padding-top: 7px;
+    }
+    .modal-body p {
+        font-size: 1rem;
+        font-weight: 300;
+        line-height: 1.1;
+        margin: 0px;
+        padding: 4px 0px;
+
+    }
 }
     /* @media (max-width: 425px){
         .main-content{

@@ -1,202 +1,299 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EventsService } from 'src/app/services/events.service';
-import { UserService } from 'src/app/services/user.service';
-import swal from 'sweetalert2';
-import { Event } from '../../models/Event.model';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Output,
+  EventEmitter,
+} from "@angular/core";
+import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { EventsService } from "src/app/services/events.service";
+import { UserService } from "src/app/services/user.service";
+import swal from "sweetalert2";
+import { Event } from "../../models/Event.model";
 
 @Component({
-  selector: 'app-notifications',
-  templateUrl: './notifications.component.html',
-  styleUrls: ['./notifications.component.css']
+  selector: "app-notifications",
+  templateUrl: "./notifications.component.html",
+  styleUrls: ["./notifications.component.css"],
 })
 export class NotificationsComponent implements OnInit {
-
   @Output() notifyEvent: EventEmitter<number> = new EventEmitter<number>();
-
 
   notifications: [] = [];
   faCheck = faCheck;
-  faTimes = faTimes
+  faTimes = faTimes;
   closeResult: string;
-  dontshowbuttons: boolean;
+  showIamIn: boolean;
   modalUser: any;
   show_notifications: boolean = false;
   notification_id: any;
-  @ViewChild('classic2') eventModal;
+  @ViewChild("classic2") eventModal;
 
   modalEvent: Event;
   notifications_count: number;
+  reject_noti_id: any;
+  showUnsubButton: boolean = false;
 
-  constructor(private modalService: NgbModal,
+  constructor(
+    private modalService: NgbModal,
     private eventService: EventsService,
-    private userService: UserService,) { }
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.getRequests();
-
   }
   onNotify(notifications) {
-    this.notifyEvent.emit(notifications)
+    this.notifyEvent.emit(notifications);
   }
 
   getRequests() {
     this.userService.getNotifications().subscribe(
       (data: []) => {
         // console.log(data)
-        this.notifications = data['details'];
+        this.notifications = data["details"];
 
-        if (this.notifications['notifications'].length > 0) {
+        if (this.notifications["notifications"].length > 0) {
           this.show_notifications = true;
         }
-        let x = this.notifications['notifications'].filter(x => !x['seen']).length
-        this.userService.getNewNotificationCount().subscribe(
-          d => {
-            this.userService.changeNotificationCount(d['details']);
-            this.userService.current_notifications_count.subscribe(count => {
-              this.notifications_count = count
-            })
-            // this.userService.current_notifications_count.subscribe(count => {
-            //   this.notifications_count = count
-            // })
-          }
-        )
-      }, (error) => {
-        console.log(error)
-      });
+        let x = this.notifications["notifications"].filter((x) => !x["seen"])
+          .length;
+        this.userService.getNewNotificationCount().subscribe((d) => {
+          this.userService.changeNotificationCount(d["details"]);
+          this.userService.current_notifications_count.subscribe((count) => {
+            this.notifications_count = count;
+          });
+          // this.userService.current_notifications_count.subscribe(count => {
+          //   this.notifications_count = count
+          // })
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
-  getEventByID(eventid) {
+  getEventByID(eventid, notification_id) {
+    this.reject_noti_id = notification_id;
+    this.notification_id = notification_id;
     this.eventService.getEventByID(eventid).subscribe(
       (data) => {
-        console.log(data)
-        this.dontshowbuttons = true;
-        this.modalEvent = data['details']
-        this.open(this.eventModal, '', '', '')
+        console.log(data);
+        this.showIamIn = true;
+        this.modalEvent = data["details"];
+        this.checkRejectedEvent(data["details"]["_id"]);
+        this.showIamInbtn(data["details"]["_id"]);
+        this.open(this.eventModal, "", "", "");
       },
       (e) => {
-        console.log("error getting event details")
-        console.log(e)
+        console.log("error getting event details");
+        console.log(e);
         swal.fire("response", "couldn't send invitations", "error");
-      })
+      }
+    );
   }
   // ACCEPT FRIEND REQUEST
   acceptRequest(notification_id) {
     this.userService.acceptRequest(notification_id).subscribe(
       (data) => {
-        console.log(data)
-        if (data['result']) {
-          swal.fire("success", data['msg'], "success");
+        console.log(data);
+        if (data["result"]) {
+          swal.fire("success", data["msg"], "success");
           this.getRequests();
         }
-      }, (error) => {
-        console.log(error)
-      });
-    console.log(notification_id)
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    console.log(notification_id);
   }
 
   acceptInvitations(event_id) {
+    this.eventService
+      .acceptEventInvitation(event_id, this.notification_id)
+      .subscribe(
+        (data) => {
+          console.log(data);
+          swal.fire("success", data["msg"], "success");
+          this.eventService.getMyEvents().subscribe((data) => {
+            localStorage.setItem("user", JSON.stringify(data["details"]));
+          });
+          this.modalService.dismissAll();
+          this.getRequests();
+        },
+        (e) => console.log(e)
+      );
+  }
 
-    this.eventService.acceptEventInvitation(event_id, this.notification_id).subscribe(
-      (data) => {
-        console.log(data)
-        swal.fire("success", data['msg'], "success");
-
-        this.modalService.dismissAll();
-        this.getRequests();
-
-      }, e => console.log(e)
-    )
+  checkRejectedEvent(event_id) {
+    let me = JSON.parse(localStorage.getItem("user"));
+    if (me["rejected_events"].includes(event_id)) {
+      this.showUnsubButton = false;
+    } else {
+      this.showUnsubButton = true;
+    }
+  }
+  showIamInbtn(event_id) {
+    let me = JSON.parse(localStorage.getItem("user"));
+    if (me["events"].includes(event_id)) {
+      this.showIamIn = false;
+      alert("yes");
+    } else {
+      this.showIamIn = true;
+    }
   }
 
   rejectInvitations(event_id) {
-    this.eventService.rejecteEventInvitation(event_id, this.notification_id).subscribe(
-      (data) => {
-        console.log(data)
-        swal.fire("success", data['msg'], "error");
-        this.modalService.dismissAll();
-        this.getRequests();
-      }, e => console.log(e)
-    )
+    if (this.reject_noti_id) {
+      this.eventService
+        .rejecteEventInvitation(event_id, this.reject_noti_id)
+        .subscribe(
+          (data) => {
+            console.log(data);
+            swal.fire("success", data["msg"], "error");
+            this.modalService.dismissAll();
+            this.getRequests();
+          },
+          (e) => console.log(e)
+        );
+    } else {
+      this.eventService
+        .rejecteEventInvitation(event_id, this.notification_id)
+        .subscribe(
+          (data) => {
+            console.log(data);
+            swal.fire("success", data["msg"], "error");
+            this.modalService.dismissAll();
+            this.getRequests();
+          },
+          (e) => console.log(e)
+        );
+    }
   }
   //REJECT FRIEND REQUEST
   cancelRequest(id) {
     this.userService.rejectRequest(id).subscribe(
       (data) => {
-        if (data['result']) {
-
+        if (data["result"]) {
           swal.fire("success", "Friend request rejected", "success");
           this.getRequests();
         }
-      }, (error) => {
-        console.log(error)
-      });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
   open(content, type, modalDimension, modalUser) {
-    this.notificationSeen(modalUser);
-    console.log(modalUser)
-    this.modalUser = modalUser.sender
-    if (modalDimension === 'sm' && type === 'modal_mini') {
-      this.modalService.open(content, { windowClass: 'modal-mini', size: 'sm', centered: true }).result.then((result) => {
-        this.closeResult = 'Closed with: $result';
-      }, (reason) => {
-        this.closeResult = 'Dismissed $this.getDismissReason(reason)';
-      });
-    } else if (modalDimension === '' && type === 'Notification') {
-      this.modalService.open(content, { windowClass: 'modal-danger', centered: true }).result.then((result) => {
-        this.closeResult = 'Closed with: $result';
-      }, (reason) => {
-        this.closeResult = 'Dismissed $this.getDismissReason(reason)';
-      });
+    console.log(modalUser);
+    if (modalUser) {
+      this.notificationSeen(modalUser);
+      this.modalUser = modalUser.sender;
+    }
+
+    if (modalDimension === "sm" && type === "modal_mini") {
+      this.modalService
+        .open(content, {
+          windowClass: "modal-mini",
+          size: "sm",
+          centered: true,
+        })
+        .result.then(
+          (result) => {
+            this.closeResult = "Closed with: $result";
+          },
+          (reason) => {
+            this.closeResult = "Dismissed $this.getDismissReason(reason)";
+          }
+        );
+    } else if (modalDimension === "" && type === "Notification") {
+      this.modalService
+        .open(content, { windowClass: "modal-danger", centered: true })
+        .result.then(
+          (result) => {
+            this.closeResult = "Closed with: $result";
+          },
+          (reason) => {
+            this.closeResult = "Dismissed $this.getDismissReason(reason)";
+          }
+        );
     } else {
-      this.modalService.open(content, { windowClass: 'mt-md-5', centered: true }).result.then((result) => {
-        this.closeResult = 'Closed with: $result';
-      }, (reason) => {
-        this.closeResult = 'Dismissed $this.getDismissReason(reason)';
-      });
+      this.modalService
+        .open(content, { windowClass: "mt-md-5", centered: true })
+        .result.then(
+          (result) => {
+            this.closeResult = "Closed with: $result";
+          },
+          (reason) => {
+            this.closeResult = "Dismissed $this.getDismissReason(reason)";
+          }
+        );
     }
   }
   notificationSeen(notification) {
-    console.log(notification)
+    console.log(notification);
     if (!notification.seen) {
-      this.eventService.notificationSeen(notification['_id']).subscribe(
-        (data) => {
+      this.eventService
+        .notificationSeen(notification["_id"])
+        .subscribe((data) => {
           this.getRequests();
-        }
-      )
+        });
     }
   }
   open2(content, type, modalDimension, modalUser) {
-    this.dontshowbuttons = false;
-
     this.eventService.getEventByID(modalUser.event).subscribe(
       (data) => {
-        this.notification_id = modalUser._id
-        this.modalEvent = data['details'];
-        if (modalDimension === 'sm' && type === 'modal_mini') {
-          this.modalService.open(content, { windowClass: 'modal-mini', size: 'sm', centered: true }).result.then((result) => {
-            this.closeResult = 'Closed with: $result';
-          }, (reason) => {
-            this.closeResult = 'Dismissed $this.getDismissReason(reason)';
-          });
-        } else if (modalDimension === '' && type === 'Notification') {
-          this.modalService.open(content, { windowClass: 'modal-danger', centered: true }).result.then((result) => {
-            this.closeResult = 'Closed with: $result';
-          }, (reason) => {
-            this.closeResult = 'Dismissed $this.getDismissReason(reason)';
-          });
+        this.notification_id = modalUser._id;
+        this.modalEvent = data["details"];
+        console.log("\n");
+        console.log("this.modalEvent");
+        console.log(this.modalEvent);
+        console.log("\n");
+        if (modalDimension === "sm" && type === "modal_mini") {
+          this.modalService
+            .open(content, {
+              windowClass: "modal-mini",
+              size: "sm",
+              centered: true,
+            })
+            .result.then(
+              (result) => {
+                this.closeResult = "Closed with: $result";
+              },
+              (reason) => {
+                this.closeResult = "Dismissed $this.getDismissReason(reason)";
+              }
+            );
+        } else if (modalDimension === "" && type === "Notification") {
+          this.modalService
+            .open(content, { windowClass: "modal-danger", centered: true })
+            .result.then(
+              (result) => {
+                this.closeResult = "Closed with: $result";
+              },
+              (reason) => {
+                this.closeResult = "Dismissed $this.getDismissReason(reason)";
+              }
+            );
         } else {
-          this.modalService.open(content, { windowClass: 'mt-md-5', centered: true }).result.then((result) => {
-            this.closeResult = 'Closed with: $result';
-          }, (reason) => {
-            this.closeResult = 'Dismissed $this.getDismissReason(reason)';
-          });
+          this.modalService
+            .open(content, { windowClass: "mt-md-5", centered: true })
+            .result.then(
+              (result) => {
+                this.closeResult = "Closed with: $result";
+              },
+              (reason) => {
+                this.closeResult = "Dismissed $this.getDismissReason(reason)";
+              }
+            );
         }
       },
-      error => { console.log(error) }
-    )
+      (error) => {
+        console.log(error);
+      }
+    );
     this.modalUser = modalUser;
   }
-
-
 }

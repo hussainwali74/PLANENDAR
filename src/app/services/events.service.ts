@@ -13,6 +13,11 @@ export class EventsService {
     this.baseUrl = this.baseUrl + "/api/";
   }
 
+  acceptEventInvitation2(event_id) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + `accept-event-invite/${event_id}`;
+    return this.http.post(url, { headers });
+  }
   acceptEventInvitation(event_id, notification_id) {
     console.log("notification_id");
     console.log(notification_id);
@@ -23,6 +28,14 @@ export class EventsService {
       { notification_id: notification_id },
       { headers }
     );
+  }
+
+  //EVENTS THAT USER IS GOING TO
+  getMyEvents() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + "get-my-events";
+    console.log(url);
+    return this.http.get(url, { headers });
   }
   notificationSeen(notification_id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");

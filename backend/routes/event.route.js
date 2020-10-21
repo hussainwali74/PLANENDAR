@@ -38,6 +38,7 @@ router.get("/view-user-events", (req, res, next) => {
 router.post("/create-event", EventController.createEvent);
 router.get("/get-event/:event_id", EventController.getEventByID);
 router.get("/get-all-events", EventController.getAllEvents);
+router.get("/get-my-events", EventController.getMyEvents);
 router.get("/get-event-invites", Connect.getAllUsers);
 router.post("/send-event-invites", EventController.sendEventInvites);
 router.put("/update-event/:event_id", EventController.updateEvent);
