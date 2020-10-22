@@ -321,7 +321,20 @@ module.exports = {
       }
 
       if (receiver.events.includes(req.params.event_id)) {
-        console.log(receiver);
+        let eventinvite = await EventInvite.findOne({
+          event: req.params.event_id,
+        });
+
+        await User.findOneAndUpdate(
+          { _id: receiver_id },
+          { $pull: { eventinvites: eventinvite._id } }
+        ).exec();
+
+        await Event.findOneAndUpdate(
+          { _id: req.params.event_id },
+          { $pull: { invitees: receiver_id } }
+        ).exec();
+
         return res.status(200).json({
           msg: "Invitation  Already Accepted",
           result: true,
@@ -338,6 +351,12 @@ module.exports = {
           console.log("error in friendrequest  findoneandupdate");
           console.log(error);
         }
+
+        await Event.findOneAndUpdate(
+          { _id: req.params.event_id },
+          { $pull: { invitees: receiver_id } }
+        ).exec();
+
         try {
           event.attendees.push(receiver);
           await event.save();
@@ -346,6 +365,15 @@ module.exports = {
           console.log("error in save event attendees ");
           console.log(error);
         }
+
+        let eventinvite = await EventInvite.findOne({
+          event: req.params.event_id,
+        });
+
+        await User.findOneAndUpdate(
+          { _id: receiver_id },
+          { $pull: { eventinvites: eventinvite._id } }
+        ).exec();
 
         // ACCEPT EVENT ------ PUSH EVENT INTO receiver
         receiver.events.push(event);
@@ -455,7 +483,15 @@ module.exports = {
         console.log("error in User  findById");
         console.log(error);
       }
-
+      // event.unsubscribed.push(receiver._id);
+      // event.save();
+      console.log(
+        "------------------------------------------------------------"
+      );
+      console.log(receiver);
+      console.log(
+        "------------------------------------------------------------"
+      );
       if (receiver.events.includes(req.params.event_id)) {
         await User.findOneAndUpdate(
           { _id: receiver_id },
@@ -472,7 +508,7 @@ module.exports = {
         return res.status(200).json({
           msg: "Unsubscribed from the event",
           result: true,
-          details: null,
+          details: event,
         });
       } else {
         var rejectedInvited;
@@ -513,6 +549,8 @@ module.exports = {
 
         //ADD THE NEW NOTIFICATION TO RECEIVER'S NOTIFICATIONS ARRAY
         try {
+          let event = await Event.findOne({ _id: req.params.event_id });
+          receiver.rejected_events.push(event);
           sender.notifications.push(newNotification);
           await sender.save();
           sender.save();

@@ -29,7 +29,11 @@ export class EventsService {
       { headers }
     );
   }
-
+  resetUser() {
+    this.getMyEvents().subscribe((data) => {
+      localStorage.setItem("user", JSON.stringify(data["details"]));
+    });
+  }
   //EVENTS THAT USER IS GOING TO
   getMyEvents() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");

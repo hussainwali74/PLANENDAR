@@ -82,8 +82,11 @@ export class NotificationsComponent implements OnInit {
         console.log(data);
         this.showIamIn = true;
         this.modalEvent = data["details"];
-        this.checkRejectedEvent(data["details"]["_id"]);
+        // this.checkRejectedEvent(data["details"]["_id"]);
+        // this.showIamInbtn(data["details"]["_id"]);
         this.showIamInbtn(data["details"]["_id"]);
+        this.showUnSubscribeButton(data["details"]["_id"]);
+
         this.open(this.eventModal, "", "", "");
       },
       (e) => {
@@ -117,9 +120,7 @@ export class NotificationsComponent implements OnInit {
         (data) => {
           console.log(data);
           swal.fire("success", data["msg"], "success");
-          this.eventService.getMyEvents().subscribe((data) => {
-            localStorage.setItem("user", JSON.stringify(data["details"]));
-          });
+          this.eventService.resetUser();
           this.modalService.dismissAll();
           this.getRequests();
         },
@@ -129,19 +130,59 @@ export class NotificationsComponent implements OnInit {
 
   checkRejectedEvent(event_id) {
     let me = JSON.parse(localStorage.getItem("user"));
-    if (me["rejected_events"].includes(event_id)) {
-      this.showUnsubButton = false;
-    } else {
-      this.showUnsubButton = true;
+    if (me) {
+      if (me["rejected_events"].includes(event_id)) {
+        this.showUnsubButton = false;
+      } else {
+        this.showUnsubButton = true;
+      }
+      // if(me['events'])
     }
   }
   showIamInbtn(event_id) {
+    console.log(event_id);
+    let x = false;
     let me = JSON.parse(localStorage.getItem("user"));
-    if (me["events"].includes(event_id)) {
-      this.showIamIn = false;
-      alert("yes");
-    } else {
-      this.showIamIn = true;
+    if (me) {
+      if (this.modalEvent["invitees"].includes(me["_id"])) {
+        x = true;
+      } else {
+        x = false;
+      }
+      if (!me["createdevents"].includes(event_id)) {
+        x = true;
+      } else {
+        x = false;
+      }
+      if (me["events"].includes(event_id)) {
+        x = false;
+      }
+      if (me["rejected_events"].includes(event_id)) {
+        x = false;
+      }
+
+      this.showIamIn = x;
+    }
+  }
+  showUnSubscribeButton(event_id) {
+    let x = true;
+    let me = JSON.parse(localStorage.getItem("user"));
+    if (me) {
+      if (!this.modalEvent["invitees"].includes(me["_id"])) {
+        x = false;
+      } else {
+        x = true;
+      }
+      if (me["createdevents"].includes(event_id)) {
+        x = false;
+      } else {
+        x = true;
+      }
+      console.log(event_id);
+      if (me["rejected_events"].includes(event_id)) {
+        x = false;
+      }
+      this.showUnsubButton = x;
     }
   }
 
@@ -151,6 +192,7 @@ export class NotificationsComponent implements OnInit {
         .rejecteEventInvitation(event_id, this.reject_noti_id)
         .subscribe(
           (data) => {
+            this.eventService.resetUser();
             console.log(data);
             swal.fire("success", data["msg"], "error");
             this.modalService.dismissAll();
@@ -163,6 +205,7 @@ export class NotificationsComponent implements OnInit {
         .rejecteEventInvitation(event_id, this.notification_id)
         .subscribe(
           (data) => {
+            this.eventService.resetUser();
             console.log(data);
             swal.fire("success", data["msg"], "error");
             this.modalService.dismissAll();
@@ -188,9 +231,13 @@ export class NotificationsComponent implements OnInit {
   }
   open(content, type, modalDimension, modalUser) {
     console.log(modalUser);
+
     if (modalUser) {
       this.notificationSeen(modalUser);
       this.modalUser = modalUser.sender;
+    } else {
+      this.showIamInbtn(this.modalEvent._id);
+      this.showUnSubscribeButton(this.modalEvent._id);
     }
 
     if (modalDimension === "sm" && type === "modal_mini") {
@@ -247,10 +294,17 @@ export class NotificationsComponent implements OnInit {
       (data) => {
         this.notification_id = modalUser._id;
         this.modalEvent = data["details"];
-        console.log("\n");
-        console.log("this.modalEvent");
-        console.log(this.modalEvent);
-        console.log("\n");
+        //LOGIC FOR SHOWIAMIN BUTTON:
+        //SHOW BUTTON IF I AM INVITED TO THE EVENT-> ME['INVITED EVENTS']
+        //SHOW IF I HAVE NOT CREATED THE EVENT -> !ME['CREATEDEVENTS]
+
+        // LOGIC FOR SHOWUNSUBSCRIBE BUTTON
+        // SHOW IF AM INVITED
+        // SHOW IF I HAVE NOT CREATED
+        // SHOW IF i HAVE ACCEPTED
+
+        this.showIamInbtn(this.modalEvent._id);
+        this.showUnSubscribeButton(this.modalEvent._id);
         if (modalDimension === "sm" && type === "modal_mini") {
           this.modalService
             .open(content, {

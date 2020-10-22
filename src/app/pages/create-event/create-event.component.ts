@@ -49,6 +49,7 @@ export class CreateEventComponent implements OnInit {
         }
 
         this.dynamicForm.patchValue(data["details"]);
+        this.dynamicForm.get("privacity").patchValue(this.privatee);
         console.log("privateee");
         console.log(this.privatee);
 
@@ -61,6 +62,7 @@ export class CreateEventComponent implements OnInit {
   }
   privacityChange() {
     this.privatee = !this.privatee;
+    console.log(this.privatee);
   }
   // convenience getters for easy access to form fields
   get f() {
@@ -108,19 +110,30 @@ export class CreateEventComponent implements OnInit {
       }
       return;
     }
+    // return;
     console.log("this.dynamicForm.value.privacity");
     console.log(this.dynamicForm.value.privacity);
-    this.dynamicForm.value.privacity = this.dynamicForm.value.privacity
-      ? "private"
-      : "public";
+
+    // this.dynamicForm.value.privacity =
+    //   ? "public"
+    //   : "private";
 
     if (this.editing) {
+      if (this.dynamicForm.value.privacity === true) {
+        this.dynamicForm.value.privacity = "public";
+      } else if (this.dynamicForm.value.privacity === false) {
+        this.dynamicForm.value.privacity = "private";
+      }
       console.log("updating");
+      console.log(this.dynamicForm.value);
       this.eventService
         .updateEvent(this.dynamicForm.value, this.event_id)
         .subscribe(
           (data) => {
             this.onReset();
+            this.eventService.getMyEvents().subscribe((data) => {
+              localStorage.setItem("user", JSON.stringify(data["details"]));
+            });
             this.eventService.swalMsgSuccess("Event Updated");
             this.router.navigateByUrl("/events/created");
           },
@@ -129,9 +142,17 @@ export class CreateEventComponent implements OnInit {
           }
         );
     } else {
+      if (this.dynamicForm.value.privacity === false) {
+        this.dynamicForm.value.privacity = "public";
+      } else if (this.dynamicForm.value.privacity === true) {
+        this.dynamicForm.value.privacity = "private";
+      }
       this.eventService.createEvent(this.dynamicForm.value).subscribe(
         (data) => {
           this.onReset();
+          this.eventService.getMyEvents().subscribe((data) => {
+            localStorage.setItem("user", JSON.stringify(data["details"]));
+          });
           this.eventService.swalMsgSuccess("Event Created");
           this.router.navigateByUrl("/events/created");
         },

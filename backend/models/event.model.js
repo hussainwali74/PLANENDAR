@@ -27,6 +27,12 @@ const eventSchema = mongo.Schema(
         ref: "User",
       },
     ],
+    unsubscribed: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
 
   {
