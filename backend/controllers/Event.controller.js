@@ -427,6 +427,77 @@ module.exports = {
     }
   },
 
+  unSubscribeEventInvite: async (req, res) => {
+    console.log("unsub to event invite");
+    if (req.headers && req.headers.authorization) {
+      var authorization = req.headers.authorization;
+      var decoded;
+      var user;
+      try {
+        decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+        user = await User.findOne({ email: decoded.email });
+      } catch (error) {
+        console.log("error in verify jwt");
+        console.log(error);
+      }
+
+      const userId = user._id;
+      var event;
+      var receiver;
+      var sender;
+
+      try {
+        event = await Event.findById(req.params.event_id);
+      } catch (error) {
+        console.log("error in notification findbyId");
+        console.log(error);
+      }
+
+      //REMOVE USER FROM EVENT.ATTENDEES
+      console.log("-----------------------------------------------------");
+      console.log("userid");
+      console.log(event);
+      console.log("-----------------------------------------------------");
+      if (event.attendees.includes(userId)) {
+        let eventt = await Event.findOneAndUpdate(
+          { _id: req.params.event_id },
+          { $pull: { attendees: userId } }
+        ).exec();
+      }
+      //REMOVE EVENT FROM USER.EVENTS
+      await User.findOneAndUpdate(
+        { _id: userId },
+        { $pull: { events: req.params.event_id } }
+      ).exec();
+
+      try {
+        receiver = await User.findById(event.creator);
+      } catch (error) {
+        console.log("475 eventcontroller error in get receiver");
+        console.log(error);
+      }
+      const newNotification = new Notification({
+        sender: userId,
+        receiver: event.creator,
+        detail: user.name + " unsubscribed to your event",
+        seen: false,
+        type: "normal",
+      });
+
+      newNotification.sender = receiver;
+      newNotification.receiver = sender;
+      try {
+        await newNotification.save();
+      } catch (error) {
+        console.log("error in newnotification save");
+        console.log(error);
+      }
+    } else {
+      console.log("no headers 51 ");
+      return res.status(401).send("accept friend request unauthorized");
+    }
+  },
+
   rejectEventInvite: async (req, res) => {
     console.log("reject event invite");
     if (req.headers && req.headers.authorization) {

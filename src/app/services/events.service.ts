@@ -61,6 +61,12 @@ export class EventsService {
       { headers }
     );
   }
+  unSubcribeToEvent(event_id) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    console.log(event_id);
+    let url = this.baseUrl + `unsubscribe-event-invite/${event_id}`;
+    return this.http.post(url, { headers });
+  }
 
   createEvent(body) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");

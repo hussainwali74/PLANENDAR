@@ -121,13 +121,17 @@
                         </a>
                     </div>
                     <!-- useview events -  -->
-                    <div *ngIf="showacceptbuttons" class="col-md-12">
+                    <div *ngIf="showIamIn" class="col-md-12">
                         <button mat-raised-button type="button" (click)="acceptInvitations(modalEvent._id)"
                             class=" full-width-btn btn btn-success ">I'm In</button>
                     </div>
 
-                    <div *ngIf="showUnsubButton" class="col-md-12">
+                    <div *ngIf="showRejectButton" class="col-md-12">
                         <button mat-raised-button type="button" (click)="rejectInvitations(modalEvent._id)"
+                            class=" full-width-btn btn btn-warning ">Unsubscribe reject</button>
+                    </div>
+                    <div *ngIf="showUnsubButton" class="col-md-12">
+                        <button mat-raised-button type="button" (click)="unsubscribeToEvent(modalEvent._id)"
                             class=" full-width-btn btn btn-warning ">Unsubscribe</button>
                     </div>
                 </div>

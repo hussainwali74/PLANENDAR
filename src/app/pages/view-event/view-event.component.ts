@@ -19,6 +19,8 @@ export class ViewEventsComponent implements OnInit {
 
   modalEvent: Event;
   showUnsubButton: boolean = false;
+  showIamIn: boolean = false;
+  showRejectButton: boolean = false;
   showacceptbuttons: boolean = false;
   reject_noti_id: any;
 
@@ -55,7 +57,11 @@ export class ViewEventsComponent implements OnInit {
         console.log(data);
         this.dontshowbuttons = true;
         this.modalEvent = data["details"];
-        this.checkRejectedEvent(data["details"]["_id"]);
+        // this.checkRejectedEvent(data["details"]["_id"]);
+        this.showIamInbtn(data["details"]["_id"]);
+
+        this.showUnSubscribeButton(data["details"]["_id"]);
+
         this.open(this.eventModal, "", "", "");
       },
       (e) => {
@@ -64,6 +70,52 @@ export class ViewEventsComponent implements OnInit {
         swal.fire("response", "couldn't send invitations", "error");
       }
     );
+  }
+  showIamInbtn(event_id) {
+    console.log(event_id);
+    let x = false;
+    let me = JSON.parse(localStorage.getItem("user"));
+    if (me) {
+      if (this.modalEvent["invitees"].includes(me["_id"])) {
+        x = true;
+      } else {
+        x = false;
+      }
+      if (!me["createdevents"].includes(event_id)) {
+        x = true;
+      } else {
+        x = false;
+      }
+      if (me["events"].includes(event_id)) {
+        x = false;
+      }
+      if (me["rejected_events"].includes(event_id)) {
+        x = false;
+      }
+
+      this.showIamIn = x;
+    }
+  }
+  showUnSubscribeButton(event_id) {
+    let x = true;
+    let me = JSON.parse(localStorage.getItem("user"));
+    if (me) {
+      if (!this.modalEvent["invitees"].includes(me["_id"])) {
+        x = false;
+      } else {
+        x = true;
+      }
+      if (me["createdevents"].includes(event_id)) {
+        x = false;
+      } else {
+        x = true;
+      }
+      console.log(event_id);
+      if (me["rejected_events"].includes(event_id)) {
+        x = false;
+      }
+      this.showUnsubButton = x;
+    }
   }
 
   acceptInvitations(event_id) {
@@ -77,18 +129,31 @@ export class ViewEventsComponent implements OnInit {
     );
   }
   rejectInvitations(event_id) {
+    console.log("reject event_id");
+    console.log(this.reject_noti_id);
     if (this.reject_noti_id) {
-      this.eventService
-        .rejecteEventInvitation(event_id, this.reject_noti_id)
-        .subscribe(
-          (data) => {
-            console.log(data);
-            swal.fire("success", data["msg"], "error");
-            this.modalService.dismissAll();
-          },
-          (e) => console.log(e)
-        );
+      this.eventService.unSubcribeToEvent(event_id).subscribe(
+        (data) => {
+          console.log(data);
+          swal.fire("success", data["msg"], "error");
+          this.modalService.dismissAll();
+        },
+        (e) => console.log(e)
+      );
+    } else {
+      // UNSUBSCRIBE TO EVENT
     }
+  }
+
+  unsubscribeToEvent(event_id) {
+    this.eventService.unSubcribeToEvent(event_id).subscribe(
+      (data) => {
+        console.log(data);
+        swal.fire("success", data["msg"], "error");
+        this.modalService.dismissAll();
+      },
+      (e) => console.log(e)
+    );
   }
 
   checkRejectedEvent(event_id) {

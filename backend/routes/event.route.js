@@ -50,6 +50,10 @@ router.post(
   "/reject-event-invite/:event_id",
   EventController.rejectEventInvite
 );
+router.post(
+  "/unsubscribe-event-invite/:event_id",
+  EventController.unSubscribeEventInvite
+);
 router.post("/notification_see", EventController.notificationSeen);
 
 // ===========================================================================
