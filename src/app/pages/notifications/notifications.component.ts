@@ -142,6 +142,7 @@ export class NotificationsComponent implements OnInit {
   showIamInbtn(event_id) {
     console.log(event_id);
     let x = false;
+
     let me = JSON.parse(localStorage.getItem("user"));
     if (me) {
       if (this.modalEvent["invitees"].includes(me["_id"])) {
@@ -149,16 +150,22 @@ export class NotificationsComponent implements OnInit {
       } else {
         x = false;
       }
-      if (!me["createdevents"].includes(event_id)) {
-        x = true;
-      } else {
-        x = false;
+      if (me["createdevents"]) {
+        if (!me["createdevents"].includes(event_id)) {
+          x = true;
+        } else {
+          x = false;
+        }
       }
-      if (me["events"].includes(event_id)) {
-        x = false;
+      if (me["events"]) {
+        if (me["events"].includes(event_id)) {
+          x = false;
+        }
       }
-      if (me["rejected_events"].includes(event_id)) {
-        x = false;
+      if (me["rejected_events"]) {
+        if (me["rejected_events"].includes(event_id)) {
+          x = false;
+        }
       }
 
       this.showIamIn = x;
@@ -173,14 +180,18 @@ export class NotificationsComponent implements OnInit {
       } else {
         x = true;
       }
-      if (me["createdevents"].includes(event_id)) {
-        x = false;
-      } else {
-        x = true;
+      if (me["createdevents"]) {
+        if (me["createdevents"].includes(event_id)) {
+          x = false;
+        } else {
+          x = true;
+        }
       }
       console.log(event_id);
-      if (me["rejected_events"].includes(event_id)) {
-        x = false;
+      if (me["rejected_events"]) {
+        if (me["rejected_events"].includes(event_id)) {
+          x = false;
+        }
       }
       this.showUnsubButton = x;
     }
@@ -294,6 +305,7 @@ export class NotificationsComponent implements OnInit {
       (data) => {
         this.notification_id = modalUser._id;
         this.modalEvent = data["details"];
+        this.eventService.resetUser();
         //LOGIC FOR SHOWIAMIN BUTTON:
         //SHOW BUTTON IF I AM INVITED TO THE EVENT-> ME['INVITED EVENTS']
         //SHOW IF I HAVE NOT CREATED THE EVENT -> !ME['CREATEDEVENTS]

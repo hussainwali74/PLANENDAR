@@ -643,8 +643,28 @@ module.exports = {
     }
   },
   // Get My Events ... events which user is going to
+  getMySubscribedEvents: async (req, res) => {
+    console.log("647: event controller: get my subscribed events");
+    if (req.headers && req.headers.authorization) {
+      var authorization = req.headers.authorization;
+      var decoded;
+      try {
+        decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+      } catch (error) {
+        console.log("error in verify jwt");
+        console.log(error);
+      }
+      const event = await Event.find({ attendees: decoded._id });
+      return res.status(200).json({
+        result: true,
+        details: event,
+        msg: "My Subscribed Events",
+      });
+    }
+  },
+  // Get My Events ... events which user is going to
   getMyEvents: async (req, res) => {
-    console.log("464: event controller: get all events");
+    console.log("670: event controller: get my events");
     if (req.headers && req.headers.authorization) {
       var authorization = req.headers.authorization;
       var decoded;
@@ -655,7 +675,9 @@ module.exports = {
         console.log(error);
       }
       var userId;
-      const user = await User.findOne({ email: decoded.email });
+      const user = await User.findOne({ email: decoded.email }).populate(
+        "events"
+      );
       return res.status(200).json({
         result: true,
         details: user,
@@ -663,9 +685,33 @@ module.exports = {
       });
     }
   },
+  // Get My Events ... events which user is going to
+  getMyCreatedEvents: async (req, res) => {
+    console.log("690: event controller: get my created events");
+    if (req.headers && req.headers.authorization) {
+      var authorization = req.headers.authorization;
+      var decoded;
+      try {
+        decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+      } catch (error) {
+        console.log("error in verify jwt");
+        console.log(error);
+      }
+      const user = await User.findOne({ email: decoded.email });
+
+      const events = await Event.find({ creator: user._id }).populate(
+        "creator"
+      );
+      return res.status(200).json({
+        result: true,
+        details: events,
+        msg: "My Events",
+      });
+    }
+  },
   // Get all Events
   getAllEvents: async (req, res) => {
-    console.log("464: event controller: get all events");
+    console.log("670: event controller: get all events");
     if (req.headers && req.headers.authorization) {
       var authorization = req.headers.authorization;
       var decoded;

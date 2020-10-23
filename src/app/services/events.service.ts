@@ -41,6 +41,19 @@ export class EventsService {
     console.log(url);
     return this.http.get(url, { headers });
   }
+  //EVENTS THAT USER IS GOING TO
+  getMyCreatedEvents() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + "get-my-created-events";
+    console.log(url);
+    return this.http.get(url, { headers });
+  }
+  getMySubscribedEvents() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + "get-my-subscribed-events";
+    console.log(url);
+    return this.http.get(url, { headers });
+  }
   notificationSeen(notification_id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + `notification_see`;

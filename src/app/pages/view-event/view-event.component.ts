@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { EventsService } from "src/app/services/events.service";
 import { Event } from "../../models/Event.model";
 import swal from "sweetalert2";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-view-event",
@@ -16,6 +17,7 @@ export class ViewEventsComponent implements OnInit {
   @ViewChild("classic2") eventModal;
   dontshowbuttons: boolean;
   modalUser: any;
+  @Input("title") title: String;
 
   modalEvent: Event;
   showUnsubButton: boolean = false;
@@ -26,30 +28,77 @@ export class ViewEventsComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private eventService: EventsService
+    private eventService: EventsService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.eventService.getAllPublicEvents().subscribe(
-      (data) => {
-        console.log(data);
-        this.all_events = data["details"];
-        this.all_events.sort(function (a, b) {
-          let date1 = new Date(a.date);
-          let date2 = new Date(b.date);
-          if (date1 > date2) return 1;
-          if (date1 < date2) return -1;
-        });
-        // this.all_events.sort(function (a, b) {
-        //   // Turn your strings into dates, and then subtract them
-        //   // to get a value that is either negative, positive, or zero.
-        //   return new Date(a.date) - new Date(b.date);
-        // });
-      },
-      (e) => {
-        console.log(e);
-      }
-    );
+    let route = this.router.url;
+    if (route == "/events/calendar") {
+      console.log(route);
+      this.eventService.getMyEvents().subscribe(
+        (data) => {
+          console.log(data);
+          this.all_events = data["details"]["events"];
+          this.all_events.sort(function (a, b) {
+            let date1 = new Date(a.date);
+            let date2 = new Date(b.date);
+            if (date1 > date2) return 1;
+            if (date1 < date2) return -1;
+          });
+          // this.all_events.sort(function (a, b) {
+          //   // Turn your strings into dates, and then subtract them
+          //   // to get a value that is either negative, positive, or zero.
+          //   return new Date(a.date) - new Date(b.date);
+          // });
+        },
+        (e) => {
+          console.log(e);
+        }
+      );
+    } else if (route == "/events/created") {
+      this.eventService.getMyCreatedEvents().subscribe(
+        (data) => {
+          console.log(data);
+          this.all_events = data["details"];
+          this.all_events.sort(function (a, b) {
+            let date1 = new Date(a.date);
+            let date2 = new Date(b.date);
+            if (date1 > date2) return 1;
+            if (date1 < date2) return -1;
+          });
+          // this.all_events.sort(function (a, b) {
+          //   // Turn your strings into dates, and then subtract them
+          //   // to get a value that is either negative, positive, or zero.
+          //   return new Date(a.date) - new Date(b.date);
+          // });
+        },
+        (e) => {
+          console.log(e);
+        }
+      );
+    } else {
+      this.eventService.getAllPublicEvents().subscribe(
+        (data) => {
+          console.log(data);
+          this.all_events = data["details"];
+          this.all_events.sort(function (a, b) {
+            let date1 = new Date(a.date);
+            let date2 = new Date(b.date);
+            if (date1 > date2) return 1;
+            if (date1 < date2) return -1;
+          });
+          // this.all_events.sort(function (a, b) {
+          //   // Turn your strings into dates, and then subtract them
+          //   // to get a value that is either negative, positive, or zero.
+          //   return new Date(a.date) - new Date(b.date);
+          // });
+        },
+        (e) => {
+          console.log(e);
+        }
+      );
+    }
   }
   getEventByID(eventid) {
     this.eventService.getEventByID(eventid).subscribe(

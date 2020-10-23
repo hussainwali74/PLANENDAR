@@ -22,16 +22,16 @@ mongoose
   });
 
 // // WIPE OUT DATABASE MODELS
-const User = require("./models/user.model");
-User.remove({}, () => {});
-const Notification = require("./models/notification.model");
-Notification.remove({}, () => {});
-const FriendRequest = require("./models/request.model");
-FriendRequest.remove({}, () => {});
-const EventInvites = require("./models/EventInvite.model");
-EventInvites.remove({}, () => {});
-const Event = require("./models/event.model");
-Event.remove({}, () => {});
+// const User = require("./models/user.model");
+// User.remove({}, () => {});
+// const Notification = require("./models/notification.model");
+// Notification.remove({}, () => {});
+// const FriendRequest = require("./models/request.model");
+// FriendRequest.remove({}, () => {});
+// const EventInvites = require("./models/EventInvite.model");
+// EventInvites.remove({}, () => {});
+// const Event = require("./models/event.model");
+// Event.remove({}, () => {});
 
 const bodyParser = require("body-parser");
 //CORS ERROR PATCH
