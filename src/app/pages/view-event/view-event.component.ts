@@ -225,18 +225,22 @@ export class ViewEventsComponent implements OnInit {
     console.log("event_id");
     console.log(event_id);
     let me = JSON.parse(localStorage.getItem("user"));
-    if (me["rejected_events"].includes(event_id)) {
-      this.showUnsubButton = true;
-    } else {
-      this.showUnsubButton = false;
+    if (me["rejected_events"]) {
+      if (me["rejected_events"].includes(event_id)) {
+        this.showUnsubButton = true;
+      } else {
+        this.showUnsubButton = false;
+      }
     }
   }
   checkMyEvent(event_id) {
     let me = JSON.parse(localStorage.getItem("user"));
-    if (me["createdevents"].includes(event_id)) {
-      return true;
-    } else {
-      return false;
+    if (me["createdevents"]) {
+      if (me["createdevents"].includes(event_id)) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
   open(content, type, modalDimension, modalUser) {
