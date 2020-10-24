@@ -663,6 +663,32 @@ module.exports = {
     }
   },
   // Get My Events ... events which user is going to
+  getMyCalenderEvents: async (req, res) => {
+    console.log("670: event controller: get my events");
+    if (req.headers && req.headers.authorization) {
+      var authorization = req.headers.authorization;
+      var decoded;
+      try {
+        decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+      } catch (error) {
+        console.log("error in verify jwt");
+        console.log(error);
+      }
+      var userId;
+      const user = await User.findOne({ email: decoded.email }).populate(
+        "events"
+      );
+      var events = await Event.find({ attendees: user._id }).populate(
+        "creator"
+      );
+      return res.status(200).json({
+        result: true,
+        details: events,
+        msg: "My Events",
+      });
+    }
+  },
+  // Get My Events ... events which user is going to
   getMyEvents: async (req, res) => {
     console.log("670: event controller: get my events");
     if (req.headers && req.headers.authorization) {

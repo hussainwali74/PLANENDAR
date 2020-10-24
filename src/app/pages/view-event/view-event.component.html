@@ -32,19 +32,19 @@
                 <div class="events_list">
                     <div class=" card event_text " *ngFor="let item of all_events |filter:term">
                         <div class="row ">
-                            <div class="col-4 " style="text-align: center ">
+                            <div class="col-4 ">
                                 <h4 class="link font-12 " (click)="getEventByID(item._id)">
                                     <a href="javascript:void(0)">
                                         {{item.title}}
                                     </a>
                                 </h4>
                             </div>
-                            <div class="col-4 " style="text-align: center ">
+                            <div class="col-4 ">
                                 <h4 class="font-12 "> {{item.date}}
                                 </h4>
                             </div>
-                            <div class="col-4 " style="text-align: center ">
-                                <h4 class="font-12 ">{{item.creator?item.creator.name:'-'}}</h4>
+                            <div class="col-4 ">
+                                <h4 *ngIf="!isCreatedPage" class="font-12 ">{{item.creator?item.creator.name:'-'}}</h4>
                             </div>
                         </div>
                     </div>

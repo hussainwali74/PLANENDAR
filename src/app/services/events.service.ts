@@ -34,6 +34,13 @@ export class EventsService {
       localStorage.setItem("user", JSON.stringify(data["details"]));
     });
   }
+  //EVENTS in calender
+  getMyCalenderEvents() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + "get-calender-events";
+    console.log(url);
+    return this.http.get(url, { headers });
+  }
   //EVENTS THAT USER IS GOING TO
   getMyEvents() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
