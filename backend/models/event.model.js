@@ -27,12 +27,7 @@ const eventSchema = mongo.Schema(
         ref: "User",
       },
     ],
-    confirmed: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+
     eliminated: [
       {
         type: Schema.Types.ObjectId,

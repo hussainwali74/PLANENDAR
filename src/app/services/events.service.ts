@@ -30,9 +30,15 @@ export class EventsService {
     );
   }
   resetUser() {
-    this.getMyEvents().subscribe((data) => {
+    this.getMe().subscribe((data) => {
       localStorage.setItem("user", JSON.stringify(data["details"]));
     });
+  }
+  getMe() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + "get-me";
+    console.log(url);
+    return this.http.get(url, { headers });
   }
   //EVENTS in calender
   getMyCalenderEvents() {
@@ -83,7 +89,6 @@ export class EventsService {
   }
   unSubcribeToEvent(event_id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    console.log(event_id);
     let url = this.baseUrl + `unsubscribe-event-invite/${event_id}`;
     return this.http.post(url, { headers });
   }

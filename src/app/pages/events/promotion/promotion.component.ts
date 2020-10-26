@@ -148,6 +148,14 @@ export class PromotionComponent implements OnInit {
                 swal.fire("response", x, "success");
               }
             }
+            if (data["details"]["blockedUsers"]) {
+              if (data["details"]["blockedUsers"].length) {
+                let x = `Invitation has been blocked to these contacts: ${data[
+                  "details"
+                ]["blockedUsers"].toString()}`;
+                swal.fire("response", x, "error");
+              }
+            }
             if (data["details"]["currentInvited"]) {
               if (data["details"]["currentInvited"].length) {
                 let x =
@@ -184,6 +192,7 @@ export class PromotionComponent implements OnInit {
     body["event_id"] = selected_events[0]["_id"];
     body["receivers"] = receivers;
 
+    alert("kl");
     this.eventService.blockEventInvitations(body).subscribe(
       (data) => {
         if (data) {
@@ -191,7 +200,7 @@ export class PromotionComponent implements OnInit {
             this.getEventDetail(selected_events[0]["_id"]);
             if (data["details"]["alreadyBlocked"]) {
               if (data["details"]["alreadyBlocked"].length) {
-                let x = `Invitation blocked already  to these contacts: ${data[
+                let x = `Invitation already already to these contacts: ${data[
                   "details"
                 ]["alreadyBlocked"].toString()}`;
                 swal.fire("response", x, "success");

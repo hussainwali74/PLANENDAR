@@ -93,6 +93,9 @@ export class ViewEventsComponent implements OnInit {
   getEventByID(eventid) {
     this.eventService.getEventByID(eventid).subscribe(
       (data) => {
+        console.log("\n");
+        console.log(data);
+        console.log("\n");
         this.dontshowbuttons = true;
         this.modalEvent = data["details"];
         // this.checkRejectedEvent(data["details"]["_id"]);
@@ -110,7 +113,7 @@ export class ViewEventsComponent implements OnInit {
     );
   }
   showIamInbtn(event_id) {
-    let x = false;
+    let x = true;
     let me = JSON.parse(localStorage.getItem("user"));
     if (me) {
       if (this.modalEvent["invitees"]) {
@@ -134,6 +137,13 @@ export class ViewEventsComponent implements OnInit {
       if (me["rejected_events"]) {
         if (me["rejected_events"].length > 0) {
           if (me["rejected_events"].includes(event_id)) {
+            x = false;
+          }
+        }
+      }
+      if (me["createdevents"]) {
+        if (me["createdevents"].length > 0) {
+          if (me["createdevents"].includes(event_id)) {
             x = false;
           }
         }
@@ -190,6 +200,7 @@ export class ViewEventsComponent implements OnInit {
       (data) => {
         console.log(data);
         swal.fire("success", data["msg"], "success");
+        this.eventService.resetUser();
         this.modalService.dismissAll();
       },
       (e) => console.log(e)
@@ -203,6 +214,8 @@ export class ViewEventsComponent implements OnInit {
         (data) => {
           console.log(data);
           swal.fire("success", data["msg"], "error");
+          this.eventService.resetUser();
+
           this.modalService.dismissAll();
         },
         (e) => console.log(e)
