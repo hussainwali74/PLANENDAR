@@ -12,6 +12,7 @@ import { List } from "src/app/models/List.model";
 import { Person } from "src/app/models/Person.model";
 import { EventsService } from "src/app/services/events.service";
 import { ListService } from "src/app/services/lists.service";
+import swal from "sweetalert2";
 
 @Component({
   selector: "app-lists",
@@ -96,6 +97,17 @@ export class ListsComponent implements OnInit {
     console.log(this.selected_list_id);
     console.log("this.selected_contacts");
     console.log(this.selected_contacts);
+    if (this.allMylists.length <= 0) {
+      swal.fire("response", "Please create a list first", "error");
+    }
+    if (!this.selected_list_id) {
+      swal.fire("response", "Please select a list", "error");
+      return;
+    }
+    if (this.selected_contacts == null || this.selected_contacts.length == 0) {
+      swal.fire("response", "Please select contacts", "error");
+      return;
+    }
     this.listService
       .addContactsToList(this.selected_list_id, this.selected_contacts)
       .subscribe(

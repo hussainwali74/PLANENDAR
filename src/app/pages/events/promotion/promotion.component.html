@@ -145,24 +145,13 @@
                                         border-collapse: collapse;">
                                         <thead class=" text-primary">
                                             <th>
-                                                Selected Contacts
+                                                Lists
                                             </th>
                                         </thead>
                                         <tbody>
-                                            <tr>
+                                            <tr *ngFor="let item of allMylists">
                                                 <td>
-                                                    List1
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    List 2
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    List 3
-                                                </td>
+                                                    {{item.name}} </td>
                                             </tr>
                                         </tbody>
                                     </table>

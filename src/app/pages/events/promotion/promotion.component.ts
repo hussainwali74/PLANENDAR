@@ -9,6 +9,8 @@ import { Person } from "src/app/models/Person.model";
 import { EventsService } from "src/app/services/events.service";
 import { Event } from "../../../models/Event.model";
 import swal from "sweetalert2";
+import { ListService } from "src/app/services/lists.service";
+import { List } from "src/app/models/List.model";
 
 @Component({
   selector: "app-promotion",
@@ -26,8 +28,15 @@ export class PromotionComponent implements OnInit {
   eliminated: Person[];
   confirmed: Person[];
   attendees: Person[];
+  selected_list_name: string = "";
+  selected_list_id: string = "";
+
+  allMylists: List[] = [];
   term;
-  constructor(private eventService: EventsService) {}
+  constructor(
+    private eventService: EventsService,
+    private listService: ListService
+  ) {}
 
   ngOnInit(): void {
     this.eventService.getUserCreatedEvents().subscribe(
@@ -55,6 +64,32 @@ export class PromotionComponent implements OnInit {
       (error) => {
         console.log(error);
       }
+    );
+    this.getMyLists();
+  }
+
+  getMyLists() {
+    console.log("gettlisn");
+    this.listService.getMyLists().subscribe(
+      (data) => {
+        console.log(data);
+        if (data["details"].length) {
+          this.allMylists = data["details"];
+          this.selected_list_name = this.allMylists["0"]["name"];
+          if (!this.selected_list_id) {
+            console.log('localStorage.getItem("selected_list_id")');
+            console.log(localStorage.getItem("selected_list_id"));
+            if (!localStorage.getItem("selected_list_id")) {
+              this.selected_list_id = this.allMylists["0"]["_id"];
+            } else {
+              this.selected_list_id = localStorage.getItem("selected_list_id");
+            }
+          } else {
+            this.selected_list_id = localStorage.getItem("selected_list_id");
+          }
+        }
+      },
+      (e) => console.log(e)
     );
   }
   selectEvent(event: Event) {

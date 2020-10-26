@@ -109,6 +109,27 @@ module.exports = {
           console.log("find user");
           console.log(error);
         }
+        let eventinvite = await EventInvite.findOne({
+          event: req.body.event_id,
+        });
+        //remove event invite sent to this user
+        await User.findOneAndUpdate(
+          { _id: receiver_id },
+          { $pull: { eventinvites: eventinvite._id } }
+        ).exec();
+
+        //remove event from this user
+        await User.findOneAndUpdate(
+          { _id: receiver_id },
+          { $pull: { events: req.body.event_id } }
+        ).exec();
+
+        //remove from confirmed list of event
+        await Event.findOneAndUpdate(
+          { _id: req.body.event_id },
+          { $pull: { confirmed: receiver_id } }
+        );
+
         if (event.blocked) {
           if (event.blocked.includes(receiver_id)) {
             alreadyBlocked.push(receiver["name"]);
@@ -742,14 +763,6 @@ module.exports = {
         try {
           let event = await Event.findOne({ _id: req.params.event_id });
           event.eliminated.push(receiver);
-          console.log(
-            "=========================================================="
-          );
-          console.log("event");
-          console.log(event);
-          console.log(
-            "=========================================================="
-          );
           await event.save();
           receiver.rejected_events.push(event);
           sender.notifications.push(newNotification);
