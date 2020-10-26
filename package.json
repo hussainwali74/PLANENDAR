@@ -43,6 +43,7 @@
     "moment": "^2.24.0",
     "mongoose": "^5.10.4",
     "mongoose-unique-validator": "^2.0.3",
+    "morgan": "^1.10.0",
     "ng2-nouislider": "1.7.13",
     "ng2-search-filter": "^0.5.1",
     "nodemailer": "^6.4.11",

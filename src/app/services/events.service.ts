@@ -105,6 +105,11 @@ export class EventsService {
     let url = this.baseUrl + "send-event-invites";
     return this.http.post(url, JSON.stringify(body), { headers });
   }
+  blockEventInvitations(body) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + "block-event-invites";
+    return this.http.post(url, JSON.stringify(body), { headers });
+  }
 
   // getAllEvents() {
   //   let headers = new HttpHeaders().set("Content-Type", "application/json");

@@ -44,6 +44,7 @@ router.get("/get-my-created-events", EventController.getMyCreatedEvents);
 router.get("/get-my-subscribed-events", EventController.getMySubscribedEvents);
 router.get("/get-event-invites", Connect.getAllUsers);
 router.post("/send-event-invites", EventController.sendEventInvites);
+router.post("/block-event-invites", EventController.blockEventInvites);
 router.put("/update-event/:event_id", EventController.updateEvent);
 router.post(
   "/accept-event-invite/:event_id",

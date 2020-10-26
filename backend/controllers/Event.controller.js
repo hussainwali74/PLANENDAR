@@ -69,6 +69,75 @@ module.exports = {
   },
 
   //POST
+  // /api/block-event-invites
+  // block event invitation to contacts
+  blockEventInvites: async (req, res) => {
+    var alreadyBlocked = [];
+    var currentBlocked = [];
+    if (req.headers && req.headers.authorization) {
+      var authorization = req.headers.authorization;
+      try {
+        decoded = jwt.verify(authorization, process.env.EMAIL_SECRET);
+      } catch (e) {
+        console.log("autherizing jwt");
+        console.log(e);
+        return res.status(401).send("unauthorized");
+      }
+      var sender_id;
+      var receiver_id;
+      try {
+        sender = await User.findOne({ email: decoded.email });
+      } catch (error) {
+        console.log("error in finding sender");
+        console.log(error);
+      }
+      sender_id = sender._id;
+      var event;
+      try {
+        event = await Event.findOne({ _id: req.body.event_id });
+      } catch (error) {
+        console.log("error finding event");
+        console.log(error);
+      }
+      for (let index = 0; index < req.body.receivers.length; index++) {
+        receiver_id = req.body.receivers[index];
+
+        let receiver;
+        try {
+          receiver = await User.findById(receiver_id);
+        } catch (error) {
+          console.log("find user");
+          console.log(error);
+        }
+        if (event.blocked) {
+          if (event.blocked.includes(receiver_id)) {
+            alreadyBlocked.push(receiver["name"]);
+          } else {
+            event.blocked.push(receiver);
+            currentBlocked.push(receiver["name"]);
+            try {
+              await event.save();
+            } catch (error) {
+              console.log("error in save blocked list event");
+              console.log(error);
+            }
+          } //END - ELSE EVENT.LENGTH==0
+        } else {
+          console.log("---------------------event");
+          console.log(event);
+        }
+      } //END - FOR
+    }
+    let details = {};
+    details["alreadyBlocked"] = alreadyBlocked;
+    details["currentBlocked"] = currentBlocked;
+    return res.status(200).json({
+      msg: "Event Invitations Sent ",
+      result: true,
+      details: details,
+    });
+  },
+  //POST
   // /api/send-event-invites
   // send event invitation to contacts
   sendEventInvites: async (req, res) => {
@@ -330,10 +399,21 @@ module.exports = {
           { $pull: { eventinvites: eventinvite._id } }
         ).exec();
 
-        await Event.findOneAndUpdate(
-          { _id: req.params.event_id },
-          { $pull: { invitees: receiver_id } }
-        ).exec();
+        try {
+          await Event.findOneAndUpdate(
+            { _id: req.params.event_id },
+            { $pull: { invitees: receiver_id } }
+          ).exec();
+        } catch (error) {
+          console.log(
+            "689 event controller error in update event remove invitee"
+          );
+          console.log(error);
+          res.status(400).json({
+            msg: "error in update event remove invitee",
+            error: error,
+          });
+        }
 
         return res.status(200).json({
           msg: "Invitation  Already Accepted",
@@ -458,12 +538,34 @@ module.exports = {
       console.log("userid");
       console.log(event);
       console.log("-----------------------------------------------------");
+      try {
+        await User.findOneAndUpdate(
+          { _id: receiver_id },
+          { $pull: { eventinvites: req.params.event_id } }
+        ).exec();
+
+        await Event.findOneAndUpdate(
+          { _id: req.params.event_id },
+          { $pull: { invitees: receiver_id } }
+        ).exec();
+      } catch (error) {
+        console.log(
+          "536 event controller error in update event remove invitee"
+        );
+        console.log(error);
+        res.status(400).json({
+          msg: "error in update event remove invitee",
+          error: error,
+        });
+      }
+
       if (event.attendees.includes(userId)) {
         let eventt = await Event.findOneAndUpdate(
           { _id: req.params.event_id },
           { $pull: { attendees: userId } }
         ).exec();
       }
+      event.eliminated.push(user);
       //REMOVE EVENT FROM USER.EVENTS
       await User.findOneAndUpdate(
         { _id: userId },
@@ -487,6 +589,7 @@ module.exports = {
       newNotification.sender = receiver;
       newNotification.receiver = sender;
       try {
+        await event.save();
         await newNotification.save();
       } catch (error) {
         console.log("error in newnotification save");
@@ -499,7 +602,7 @@ module.exports = {
   },
 
   rejectEventInvite: async (req, res) => {
-    console.log("reject event invite");
+    console.log("605 REJECT  event invite");
     if (req.headers && req.headers.authorization) {
       var authorization = req.headers.authorization;
       var decoded;
@@ -554,27 +657,28 @@ module.exports = {
         console.log("error in User  findById");
         console.log(error);
       }
-      // event.unsubscribed.push(receiver._id);
-      // event.save();
-      console.log(
-        "------------------------------------------------------------"
-      );
-      console.log(receiver);
-      console.log(
-        "------------------------------------------------------------"
-      );
+
+      await Event.findOneAndUpdate(
+        { _id: req.params.event_id },
+        { $pull: { invitees: receiver_id } }
+      ).exec();
       if (receiver.events.includes(req.params.event_id)) {
         await User.findOneAndUpdate(
           { _id: receiver_id },
           { $pull: { events: req.params.event_id } }
         ).exec();
+
         receiver.rejected_events.push(event);
-        receiver.save();
+        await receiver.save();
+        // event.eliminated.push(user);
 
         let eventt = await Event.findOneAndUpdate(
           { _id: req.params.event_id },
           { $pull: { attendees: receiver._id } }
         ).exec();
+
+        event.eliminated.push(receiver);
+        await event.save();
 
         return res.status(200).json({
           msg: "Unsubscribed from the event",
@@ -612,6 +716,22 @@ module.exports = {
           console.log(error);
         }
         try {
+          await Event.findOneAndUpdate(
+            { _id: req.params.event_id },
+            { $pull: { invitees: receiver_id } }
+          ).exec();
+        } catch (error) {
+          console.log(
+            "689 event controller error in update event remove invitee"
+          );
+          console.log(error);
+          res.status(400).json({
+            msg: "error in update event remove invitee",
+            error: error,
+          });
+        }
+
+        try {
           await newNotification.save();
         } catch (error) {
           console.log("error in newnotification save");
@@ -621,11 +741,20 @@ module.exports = {
         //ADD THE NEW NOTIFICATION TO RECEIVER'S NOTIFICATIONS ARRAY
         try {
           let event = await Event.findOne({ _id: req.params.event_id });
+          event.eliminated.push(receiver);
+          console.log(
+            "=========================================================="
+          );
+          console.log("event");
+          console.log(event);
+          console.log(
+            "=========================================================="
+          );
+          await event.save();
           receiver.rejected_events.push(event);
           sender.notifications.push(newNotification);
           await sender.save();
           sender.save();
-
           return res.status(200).json({
             msg: "event invite unsubscribed",
             result: true,
@@ -780,7 +909,11 @@ module.exports = {
       }
       var event;
       try {
-        event = await Event.findById(req.params.event_id).populate("attendees");
+        event = await Event.findById(req.params.event_id)
+          .populate("attendees")
+          .populate("blocked")
+          .populate("eliminated")
+          .populate("confirmed");
       } catch (error) {
         console.log("error in event findbyId");
         console.log(error);

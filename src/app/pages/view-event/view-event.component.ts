@@ -36,10 +36,8 @@ export class ViewEventsComponent implements OnInit {
   ngOnInit(): void {
     let route = this.router.url;
     if (route == "/events/calendar") {
-      console.log(route);
       this.eventService.getMyCalenderEvents().subscribe(
         (data) => {
-          console.log(data);
           this.all_events = data["details"];
           this.all_events.sort(function (a, b) {
             let date1 = new Date(a.date);
@@ -47,11 +45,6 @@ export class ViewEventsComponent implements OnInit {
             if (date1 > date2) return 1;
             if (date1 < date2) return -1;
           });
-          // this.all_events.sort(function (a, b) {
-          //   // Turn your strings into dates, and then subtract them
-          //   // to get a value that is either negative, positive, or zero.
-          //   return new Date(a.date) - new Date(b.date);
-          // });
         },
         (e) => {
           console.log(e);
@@ -69,11 +62,6 @@ export class ViewEventsComponent implements OnInit {
             if (date1 > date2) return 1;
             if (date1 < date2) return -1;
           });
-          // this.all_events.sort(function (a, b) {
-          //   // Turn your strings into dates, and then subtract them
-          //   // to get a value that is either negative, positive, or zero.
-          //   return new Date(a.date) - new Date(b.date);
-          // });
         },
         (e) => {
           console.log(e);
@@ -105,7 +93,6 @@ export class ViewEventsComponent implements OnInit {
   getEventByID(eventid) {
     this.eventService.getEventByID(eventid).subscribe(
       (data) => {
-        console.log(data);
         this.dontshowbuttons = true;
         this.modalEvent = data["details"];
         // this.checkRejectedEvent(data["details"]["_id"]);
@@ -123,30 +110,24 @@ export class ViewEventsComponent implements OnInit {
     );
   }
   showIamInbtn(event_id) {
-    console.log(event_id);
     let x = false;
     let me = JSON.parse(localStorage.getItem("user"));
     if (me) {
-      if (this.modalEvent["invitees"]) {
+      if (this.modalEvent["invitees"].length > 0) {
         if (this.modalEvent["invitees"].includes(me["_id"])) {
           x = true;
+          console.log(this.modalEvent["invitees"]);
         } else {
           x = false;
         }
       }
-      if (me["createdevents"]) {
-        if (!me["createdevents"].includes(event_id)) {
-          x = true;
-        } else {
-          x = false;
-        }
-      }
-      if (me["events"]) {
+
+      if (me["events"].length > 0) {
         if (me["events"].includes(event_id)) {
           x = false;
         }
       }
-      if (me["rejected_events"]) {
+      if (me["rejected_events"].length > 0) {
         if (me["rejected_events"].includes(event_id)) {
           x = false;
         }
@@ -156,29 +137,38 @@ export class ViewEventsComponent implements OnInit {
     }
   }
   showUnSubscribeButton(event_id) {
-    let x = true;
+    let x = false;
     let me = JSON.parse(localStorage.getItem("user"));
     if (me) {
-      if (this.modalEvent["invitees"]) {
-        if (!this.modalEvent["invitees"].includes(me["_id"])) {
-          x = false;
-        } else {
+      if (this.modalEvent["invitees"].length > 0) {
+        if (this.modalEvent["invitees"].includes(me["_id"])) {
           x = true;
+          console.log(this.modalEvent["invitees"]);
+        } else {
+          x = false;
         }
       }
-      if (me["createdevents"]) {
-        if (me["createdevents"].includes(event_id)) {
-          x = false;
-        } else {
+      // if I am going to this event
+      if (me["events"].length > 0) {
+        if (me["events"].includes(event_id)) {
           x = true;
+          console.log(me["events"]);
         }
       }
-      console.log(event_id);
-      if (me["rejected_events"]) {
+      // if (me["createdevents"].length > 0) {
+      //   if (me["createdevents"].includes(event_id)) {
+      //     x = false;
+      //   } else {
+      //     x = true;
+      //     console.log(me["createdevents"]);
+      //   }
+      // }
+      if (me["rejected_events"].length > 0) {
         if (me["rejected_events"].includes(event_id)) {
           x = false;
         }
       }
+      console.log(x);
       this.showUnsubButton = x;
     }
   }
@@ -213,8 +203,8 @@ export class ViewEventsComponent implements OnInit {
   unsubscribeToEvent(event_id) {
     this.eventService.unSubcribeToEvent(event_id).subscribe(
       (data) => {
-        console.log(data);
         swal.fire("success", data["msg"], "error");
+        this.eventService.resetUser();
         this.modalService.dismissAll();
       },
       (e) => console.log(e)
@@ -222,8 +212,6 @@ export class ViewEventsComponent implements OnInit {
   }
 
   checkRejectedEvent(event_id) {
-    console.log("event_id");
-    console.log(event_id);
     let me = JSON.parse(localStorage.getItem("user"));
     if (me["rejected_events"]) {
       if (me["rejected_events"].includes(event_id)) {
@@ -244,7 +232,6 @@ export class ViewEventsComponent implements OnInit {
     }
   }
   open(content, type, modalDimension, modalUser) {
-    console.log(modalUser);
     if (modalUser) {
       this.modalUser = modalUser.sender;
     }

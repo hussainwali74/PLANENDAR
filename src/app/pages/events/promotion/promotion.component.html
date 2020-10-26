@@ -6,12 +6,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <!-- <div class="col-sm-6" style="padding-left: 23px;">
-                        <h2>Title</h2>
-                    </div>
-                    <div class="col-sm-6" style="padding-left: 23px;">
-                        <h2>Date</h2>
-                    </div> -->
+
                     <div class="col-sm-6">
                         <div class="form-group ">
                             <div class="input-group mb-4">
@@ -25,7 +20,6 @@
                     </div>
                 </div>
                 <div class="events_list" *ngIf="events">
-
                     <div class="card event_text" *ngFor="let event of events |filter:term">
                         <div class="row" [class.selected]="event.selected">
                             <div class="col-6" style="text-align: left; padding-left: 23px;">
@@ -40,37 +34,46 @@
                     </div>
                 </div>
                 <div class="card d-lg-none hidden-lg ">
-                    <div class="card">
-
-                        <div class="card-header">
+                    <div class="card" *ngIf="confirmed">
+                        <div class="card-header pt-10">
                             <h4>Confirmed</h4>
                         </div>
-                        <div class="card-body">
-                            <p>Andrew jack</p>
-                            <p>Andrew Mik</p>
-                            <p>Andrew ike</p>
+                        <div class="card-body p-1">
+                            <div *ngFor="let item of confirmed">
+                                <p>{{item.name}}</p>
+                            </div>
+                            <div *ngIf="confirmed.length==0" style="text-align: center;">
+                                <p>-</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card" *ngIf="eliminated">
 
-                        <div class="card-header">
+                        <div class="card-header pt-10">
                             <h4>Eliminated</h4>
                         </div>
-                        <div class="card-body">
-                            <p>Andrew jack</p>
-                            <p>Andrew Mik</p>
-                            <p>Andrew ike</p>
+                        <div class="card-body p-1 ">
+                            <div *ngFor="let item of eliminated">
+                                <p>{{item.name}}</p>
+                            </div>
+                            <div *ngIf="eliminated.length==0" style="text-align: center;">
+                                <p>-</p>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card" *ngIf="blocked">
 
-                        <div class="card-header">
+                        <div class="card-header  pt-10">
                             <h4>Blocked</h4>
                         </div>
-                        <div class="card-body">
-                            <p>Andrew jack</p>
-                            <p>Andrew Mik</p>
-                            <p>Andrew ike</p>
+                        <div class="card-body p-1">
+                            <div *ngFor="let item of blocked">
+                                <p>{{item.name}}</p>
+                            </div>
+                            <div *ngIf="blocked.length==0" style="text-align: center;">
+                                <p>-</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,10 +109,9 @@
                                 <td>Andrew Mike</td>
                                 <td>Andrew Mike</td>
                             </tr>
-                            <tr>
-                                <td>Andrew Mike</td>
-                                <td>Andrew Mike</td>
-                                <td>Andrew Mike</td>
+                            <tr *ngFor="let item of blocked">
+                                <td>{{item.name}}</td>
+
                             </tr>
                         </tbody>
                     </table>
@@ -188,7 +190,7 @@
                                         <tbody>
                                             <tr [class.selected]="friend.selected"
                                                 *ngFor=" let friend of friends |filter:term"
-                                                (click)="selectEvent(friend)">
+                                                (click)="selectFriend(friend)">
                                                 <td>
                                                     {{friend.name}} <br>
                                                     <!-- <small>
@@ -199,9 +201,14 @@
                                         </tbody>
                                     </table>
                                     <br>
-                                    <button (click)="sendInvitations()" style="width:98%;" mat-raised-button
-                                        type="button" class="btn btn-success btn-just-icon">
+                                    <button (click)="sendInvitations()" style="width:48%; padding-left: 11px;"
+                                        mat-raised-button type="button" class="btn btn-success btn-just-icon">
                                         Send Invitation
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                    <button (click)="blockInvitations()" style="width:48%; padding-left: 6px;"
+                                        mat-raised-button type="button" class="btn btn-warning btn-just-icon">
+                                        Block Invitation
                                         <div class="ripple-container"></div>
                                     </button>
                                 </div>

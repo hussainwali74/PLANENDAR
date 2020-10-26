@@ -2,11 +2,13 @@
 //Imports
 const mongoose = require("mongoose");
 const express = require("express");
+const morgan = require("morgan");
 
 const cors = require("cors");
 const path = require("path");
 //Creation of Express App
 const app = express();
+app.use(morgan("tiny"));
 
 //Connecting to Mongoose (Place your MongoDB connection string here)
 mongoose

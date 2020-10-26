@@ -22,6 +22,10 @@ export class PromotionComponent implements OnInit {
   events: Event[] = [];
   faDown = faArrowDown;
   friends: Person[];
+  blocked: Person[];
+  eliminated: Person[];
+  confirmed: Person[];
+  attendees: Person[];
   term;
   constructor(private eventService: EventsService) {}
 
@@ -54,10 +58,24 @@ export class PromotionComponent implements OnInit {
     );
   }
   selectEvent(event: Event) {
+    this.events.map((x) => (x.selected = false));
     event.selected = !event.selected;
+    this.getEventDetail(event._id);
+  }
+  getEventDetail(id) {
+    this.eventService.getEventByID(id).subscribe(
+      (data) => {
+        console.log(data);
+        this.confirmed = data["details"]["attendees"];
+        this.blocked = data["details"]["blocked"];
+        this.eliminated = data["details"]["eliminated"];
+      },
+      (e) => {
+        swal.fire("response", "couldn't get event details", "error");
+      }
+    );
   }
   selectFriend(friend: Person) {
-    console.log("friendddd");
     friend.selected = !friend.selected;
   }
 
@@ -69,7 +87,10 @@ export class PromotionComponent implements OnInit {
     selected_contactss.forEach((contact) => {
       receivers.push(contact._id);
     });
-
+    if (!selected_events[0]) {
+      swal.fire("response", "please select an event", "error");
+      return;
+    }
     let body = {};
     body["event_id"] = selected_events[0]["_id"];
     body["receivers"] = receivers;
@@ -97,6 +118,55 @@ export class PromotionComponent implements OnInit {
                 let x =
                   "Invitation sent to these contacts: " +
                   data["details"]["currentInvited"].toString();
+                swal.fire("response", x, "success");
+              }
+            }
+          }
+        }
+      },
+      (e) => {
+        console.log("error sending invitation");
+        console.log(e);
+        swal.fire("response", "couldn't send invitations", "error");
+      }
+    );
+  }
+  blockInvitations() {
+    var selected_events = this.events.filter((e) => e.selected);
+    var selected_contactss = this.friends.filter((e) => e.selected);
+
+    if (!selected_events[0]) {
+      swal.fire("response", "please select an event", "error");
+      return;
+    }
+    let receivers = [];
+    selected_contactss.forEach((contact) => {
+      receivers.push(contact._id);
+    });
+
+    let body = {};
+
+    body["event_id"] = selected_events[0]["_id"];
+    body["receivers"] = receivers;
+
+    this.eventService.blockEventInvitations(body).subscribe(
+      (data) => {
+        if (data) {
+          if (data["details"]) {
+            this.getEventDetail(selected_events[0]["_id"]);
+            if (data["details"]["alreadyBlocked"]) {
+              if (data["details"]["alreadyBlocked"].length) {
+                let x = `Invitation blocked already  to these contacts: ${data[
+                  "details"
+                ]["alreadyBlocked"].toString()}`;
+                swal.fire("response", x, "success");
+              }
+            }
+            if (data["details"]["currentBlocked"]) {
+              if (data["details"]["currentBlocked"].length) {
+                let x =
+                  "Invitation blocked  to these contacts: " +
+                  data["details"]["currentBlocked"].toString();
                 swal.fire("response", x, "success");
               }
             }

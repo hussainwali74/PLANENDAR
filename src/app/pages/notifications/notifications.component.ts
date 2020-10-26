@@ -102,6 +102,7 @@ export class NotificationsComponent implements OnInit {
       (data) => {
         console.log(data);
         if (data["result"]) {
+          this.eventService.resetUser();
           swal.fire("success", data["msg"], "success");
           this.getRequests();
         }
@@ -139,30 +140,26 @@ export class NotificationsComponent implements OnInit {
       // if(me['events'])
     }
   }
-  showIamInbtn(event_id) {
-    console.log(event_id);
-    let x = false;
 
+  showIamInbtn(event_id) {
+    let x = false;
     let me = JSON.parse(localStorage.getItem("user"));
     if (me) {
-      if (this.modalEvent["invitees"].includes(me["_id"])) {
-        x = true;
-      } else {
-        x = false;
-      }
-      if (me["createdevents"]) {
-        if (!me["createdevents"].includes(event_id)) {
+      if (this.modalEvent["invitees"].length > 0) {
+        if (this.modalEvent["invitees"].includes(me["_id"])) {
           x = true;
+          console.log(this.modalEvent["invitees"]);
         } else {
           x = false;
         }
       }
-      if (me["events"]) {
+
+      if (me["events"].length > 0) {
         if (me["events"].includes(event_id)) {
           x = false;
         }
       }
-      if (me["rejected_events"]) {
+      if (me["rejected_events"].length > 0) {
         if (me["rejected_events"].includes(event_id)) {
           x = false;
         }
@@ -172,30 +169,98 @@ export class NotificationsComponent implements OnInit {
     }
   }
   showUnSubscribeButton(event_id) {
-    let x = true;
+    let x = false;
     let me = JSON.parse(localStorage.getItem("user"));
     if (me) {
-      if (!this.modalEvent["invitees"].includes(me["_id"])) {
-        x = false;
-      } else {
-        x = true;
-      }
-      if (me["createdevents"]) {
-        if (me["createdevents"].includes(event_id)) {
-          x = false;
-        } else {
+      if (this.modalEvent["invitees"].length > 0) {
+        if (this.modalEvent["invitees"].includes(me["_id"])) {
           x = true;
+          console.log(this.modalEvent["invitees"]);
+        } else {
+          x = false;
         }
       }
-      console.log(event_id);
-      if (me["rejected_events"]) {
+      // if I am going to this event
+      if (me["events"].length > 0) {
+        if (me["events"].includes(event_id)) {
+          x = true;
+          console.log(me["events"]);
+        }
+      }
+      // if (me["createdevents"].length > 0) {
+      //   if (me["createdevents"].includes(event_id)) {
+      //     x = false;
+      //   } else {
+      //     x = true;
+      //     console.log(me["createdevents"]);
+      //   }
+      // }
+      if (me["rejected_events"].length > 0) {
         if (me["rejected_events"].includes(event_id)) {
           x = false;
         }
       }
+      console.log(x);
       this.showUnsubButton = x;
     }
   }
+  // showIamInbtn(event_id) {
+  //   console.log(event_id);
+  //   let x = false;
+
+  //   let me = JSON.parse(localStorage.getItem("user"));
+  //   if (me) {
+  //     if (this.modalEvent["invitees"].includes(me["_id"])) {
+  //       x = true;
+  //     } else {
+  //       x = false;
+  //     }
+  //     if (me["createdevents"]) {
+  //       if (!me["createdevents"].includes(event_id)) {
+  //         x = true;
+  //       } else {
+  //         x = false;
+  //       }
+  //     }
+  //     if (me["events"]) {
+  //       if (me["events"].includes(event_id)) {
+  //         x = false;
+  //       }
+  //     }
+  //     if (me["rejected_events"]) {
+  //       if (me["rejected_events"].includes(event_id)) {
+  //         x = false;
+  //       }
+  //     }
+
+  //     this.showIamIn = x;
+  //   }
+  // }
+  // showUnSubscribeButton(event_id) {
+  //   let x = true;
+  //   let me = JSON.parse(localStorage.getItem("user"));
+  //   if (me) {
+  //     if (!this.modalEvent["invitees"].includes(me["_id"])) {
+  //       x = false;
+  //     } else {
+  //       x = true;
+  //     }
+  //     if (me["createdevents"]) {
+  //       if (me["createdevents"].includes(event_id)) {
+  //         x = false;
+  //       } else {
+  //         x = true;
+  //       }
+  //     }
+  //     console.log(event_id);
+  //     if (me["rejected_events"]) {
+  //       if (me["rejected_events"].includes(event_id)) {
+  //         x = false;
+  //       }
+  //     }
+  //     this.showUnsubButton = x;
+  //   }
+  // }
 
   rejectInvitations(event_id) {
     if (this.reject_noti_id) {
