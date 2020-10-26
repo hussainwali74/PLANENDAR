@@ -36,37 +36,9 @@ export class ViewEventsComponent implements OnInit {
   ngOnInit(): void {
     let route = this.router.url;
     if (route == "/events/calendar") {
-      this.eventService.getMyCalenderEvents().subscribe(
-        (data) => {
-          this.all_events = data["details"];
-          this.all_events.sort(function (a, b) {
-            let date1 = new Date(a.date);
-            let date2 = new Date(b.date);
-            if (date1 > date2) return 1;
-            if (date1 < date2) return -1;
-          });
-        },
-        (e) => {
-          console.log(e);
-        }
-      );
+      this.getCalenderEvents();
     } else if (route == "/events/created") {
-      this.isCreatedPage = true;
-      this.eventService.getMyCreatedEvents().subscribe(
-        (data) => {
-          console.log(data);
-          this.all_events = data["details"];
-          this.all_events.sort(function (a, b) {
-            let date1 = new Date(a.date);
-            let date2 = new Date(b.date);
-            if (date1 > date2) return 1;
-            if (date1 < date2) return -1;
-          });
-        },
-        (e) => {
-          console.log(e);
-        }
-      );
+      this.getMyCreatedEvents();
     } else {
       this.eventService.getAllPublicEvents().subscribe(
         (data) => {
@@ -78,17 +50,46 @@ export class ViewEventsComponent implements OnInit {
             if (date1 > date2) return 1;
             if (date1 < date2) return -1;
           });
-          // this.all_events.sort(function (a, b) {
-          //   // Turn your strings into dates, and then subtract them
-          //   // to get a value that is either negative, positive, or zero.
-          //   return new Date(a.date) - new Date(b.date);
-          // });
         },
         (e) => {
           console.log(e);
         }
       );
     }
+  }
+  getMyCreatedEvents() {
+    this.isCreatedPage = true;
+    this.eventService.getMyCreatedEvents().subscribe(
+      (data) => {
+        console.log(data);
+        this.all_events = data["details"];
+        this.all_events.sort(function (a, b) {
+          let date1 = new Date(a.date);
+          let date2 = new Date(b.date);
+          if (date1 > date2) return 1;
+          if (date1 < date2) return -1;
+        });
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
+  }
+  getCalenderEvents() {
+    this.eventService.getMyCalenderEvents().subscribe(
+      (data) => {
+        this.all_events = data["details"];
+        this.all_events.sort(function (a, b) {
+          let date1 = new Date(a.date);
+          let date2 = new Date(b.date);
+          if (date1 > date2) return 1;
+          if (date1 < date2) return -1;
+        });
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
   }
   getEventByID(eventid) {
     this.eventService.getEventByID(eventid).subscribe(
@@ -201,6 +202,9 @@ export class ViewEventsComponent implements OnInit {
         console.log(data);
         swal.fire("success", data["msg"], "success");
         this.eventService.resetUser();
+        if (this.router.url == "/events/calendar") {
+          this.getCalenderEvents();
+        }
         this.modalService.dismissAll();
       },
       (e) => console.log(e)
@@ -215,7 +219,6 @@ export class ViewEventsComponent implements OnInit {
           console.log(data);
           swal.fire("success", data["msg"], "error");
           this.eventService.resetUser();
-
           this.modalService.dismissAll();
         },
         (e) => console.log(e)
@@ -229,6 +232,10 @@ export class ViewEventsComponent implements OnInit {
     this.eventService.unSubcribeToEvent(event_id).subscribe(
       (data) => {
         swal.fire("success", data["msg"], "error");
+        console.log(this.router.url);
+        if (this.router.url == "/events/calendar") {
+          this.getCalenderEvents();
+        }
         this.eventService.resetUser();
         this.modalService.dismissAll();
       },
