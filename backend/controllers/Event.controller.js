@@ -889,9 +889,19 @@ module.exports = {
         console.log("error in verify jwt");
         console.log(error);
       }
+      let user;
+      try {
+        user = await User.findOne({ email: decoded.email });
+      } catch (error) {
+        console.log("error in finding user");
+        console.log(error);
+      }
       var events;
       try {
-        events = await Event.find({ privacity: "public" })
+        events = await Event.find({
+          privacity: "public",
+          blocked: { $ne: user._id },
+        })
           .populate("attendees")
           .populate("creator")
           .populate("user_id");

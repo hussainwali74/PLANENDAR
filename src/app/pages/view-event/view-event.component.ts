@@ -113,23 +113,29 @@ export class ViewEventsComponent implements OnInit {
     let x = false;
     let me = JSON.parse(localStorage.getItem("user"));
     if (me) {
-      if (this.modalEvent["invitees"].length > 0) {
-        if (this.modalEvent["invitees"].includes(me["_id"])) {
-          x = true;
-          console.log(this.modalEvent["invitees"]);
-        } else {
-          x = false;
+      if (this.modalEvent["invitees"]) {
+        if (this.modalEvent["invitees"].length > 0) {
+          if (this.modalEvent["invitees"].includes(me["_id"])) {
+            x = true;
+            console.log(this.modalEvent["invitees"]);
+          } else {
+            x = false;
+          }
         }
       }
 
-      if (me["events"].length > 0) {
-        if (me["events"].includes(event_id)) {
-          x = false;
+      if (me["events"]) {
+        if (me["events"].length > 0) {
+          if (me["events"].includes(event_id)) {
+            x = false;
+          }
         }
       }
-      if (me["rejected_events"].length > 0) {
-        if (me["rejected_events"].includes(event_id)) {
-          x = false;
+      if (me["rejected_events"]) {
+        if (me["rejected_events"].length > 0) {
+          if (me["rejected_events"].includes(event_id)) {
+            x = false;
+          }
         }
       }
 
@@ -140,19 +146,23 @@ export class ViewEventsComponent implements OnInit {
     let x = false;
     let me = JSON.parse(localStorage.getItem("user"));
     if (me) {
-      if (this.modalEvent["invitees"].length > 0) {
-        if (this.modalEvent["invitees"].includes(me["_id"])) {
-          x = true;
-          console.log(this.modalEvent["invitees"]);
-        } else {
-          x = false;
+      if (this.modalEvent["invitees"]) {
+        if (this.modalEvent["invitees"].length > 0) {
+          if (this.modalEvent["invitees"].includes(me["_id"])) {
+            x = true;
+            console.log(this.modalEvent["invitees"]);
+          } else {
+            x = false;
+          }
         }
       }
       // if I am going to this event
-      if (me["events"].length > 0) {
-        if (me["events"].includes(event_id)) {
-          x = true;
-          console.log(me["events"]);
+      if (me["events"]) {
+        if (me["events"].length > 0) {
+          if (me["events"].includes(event_id)) {
+            x = true;
+            console.log(me["events"]);
+          }
         }
       }
       // if (me["createdevents"].length > 0) {
@@ -163,9 +173,11 @@ export class ViewEventsComponent implements OnInit {
       //     console.log(me["createdevents"]);
       //   }
       // }
-      if (me["rejected_events"].length > 0) {
-        if (me["rejected_events"].includes(event_id)) {
-          x = false;
+      if (me["rejected_events"]) {
+        if (me["rejected_events"].length > 0) {
+          if (me["rejected_events"].includes(event_id)) {
+            x = false;
+          }
         }
       }
       console.log(x);
