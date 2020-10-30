@@ -197,6 +197,7 @@ export class ViewEventsComponent implements OnInit {
   }
 
   acceptInvitations(event_id) {
+    console.log(this.modalEvent);
     this.eventService.acceptEventInvitation2(event_id).subscribe(
       (data) => {
         console.log(data);

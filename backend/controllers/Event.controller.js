@@ -109,45 +109,47 @@ module.exports = {
           console.log("find user");
           console.log(error);
         }
-        let eventinvite = await EventInvite.findOne({
-          event: req.body.event_id,
-        });
-        if (eventinvite) {
-          //remove event invite sent to this user
+        if (receiver) {
+          let eventinvite = await EventInvite.findOne({
+            event: req.body.event_id,
+          });
+          if (eventinvite) {
+            //remove event invite sent to this user
+            await User.findOneAndUpdate(
+              { _id: receiver_id },
+              { $pull: { eventinvites: eventinvite._id } }
+            ).exec();
+          }
+
+          //remove event from this user
           await User.findOneAndUpdate(
             { _id: receiver_id },
-            { $pull: { eventinvites: eventinvite._id } }
+            { $pull: { events: req.body.event_id } }
           ).exec();
-        }
 
-        //remove event from this user
-        await User.findOneAndUpdate(
-          { _id: receiver_id },
-          { $pull: { events: req.body.event_id } }
-        ).exec();
+          //remove from attendees list of event
+          await Event.findOneAndUpdate(
+            { _id: req.body.event_id },
+            { $pull: { attendees: receiver_id } }
+          );
 
-        //remove from attendees list of event
-        await Event.findOneAndUpdate(
-          { _id: req.body.event_id },
-          { $pull: { attendees: receiver_id } }
-        );
-
-        if (event.blocked) {
-          if (event.blocked.includes(receiver_id)) {
-            alreadyBlocked.push(receiver["name"]);
+          if (event.blocked) {
+            if (event.blocked.includes(receiver_id)) {
+              alreadyBlocked.push(receiver["name"]);
+            } else {
+              event.blocked.push(receiver);
+              currentBlocked.push(receiver["name"]);
+              try {
+                await event.save();
+              } catch (error) {
+                console.log("error in save blocked list event");
+                console.log(error);
+              }
+            } //END - ELSE EVENT.LENGTH==0
           } else {
-            event.blocked.push(receiver);
-            currentBlocked.push(receiver["name"]);
-            try {
-              await event.save();
-            } catch (error) {
-              console.log("error in save blocked list event");
-              console.log(error);
-            }
-          } //END - ELSE EVENT.LENGTH==0
-        } else {
-          console.log("---------------------event");
-          console.log(event);
+            console.log("---------------------event");
+            console.log(event);
+          }
         }
       } //END - FOR
     }
@@ -204,81 +206,83 @@ module.exports = {
           console.log("error finding receiver");
           console.log(error);
         }
-        if (!event.blocked.includes(receiver_id)) {
-          try {
-            eventInvite = await EventInvite.find({
-              receiver: receiver_id,
-              event: event_id,
-            }).populate("receiver");
-          } catch (error) {
-            console.log("find user");
-            console.log(e);
-          }
+        if (receiver) {
+          if (!event.blocked.includes(receiver_id)) {
+            try {
+              eventInvite = await EventInvite.find({
+                receiver: receiver_id,
+                event: event_id,
+              }).populate("receiver");
+            } catch (error) {
+              console.log("find user");
+              console.log(e);
+            }
 
-          if (eventInvite) {
-            if (eventInvite.length != 0) {
-              console.log("WHEN EVENTinvite.LENGGTH==0");
-              console.log(eventInvite);
-              alreadyInvited.push(eventInvite["0"]["receiver"]["name"]);
+            if (eventInvite) {
+              if (eventInvite.length != 0) {
+                console.log("WHEN EVENTinvite.LENGGTH==0");
+                console.log(eventInvite);
+                alreadyInvited.push(eventInvite["0"]["receiver"]["name"]);
+              } else {
+                event.invitees.push(receiver_id);
+                const newInvite = new EventInvite({
+                  sender: sender_id,
+                  receiver: receiver_id,
+                  event: event._id,
+                });
+                newInvite.sender = sender;
+                newInvite.receiver = receiver;
+                newInvite.event = event;
+
+                try {
+                  saveInvite = await newInvite.save();
+                  await event.save();
+                } catch (error) {
+                  console.log("error in save new request");
+                  console.log(error);
+                }
+
+                const newNotification = new Notification({
+                  receiver: receiver_id,
+                  sender: sender_id,
+                  detail:
+                    sender.name + " has invited you to event: " + event.title,
+                  type: "eventinvite",
+                  event: event._id,
+                });
+                newNotification.receiver = receiver;
+                newNotification.sender = sender;
+                newNotification.event = event;
+
+                try {
+                  await newNotification.save();
+                } catch (error) {
+                  console.log("error in save notification");
+                  console.log(error);
+                }
+                receiver.notifications.push(newNotification);
+                receiver.eventinvites.push(newInvite);
+
+                try {
+                  await receiver.save();
+                  currentInvited.push(receiver.name);
+                } catch (error) {
+                  console.log("error in save receiver");
+                  console.log(error);
+                }
+              } //END - ELSE EVENT.LENGTH==0
             } else {
-              event.invitees.push(receiver_id);
-              const newInvite = new EventInvite({
-                sender: sender_id,
-                receiver: receiver_id,
-                event: event._id,
-              });
-              newInvite.sender = sender;
-              newInvite.receiver = receiver;
-              newInvite.event = event;
-
-              try {
-                saveInvite = await newInvite.save();
-                await event.save();
-              } catch (error) {
-                console.log("error in save new request");
-                console.log(error);
-              }
-
-              const newNotification = new Notification({
-                receiver: receiver_id,
-                sender: sender_id,
-                detail:
-                  sender.name + " has invited you to event: " + event.title,
-                type: "eventinvite",
-                event: event._id,
-              });
-              newNotification.receiver = receiver;
-              newNotification.sender = sender;
-              newNotification.event = event;
-
-              try {
-                await newNotification.save();
-              } catch (error) {
-                console.log("error in save notification");
-                console.log(error);
-              }
-              receiver.notifications.push(newNotification);
-              receiver.eventinvites.push(newInvite);
-
-              try {
-                await receiver.save();
-                currentInvited.push(receiver.name);
-              } catch (error) {
-                console.log("error in save receiver");
-                console.log(error);
-              }
-            } //END - ELSE EVENT.LENGTH==0
+              console.log(
+                "=============================================================="
+              );
+              console.log("ERROR eventInvite null");
+              console.log(
+                "=============================================================="
+              );
+            }
           } else {
-            console.log(
-              "=============================================================="
-            );
-            console.log("ERROR eventInvite null");
-            console.log(
-              "=============================================================="
-            );
+            blockedUsers.push(receiver.name);
           }
-        } else {
-          blockedUsers.push(receiver.name);
         }
       } //END - FOR
     }

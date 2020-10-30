@@ -30,9 +30,10 @@ export class PromotionComponent implements OnInit {
   attendees: Person[];
   selected_list_name: string = "";
   selected_list_id: string = "";
-
+  selected_lists: List[] = [];
   allMylists: List[] = [];
   term;
+  contsearch;
   constructor(
     private eventService: EventsService,
     private listService: ListService
@@ -113,6 +114,9 @@ export class PromotionComponent implements OnInit {
   selectFriend(friend: Person) {
     friend.selected = !friend.selected;
   }
+  selectList(list: List) {
+    list.selected = !list.selected;
+  }
 
   sendInvitations() {
     var selected_events = this.events.filter((e) => e.selected);
@@ -127,12 +131,24 @@ export class PromotionComponent implements OnInit {
       return;
     }
     let body = {};
+    var selected_lists = this.allMylists.filter((e) => e.selected);
     body["event_id"] = selected_events[0]["_id"];
+    this.allMylists.forEach((element) => {
+      if (element.selected) {
+        element.contacts.forEach((contact) => {
+          receivers.push(contact._id);
+        });
+      }
+    });
+
     body["receivers"] = receivers;
     console.log("\n");
     console.log("body");
     console.log(body);
+
+    console.log(selected_lists);
     console.log("\n");
+
     this.eventService.sendEventInvitations(body).subscribe(
       (data) => {
         if (data) {
@@ -177,6 +193,7 @@ export class PromotionComponent implements OnInit {
   blockInvitations() {
     var selected_events = this.events.filter((e) => e.selected);
     var selected_contactss = this.friends.filter((e) => e.selected);
+    var selected_lists = this.allMylists.filter((e) => e.selected);
 
     if (!selected_events[0]) {
       swal.fire("response", "please select an event", "error");
@@ -188,11 +205,17 @@ export class PromotionComponent implements OnInit {
     });
 
     let body = {};
-
+    body["event_id"] = selected_events[0]["_id"];
+    this.allMylists.forEach((element) => {
+      if (element.selected) {
+        element.contacts.forEach((contact) => {
+          receivers.push(contact._id);
+        });
+      }
+    });
     body["event_id"] = selected_events[0]["_id"];
     body["receivers"] = receivers;
 
-    alert("kl");
     this.eventService.blockEventInvitations(body).subscribe(
       (data) => {
         if (data) {

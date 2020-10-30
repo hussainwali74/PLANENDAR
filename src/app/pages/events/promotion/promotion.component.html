@@ -63,7 +63,6 @@
                         </div>
                     </div>
                     <div class="card" *ngIf="blocked">
-
                         <div class="card-header  pt-10">
                             <h4>Blocked</h4>
                         </div>
@@ -99,19 +98,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Andrew jack</td>
-                                <td>Andrew Mik</td>
-                                <td>Andrew ike</td>
+                            <tr *ngFor="let item of confirmed">
+                                <td>{{item.name}}</td>
                             </tr>
-                            <tr>
-                                <td>Andrew Mike</td>
-                                <td>Andrew Mike</td>
-                                <td>Andrew Mike</td>
+                            <tr *ngFor="let item of eliminated">
+                                <td>{{item.name}}</td>
                             </tr>
                             <tr *ngFor="let item of blocked">
                                 <td>{{item.name}}</td>
-
                             </tr>
                         </tbody>
                     </table>
@@ -129,7 +123,7 @@
                                 <div class="form-group ">
                                     <div class="input-group mb-4">
                                         <input class="form-control input-sm form-control-sm" placeholder="Search"
-                                            type="text">
+                                            [(ngModel)]="contsearch" type="text">
                                         <div class="input-group-append">
                                             <span class="input-group-text sm-padding"><i
                                                     class="ni ni-zoom-split-in"></i></span>
@@ -138,26 +132,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-7">
+                        <div class="row p-0 m-0">
+                            <!-- <div class="col-md-7">
                                 <div class="table-responsive">
                                     <table class="table" style="border: 1px solid #d1d1d1;
                                         border-collapse: collapse;">
                                         <thead class=" text-primary">
                                             <th>
-                                                Lists
+                                                Selected Contacts
                                             </th>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let item of allMylists">
+                                            <tr *ngFor="let item of selected_contacts_lists">
                                                 <td>
                                                     {{item.name}} </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                            <div class="col-md-2 text-center">
+                            </div> -->
+                            <!-- <div class="col-md-2 text-center">
                                 <div class="arrows">
                                     <fa-icon class="f-check" [icon]="faLeft"></fa-icon>
                                     <fa-icon class="f-check" [icon]="faRight"></fa-icon>
@@ -166,8 +160,8 @@
                                     <fa-icon class="fa" [icon]="faUp"></fa-icon>
                                     <fa-icon class="fa" [icon]="faDown"></fa-icon>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
+                            </div> -->
+                            <div class="col-md-12 p-0">
                                 <div class="table-responsive">
                                     <table class="table" style="border: 1px solid #d1d1d1;
                                         border-collapse: collapse;">
@@ -177,8 +171,13 @@
                                             </th>
                                         </thead>
                                         <tbody>
+                                            <tr (click)="selectList(item)" [class.selected]="item.selected"
+                                                *ngFor="let item of allMylists |filter:contsearch">
+                                                <td>
+                                                    {{item.name}} </td>
+                                            </tr>
                                             <tr [class.selected]="friend.selected"
-                                                *ngFor=" let friend of friends |filter:term"
+                                                *ngFor=" let friend of friends |filter:contsearch"
                                                 (click)="selectFriend(friend)">
                                                 <td>
                                                     {{friend.name}} <br>

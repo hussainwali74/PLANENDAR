@@ -53,6 +53,9 @@ th h4{
     .updown i {
         margin-left: 10px;
     }
+    .card-body{
+        padding: 0.6rem;
+    }
     /* .main-content{
         margin-top: 30.6%;
     }
