@@ -4,98 +4,77 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-info">
-                        <h4 class="card-title">Create Event</h4>
+                        <h4 class="card-title">{{'create-event.create-event'|translate}}</h4>
                     </div>
                     <div class="card-body">
                         <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
                             <div class="row">
-
                                 <div class="col-md-12">
                                     <br>
-                                    <label for="name">Title</label><br>
-                                    <input formControlName="title" style="width: 100%;" matInput placeholder="title">
-                                    <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
-                                        <div *ngIf="f.title.errors.required">Number of tickets is required</div>
-                                    </div>
+                                    <label for="name">{{'create-event.title'|translate}}</label><br>
+                                    <input formControlName="title" style="width: 100%;" matInput
+                                        placeholder="{{'create-event.title'|translate}}">
+
                                 </div>
                                 <div class="col-md-6">
                                     <br>
-                                    <label for="date">Date</label><br>
-                                    <input formControlName="date" style="width: 100%;" matInput placeholder="date"
-                                        type="date">
-                                    <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
-                                        <div *ngIf="f.date.errors.required">Number of tickets is required</div>
-                                    </div>
+                                    <label for="date">{{'create-event.date'|translate}}</label><br>
+                                    <input formControlName="date" style="width: 100%;" matInput
+                                        placeholder="{{'create-event.date'|translate}}" type="date">
                                 </div>
                                 <div class="col-md-6">
                                     <br>
                                     <label for="date">Time</label><br>
                                     <input formControlName="time" style="width: 100%;" matInput placeholder="time"
                                         type="time">
-                                    <div *ngIf="submitted && f.time.errors" class="invalid-feedback">
-                                        <div *ngIf="f.time.errors.required">Number of tickets is required</div>
-                                    </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <br>
-                                    <label for="name">Description</label><br>
+                                    <label for="name">{{'create-event.description'|translate}}</label><br>
                                     <textarea formControlName="description" style="width: 100%;" matInput
-                                        placeholder="description"></textarea>
-                                    <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                                        <div *ngIf="f.description.errors.required">Number of tickets is required
-                                        </div>
-                                    </div>
+                                        placeholder="{{'create-event.description'|translate}}"></textarea>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="col-md-{{extraField.length?6:'12'}} col-sm-12 ">
                                         <button (click)="addField()" mat-raised-button type="button"
                                             class="btn btn-info ">
-                                            Add Field</button>
+                                            {{'create-event.add-field'|translate}}</button>
                                     </div>
                                     <div class="col-md-6  col-sm-12 pull-right">
                                         <span *ngIf="extraField.length" style="margin-top: 10px;">
-
                                             <button (click)="deleteField()" mat-raised-button type="button"
                                                 class="btn btn-info ">
                                                 Remove Field</button>
                                         </span>
                                     </div>
                                 </div>
-                                <div *ngIf="extraField.length" class="row card" style="    width: 97.5%;
-                                margin-top: 10px;
+                                <div *ngIf="extraField.length" class="row card" style="width: 97.5%; margin-top: 10px;
                                 margin-left: 11px;">
                                     <div formArrayName="extra_fields">
                                         <div *ngFor="let item of dynamicForm.get('extra_fields')['controls']; let i=index"
                                             [formGroupName]="i">
                                             <div class="col-md-12">
                                                 <br>
-                                                <label for="name">Title</label><br>
+                                                <label for="name">{{'create-event.title'|translate}}</label><br>
                                                 <input formControlName="title" style="width: 100%;" matInput
-                                                    placeholder="title">
-                                                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
-                                                    <div *ngIf="f.title.errors.required">Number of tickets is
-                                                        required</div>
-                                                </div>
+                                                    placeholder="{{'create-event.title'|translate}}">
                                             </div>
                                             <div class="col-md-6">
                                                 <br>
-                                                <label for="name">Description</label><br>
+                                                <label for="name">{{'create-event.description'|translate}}</label><br>
                                                 <textarea formControlName="description" style="width: 100%;" matInput
-                                                    placeholder="description"></textarea>
-                                                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                                                    <div *ngIf="f.description.errors.required">Number of tickets is
-                                                        required
-                                                    </div>
-                                                </div>
+                                                    placeholder="{{'create-event.description'|translate}}"></textarea>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <span class="clearfix"></span>
-                                    Privacity : {{privatee?"Public":"Private"}} <br>
+                                    {{'create-event.privacity'|translate}} :
+                                    {{(privatee?"create-event.public":"create-event.private")|translate}} <br>
                                     <span>
                                         <label class="custom-toggle">
                                             <input (change)="privacityChange()" type="checkbox"
@@ -109,7 +88,7 @@
                             <div class="row">
                                 <div *ngIf="!editing" class="col-md-4">
                                     <button mat-raised-button type="submit" class="btn btn-info pull-right">
-                                        CREATE</button>
+                                        {{'create-event.create-btn'|translate}}</button>
                                 </div>
                                 <div *ngIf="editing" class="col-md-4">
                                     <button mat-raised-button type="submit" class="btn btn-info pull-right">
@@ -118,7 +97,7 @@
                                 <div class="col-md-4">
                                     <button mat-raised-button type="button" (click)="onCancel()"
                                         class="btn btn-danger pull-right">
-                                        CANCEL</button>
+                                        {{'create-event.cancel-btn'|translate}}</button>
                                 </div>
                             </div>
                             <div class="clearfix"></div>

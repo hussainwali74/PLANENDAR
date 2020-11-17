@@ -26,13 +26,22 @@ th h4{
         background: #eee;
     }
 } */
-
+p {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.0;
+}
 @media (min-width: 576px)
 {
 
   .d-sm-none {
     display: block !important;
   }
+}
+
+.scroll{
+    overflow: scroll !important;
+    height: 100px !important;
 }
 
 @media (max-width:425px){

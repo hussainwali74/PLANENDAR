@@ -1,14 +1,13 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import 'rxjs/Rx';
-import { environment } from 'src/environments/environment';
-import { Person } from '../models/Person.model';
-
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable, NgZone } from "@angular/core";
+import { Router } from "@angular/router";
+import { JwtHelperService } from "@auth0/angular-jwt";
+import "rxjs/Rx";
+import { environment } from "src/environments/environment";
+import { Person } from "../models/Person.model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
   selectedPerson = Person;
@@ -18,7 +17,9 @@ export class AuthService {
   private readonly TOKEN = "token";
   private readonly USER = "user";
 
-  baseUrl: string = environment.url
+  // baseUrl: string =
+  //   "http://ec2-18-132-13-64.eu-west-2.compute.amazonaws.com:5000";
+  baseUrl: string = environment.url;
 
   constructor(
     private http: HttpClient,
@@ -26,16 +27,22 @@ export class AuthService {
     private router: Router,
     public jwtHelper: JwtHelperService
   ) {
-    this.baseUrl = this.baseUrl + '/auth/';
+    this.baseUrl = this.baseUrl + "/auth/";
   }
   saveGoogleCreds(body) {
-    return this.http.post(this.baseUrl + 'save-social-login', body, this.noAuthHeader);
+    return this.http.post(
+      this.baseUrl + "save-social-login",
+      body,
+      this.noAuthHeader
+    );
   }
   googleLogin() {
     // /auth/google
-    console.log('serv')
+    console.log("serv");
     const headers = new HttpHeaders();
-    return this.http.get(environment.url + '/auth/google', { headers: headers })
+    return this.http.get(environment.url + "/auth/google", {
+      headers: headers,
+    });
   }
 
   logOut() {
@@ -43,32 +50,40 @@ export class AuthService {
     window.localStorage.removeItem(this.REFRESH_TOKEN);
     window.localStorage.clear();
     // alert('login out')
-    console.log('----------------------------------------------------')
-    console.log('LOGGED OUT')
-    console.log('----------------------------------------------------')
+    console.log("----------------------------------------------------");
+    console.log("LOGGED OUT");
+    console.log("----------------------------------------------------");
 
     this.ngZone.run(() => {
       // this.router.navigateByUrl('/signin');
-      window.open("/signin", "_self")
-    })
+      window.open("/signin", "_self");
+    });
     return;
   }
 
   private token: string;
-  noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True' }) };
+  noAuthHeader = { headers: new HttpHeaders({ NoAuth: "True" }) };
 
-  createUser(user: any) {
-    return this.http.post(this.baseUrl + '/register', user, this.noAuthHeader);
-  }
+  // createUser(user: any) {
+  //   console.log(this.baseUrl + '/register')
+  //   return this.http.post(this.baseUrl + '/register', user, this.noAuthHeader);
+  // }
   updatePassword(body, token) {
     // return;
-    return this.http.post(this.baseUrl + '/update-password/' + token, body, this.noAuthHeader);
+    return this.http.post(
+      this.baseUrl + "/update-password/" + token,
+      body,
+      this.noAuthHeader
+    );
   }
 
   //send email for password reset link
   public resetPassword(email) {
-    return this.http.post(this.baseUrl + '/forgot-password', email, this.noAuthHeader);
-
+    return this.http.post(
+      this.baseUrl + "/forgot-password",
+      email,
+      this.noAuthHeader
+    );
   }
 
   //CHECK IF TOKEN IS VALID
@@ -98,10 +113,13 @@ export class AuthService {
   }
 
   login(obj) {
-    return this.http.post(this.baseUrl + 'login', obj);
+    console.log(this.baseUrl + "login");
+    return this.http.post(this.baseUrl + "login", obj);
   }
   signup(obj) {
-    return this.http.post(this.baseUrl + 'signup', obj);
+    console.log("this.baseUrl + signup");
+    console.log(this.baseUrl + "signup");
+    return this.http.post(this.baseUrl + "signup", obj);
   }
 
   // private saveToken(token: string): void {
@@ -128,7 +146,7 @@ export class AuthService {
     const token = this.getToken();
     let payload;
     if (token) {
-      payload = token.split('.')[1];
+      payload = token.split(".")[1];
       payload = window.atob(payload);
       return JSON.parse(payload);
     } else {
@@ -141,44 +159,50 @@ export class AuthService {
   // }
 
   getUserProfile() {
-    return this.http.get(this.baseUrl + '/userProfile');
+    return this.http.get(this.baseUrl + "/userProfile");
   }
 
   findUserById(userId: string) {
-    return this.http.get(this.baseUrl + '/user/' + userId)
+    return this.http
+      .get(this.baseUrl + "/user/" + userId)
       .map((response: Response) => {
         return response.json();
       });
   }
 
   findUserByUsername(username: string) {
-    return this.http.get(this.baseUrl + '/user/?username=' + username)
+    return this.http
+      .get(this.baseUrl + "/user/?username=" + username)
       .map((response: Response) => {
         return response.json();
       });
   }
 
   findUserByCredentials(username: string, password: string) {
-    return this.http.get(this.baseUrl + '/user/?username=' + username + '&password=' + password)
+    return this.http
+      .get(
+        this.baseUrl + "/user/?username=" + username + "&password=" + password
+      )
       .map((response: Response) => {
         return response.json();
       });
   }
 
   updateUser(userId: string, user: any) {
-    return this.http.put(this.baseUrl + "/user/" + userId, user)
+    return this.http
+      .put(this.baseUrl + "/user/" + userId, user)
       .map((response: Response) => {
         return response.json();
       });
   }
 
   deleteUser(userId: string) {
-    return this.http.delete(this.baseUrl + '/api/user/' + userId)
+    return this.http
+      .delete(this.baseUrl + "/api/user/" + userId)
       .map((response: Response) => {
         if (response) {
           return {};
         }
       });
   }
-
 }

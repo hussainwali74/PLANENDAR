@@ -20,6 +20,21 @@
 .bsorder mat-form-field input{
     padding:10px; background: white;  border-radius: 4px; width: 94%;
 }
+ 
+@media only screen and (min-width: 1024px){
+    .container-fluidd{
+        width: 179%;
+        left: 79px !important;
+        margin-left: -400px;
+    }
+}
+@media only screen and (min-width: 720px){
+.container-fluidd {
+    margin-top: 26px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+}
 @media (max-width:425px){
         .bsorder mat-form-field input{
             padding: 18px;
@@ -30,6 +45,7 @@
             width: 100%;
 
     }
+
     .bsorder  button{
             width: 100%;
     margin-top: 30px;

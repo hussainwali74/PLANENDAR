@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { AuthService } from "src/app/services/auth.service";
 import { UserService } from "src/app/services/user.service";
 import swal from "sweetalert2";
@@ -33,8 +34,14 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private ngZone: NgZone,
-    private userService: UserService
+    private userService: UserService,
+    private translate: TranslateService
   ) {}
+
+  useLanguage(language: string) {
+    this.translate.use(language);
+  }
+
   //properties
 
   auth2: any;
@@ -97,7 +104,7 @@ export class LoginComponent implements OnInit {
           })
           .subscribe(
             (data) => {
-              // console.log(data)
+              console.log(data);
               localStorage.setItem("token", data["token"]);
               localStorage.setItem("user", JSON.stringify(data["user"]));
               swal.fire(

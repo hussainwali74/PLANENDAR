@@ -2,11 +2,10 @@
     <div class="container-fluidd">
         <div class="card">
             <div class="card-header card-header-info">
-                <h3 class="card-title">PROMOTION</h3>
+                <h3 class="card-title">{{'events.promotion'|translate}}</h3>
             </div>
             <div class="card-body">
                 <div class="row">
-
                     <div class="col-sm-6">
                         <div class="form-group ">
                             <div class="input-group mb-4">
@@ -36,9 +35,9 @@
                 <div class="card d-lg-none hidden-lg ">
                     <div class="card" *ngIf="confirmed">
                         <div class="card-header pt-10">
-                            <h4>Confirmed</h4>
+                            <h4>{{'events.confirmed'|translate}}</h4>
                         </div>
-                        <div class="card-body p-1">
+                        <div class="card-body scroll p-1">
                             <div *ngFor="let item of confirmed">
                                 <p>{{item.name}}</p>
                             </div>
@@ -50,9 +49,9 @@
                     <div class="card" *ngIf="eliminated">
 
                         <div class="card-header pt-10">
-                            <h4>Eliminated</h4>
+                            <h4>{{'events.eliminated'|translate}}</h4>
                         </div>
-                        <div class="card-body p-1 ">
+                        <div class="card-body scroll p-1 ">
                             <div *ngFor="let item of eliminated">
                                 <p>{{item.name}}</p>
                             </div>
@@ -64,9 +63,9 @@
                     </div>
                     <div class="card" *ngIf="blocked">
                         <div class="card-header  pt-10">
-                            <h4>Blocked</h4>
+                            <h4>{{'events.blocked'|translate}}</h4>
                         </div>
-                        <div class="card-body p-1">
+                        <div class="card-body scroll p-1">
                             <div *ngFor="let item of blocked">
                                 <p>{{item.name}}</p>
                             </div>
@@ -82,17 +81,17 @@
                             <tr>
                                 <th>
                                     <h4>
-                                        CONFIRMED
+                                        {{'events.confirmed'|translate}}
                                     </h4>
                                 </th>
                                 <th>
                                     <h4>
-                                        ELIMINATED
+                                        {{'events.eliminated'|translate}}
                                     </h4>
                                 </th>
                                 <th>
                                     <h4>
-                                        BLOCKED
+                                        {{'events.blocked'|translate}}
                                     </h4>
                                 </th>
                             </tr>
@@ -114,7 +113,7 @@
                 <div class="card ">
                     <div class="card-header card-header-success">
                         <h3 class="card-title">
-                            Promote Your Event
+                            {{'events.promote-event'|translate}}
                         </h3>
                     </div>
                     <div class="card-body">
@@ -133,41 +132,13 @@
                             </div>
                         </div>
                         <div class="row p-0 m-0">
-                            <!-- <div class="col-md-7">
-                                <div class="table-responsive">
-                                    <table class="table" style="border: 1px solid #d1d1d1;
-                                        border-collapse: collapse;">
-                                        <thead class=" text-primary">
-                                            <th>
-                                                Selected Contacts
-                                            </th>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let item of selected_contacts_lists">
-                                                <td>
-                                                    {{item.name}} </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div> -->
-                            <!-- <div class="col-md-2 text-center">
-                                <div class="arrows">
-                                    <fa-icon class="f-check" [icon]="faLeft"></fa-icon>
-                                    <fa-icon class="f-check" [icon]="faRight"></fa-icon>
-                                </div>
-                                <div class="updown">
-                                    <fa-icon class="fa" [icon]="faUp"></fa-icon>
-                                    <fa-icon class="fa" [icon]="faDown"></fa-icon>
-                                </div>
-                            </div> -->
                             <div class="col-md-12 p-0">
                                 <div class="table-responsive">
                                     <table class="table" style="border: 1px solid #d1d1d1;
                                         border-collapse: collapse;">
                                         <thead class=" text-primary">
                                             <th>
-                                                Contacts
+                                                {{'contacts.contacts'|translate}}
                                             </th>
                                         </thead>
                                         <tbody>
@@ -181,9 +152,6 @@
                                                 (click)="selectFriend(friend)">
                                                 <td>
                                                     {{friend.name}} <br>
-                                                    <!-- <small>
-                                                        {{friend.email}}
-                                                    </small> -->
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -191,12 +159,12 @@
                                     <br>
                                     <button (click)="sendInvitations()" style="width:48%; padding-left: 11px;"
                                         mat-raised-button type="button" class="btn btn-success btn-just-icon">
-                                        Send Invitation
+                                        {{'contacts.send-invitation-btn'|translate}}
                                         <div class="ripple-container"></div>
                                     </button>
                                     <button (click)="blockInvitations()" style="width:48%; padding-left: 6px;"
                                         mat-raised-button type="button" class="btn btn-warning btn-just-icon">
-                                        Block Invitation
+                                        {{'contacts.block-invitation-btn'|translate}}
                                         <div class="ripple-container"></div>
                                     </button>
                                 </div>

@@ -38,6 +38,11 @@ export class ListService {
     let url = this.baseUrl + "create-list";
     return this.http.post(url, { list_name: body }, { headers });
   }
+  updateList(body) {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + "update-list";
+    return this.http.put(url, body, { headers });
+  }
   deleteList(body) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     let url = this.baseUrl + "delete-list";

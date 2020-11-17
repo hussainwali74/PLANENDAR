@@ -5,17 +5,16 @@
                 <a routerLinkActive="active" class="nn" [routerLinkActiveOptions]="{exact: true}"
                     [routerLink]="['/contactlists/contact']">
                     <button style="width:100%;" mat-raised-button type="button"
-                        class="btn btn-success pull-right">Contacts</button>
+                        class="btn btn-success pull-right">{{'contacts.contacts'|translate}}</button>
                 </a>
             </div>
             <div class="bnts col-md-6">
                 <a routerLinkActive="active" class="nn" [routerLinkActiveOptions]="{exact: true}"
                     [routerLink]="['/contactlists/list']">
                     <button style="width:100%;" mat-raised-button type="button"
-                        class="btn btn-success pull-right">Lists</button>
+                        class="btn btn-success pull-right">{{'contacts.lists'|translate}}</button>
                 </a>
             </div>
-
         </div>
         <div>
             <router-outlet></router-outlet>

@@ -12,6 +12,31 @@ const EventController = require("../controllers/Event.controller");
 const ProfileController = require("../controllers/Profile.controller");
 const ListController = require("../controllers/List.controller");
 
+const multer = require("multer");
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./backend/public/images");
+  },
+  filename: (req, file, cb) => {
+    console.log(file);
+    var filetype = "";
+    if (file.mimetype === "image/gif") {
+      filetype = "gif";
+    }
+    if (file.mimetype === "image/png") {
+      filetype = "png";
+    }
+    if (file.mimetype === "image/jpeg") {
+      filetype = "jpg";
+    }
+    cb(null, "image-" + Date.now() + "." + filetype);
+  },
+});
+var upload = multer({ storage: storage });
+
+var fs = require("fs");
+var type = upload.single("file");
+
 require("dotenv").config();
 
 //@desc View User created event
@@ -67,6 +92,7 @@ router.post("/notification_see", EventController.notificationSeen);
 //              Contact List end points
 // ===========================================================================
 router.post("/create-list", ListController.createList);
+router.put("/update-list", ListController.updateList);
 router.post("/delete-list", ListController.deleteList);
 router.post("/add-list-contacts", ListController.addContactsToList);
 router.post("/remove-list-contacts", ListController.removeContactsToList);
@@ -95,6 +121,11 @@ router.put("/reject-friend-request", Connect.rejectFriendRequests);
 //              profile
 // ===========================================================================
 router.get("/get-profile", ProfileController.getProfile);
+router.post(
+  "/profile-picture/:user_id",
+  upload.single("file"),
+  AuthController.saveProfilePicture
+);
 router.get("/get-notifications", ProfileController.getNotifications);
 router.put("/update-profile", ProfileController.updateProfile);
 router.put("/save-profile-pic", AuthController.saveProfilePic);

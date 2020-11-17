@@ -1,0 +1,29 @@
+<div *ngIf="userData; else loading" class=" text-center navigation-space-buffer">
+    <!-- <h2>Profile image <i class="fas fa-portrait"></i></h2> -->
+    <div class="profile-image">
+        <img *ngIf="selectedFileSrc || userData.photo else robot" [src]="selectedFileSrc || userData.photo" height="200"
+            alt="User profile image">
+        <br />
+        <br />
+        <ng-template #robot>
+            <div class="generic-profile-image">
+                <fa-icon class="fas" [icon]="faRobot"></fa-icon>
+            </div>
+        </ng-template>
+        <div *ngIf="editing" class="custom-file">
+            <input #imageInput type="file" accept="image/*" name="file" class="form-control" id="picture"
+                (change)="changeImage(imageInput)">
+            <label class="custom-file-label" style="cursor: pointer" for="picture"></label>
+        </div>
+    </div>
+
+    <div [hidden]="!imageFileIsTooBig" class="alert alert-danger mt-2">
+        The image file selected is too big (max 1MB)
+    </div>
+    <div *ngIf="profileImageChangedStatus === 'ok'" class="alert alert-success mt-2"> Image Profile updated
+        successfully!</div>
+    <div *ngIf="profileImageChangedStatus === 'fail'" class="alert alert-danger mt-2"> Image Profile failed to update!
+    </div>
+
+    <hr />
+</div>

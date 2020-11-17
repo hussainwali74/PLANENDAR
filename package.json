@@ -8,7 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start"
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
+     "extract-translations": "ngx-translate-extract --input ./src --output ./src/assets/i18n/*.json --clean --format namespaced-json --marker _"
+  
   },
   "private": true,
   "dependencies": {
@@ -28,6 +30,8 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@ng-bootstrap/ng-bootstrap": "6.0.0",
+    "@ngx-translate/core": "^12.0.0",
+    "@ngx-translate/http-loader": "^5.0.0",
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.52",
     "aws-sdk": "^2.764.0",
@@ -44,6 +48,7 @@
     "mongoose": "^5.10.4",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "ng2-nouislider": "1.7.13",
     "ng2-search-filter": "^0.5.1",
     "nodemailer": "^6.4.11",
@@ -61,6 +66,7 @@
     "@angular/cli": "9.0.5",
     "@angular/compiler-cli": "9.0.5",
     "@angular/language-service": "9.0.5",
+    "@biesbjerg/ngx-translate-extract": "^7.0.3",
     "@types/jasmine": "3.5.8",
     "@types/jasminewd2": "2.0.8",
     "@types/node": "13.9.0",

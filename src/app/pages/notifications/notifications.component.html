@@ -2,15 +2,15 @@
     <div class="container-fluidd">
         <div class="card">
             <div class="card-header card-header-info">
-                <h3 class="card-title" style="color: white;">Notifications</h3>
+                <h3 class="card-title" style="color: white;">{{'notification.notifications'|translate}}</h3>
             </div>
             <div *ngIf="!show_notifications" class="card card-profile p-3">
-                <h5>No Notifications </h5>
+                <h5>No {{'notification.notifications'|translate}} </h5>
             </div>
             <div [ngClass]="(notification.seen==false)?'unseen-card':'seen-card'" class="row card-body p-1"
-                *ngFor="let notification of notifications.notifications; let i = index;">
+                *ngFor="let notification of notifications; let i = index;">
 
-                <div class="col-2  p-0 ">
+                <div *ngIf="notification.sender.photo" class="col-2 col-md-1  p-0 ">
                     <div class="carsd-avatar">
                         <a href="javascript:void(0)">
                             <img class="img img-round" height="45px" width="46px" style="margin-top: 2px;"
@@ -18,24 +18,23 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-7   p-0f-15 ">
+                <div *ngIf="!notification.sender.photo" class="pl-0 col-2 text-center">
+                    <app-avatar name="{{notification.sender.name}}"></app-avatar>
+                </div>
+                <div class="col-7 col-md-7  p-0 f-15 ">
                     <div *ngIf="notification.type == 'eventinvite'">
                         <a href="javascript:void(0)" (click)="getEventByID(notification.event,notification._id)">
-                            {{notification.detail}}
+                            {{translateThis(notification.detail)}}
                         </a>
-                        <!-- <span>
-                            {{notification.sender.email}}
-                        </span> -->
+
                     </div>
                     <div *ngIf="notification.type != 'eventinvite'">
                         <a href="javascript:void(0)" (click)="open(classic,'' , '',notification)">
-                            {{notification.detail}}
+                            {{translateThis(notification.detail)}}
                         </a>
-                        <!-- <span>
-                            {{notification.sender.email}}</span> -->
                     </div>
                 </div>
-                <div *ngIf="!notification.seen" class="col-2  p-0">
+                <div *ngIf="!notification.seen" class="col-2 col-md-3  p-0">
                     <div *ngIf="notification.type=='friendrequest'">
                         <fa-icon *ngIf="!notification.seen" (click)="acceptRequest(notification._id)" class="f f-check "
                             [icon]="faCheck">
@@ -47,7 +46,7 @@
                     <div id="seedetails" *ngIf="notification.type=='eventinvite'">
                         <button (click)="open2(classic2,'' , '',notification)" mat-raised-button type="button"
                             class="btn btn-success btn-just-icon">
-                            See Details
+                            {{'notification.see-details'|translate}}
                             <div class="ripple-container"></div>
                         </button>
                     </div>
@@ -60,7 +59,7 @@
 <ng-template id="modal-content" #classic let-c="close" let-d="dismiss">
     <div class="modal-content w-80">
         <div class="modal-header">
-            <h6 class="modal-title" id="modal-title-default">User Details</h6>
+            <h6 class="modal-title" id="modal-title-default">{{'notification.see-details'|translate}}</h6>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">×</span>
             </button>
@@ -95,7 +94,7 @@
 <ng-template #classic2 let-c="close" let-d="dismiss">
     <div class="modal-content">
         <div class="modal-header">
-            <h6 class="modal-title" id="modal-title-default">EVENT DETAILS</h6>
+            <h6 class="modal-title" id="modal-title-default">{{'event-details.event-details'|translate}}</h6>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">×</span>
             </button>
@@ -105,7 +104,7 @@
                 <div class="col-md-5" *ngIf="modalEvent.attendees">
                     <div class="card" *ngIf="modalEvent.attendees">
                         <div class="card-header card-header">
-                            <h3 class="card-title f-20">ATTENDEES</h3>
+                            <h3 class="card-title f-20">{{'event-details.attendees'|translate}}</h3>
                         </div>
                         <div class="card-body" style="padding:0px;" *ngIf="modalEvent.attendees.length">
                             <ul style="padding-left: 28px; padding-top: 10px;">
@@ -114,7 +113,7 @@
                         </div>
                         <div class="p-2 text-center" *ngIf="!modalEvent.attendees.length">
                             <p>
-                                No attendees yet
+                                {{'event-details.no-attendees-yet'|translate}}
                             </p>
                         </div>
                     </div>
@@ -129,7 +128,7 @@
                     </div>
                     <hr>
                     <div class="col-md-12">
-                        <strong>Description </strong>
+                        <strong>{{'event-details.description'|translate}} </strong>
                         <div class="description">
                             <p>{{modalEvent.description}}</p>
                         </div>
@@ -143,12 +142,12 @@
                     </div>
                     <div *ngIf="showIamIn" class="col-md-12">
                         <button mat-raised-button type="button" (click)="acceptInvitations(modalEvent._id)"
-                            class=" full-width-btn btn btn-success ">I'm In</button>
+                            class=" full-width-btn btn btn-success ">{{'event-details.am-in-btn'|translate}}</button>
                     </div>
 
                     <div *ngIf="showUnsubButton" class="col-md-12">
                         <button mat-raised-button type="button" (click)="rejectInvitations(modalEvent._id)"
-                            class=" full-width-btn btn btn-warning ">Unsubscribe</button>
+                            class=" full-width-btn btn btn-warning ">{{'event-details.unsub-btn'|translate}}</button>
                     </div>
                 </div>
             </div>

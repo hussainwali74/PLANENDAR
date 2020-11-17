@@ -14,8 +14,22 @@ export class ContactsComponent implements OnInit {
 
   faCheck = faCheck;
   faTimes = faTimes;
+
+  modalUser: any;
+
   contacts: [];
   term;
+
+  private colors = [
+    "#EB7181", // red
+    "#468547", // green
+    "#FFD558", // yellow
+    "#3670B2", // blue
+  ];
+
+  public initials: string;
+  public circleColor: string;
+
   constructor(
     private modalService: NgbModal,
     private userService: UserService
@@ -23,6 +37,29 @@ export class ContactsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllUsers();
+    const randomIndex = Math.floor(
+      Math.random() * Math.floor(this.colors.length)
+    );
+    this.circleColor = this.colors[randomIndex];
+  }
+
+  private createInititals(name): void {
+    let initials = "";
+
+    for (let i = 0; i < name.length; i++) {
+      if (name.charAt(i) === " ") {
+        continue;
+      }
+
+      if (name.charAt(i) === name.charAt(i).toUpperCase()) {
+        initials += name.charAt(i);
+
+        if (initials.length == 2) {
+          break;
+        }
+      }
+    }
+    this.initials = initials;
   }
 
   getAllUsers() {
@@ -100,9 +137,17 @@ export class ContactsComponent implements OnInit {
   isFriendReqSent(friendReq: any[]) {
     let myId = JSON.parse(localStorage.getItem("user"))["_id"];
     let x = friendReq.filter((x) => x.sender == myId);
+    console.log(x);
     if (x.length > 0) {
+      if (x["0"]["status"] == "rejected") {
+        return false;
+      }
       return true;
-    } else {
+    }
+    // else if(x.){
+
+    // }
+    else {
       return false;
     }
   }
@@ -123,7 +168,11 @@ export class ContactsComponent implements OnInit {
     }
   }
 
-  open(content, type, modalDimension) {
+  open(content, type, modalDimension, modalUser) {
+    if (modalUser) {
+      this.modalUser = modalUser.sender;
+      console.log(modalUser);
+    }
     if (modalDimension === "sm" && type === "modal_mini") {
       this.modalService
         .open(content, {
@@ -160,6 +209,8 @@ export class ContactsComponent implements OnInit {
         }
       );
     }
+
+    this.modalUser = modalUser;
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

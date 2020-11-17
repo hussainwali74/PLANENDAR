@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* modal */
+
+
+
 .form-control-feedback {
   position: absolute;
   top: 10px;
@@ -85,6 +88,13 @@
 }
 .sm-padding{
   padding:0px 8px !important;
+}
+@media only screen and (min-width: 720px) {
+  .container-fluidd {
+    margin-top: 143px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
 }
 @media only screen and (max-width: 425px) {
 

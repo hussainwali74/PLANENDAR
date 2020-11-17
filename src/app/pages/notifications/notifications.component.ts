@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateService } from "@ngx-translate/core";
 import { EventsService } from "src/app/services/events.service";
 import { UserService } from "src/app/services/user.service";
 import swal from "sweetalert2";
@@ -20,7 +21,7 @@ import { Event } from "../../models/Event.model";
 export class NotificationsComponent implements OnInit {
   @Output() notifyEvent: EventEmitter<number> = new EventEmitter<number>();
 
-  notifications: [] = [];
+  notifications: any[] = [];
   faCheck = faCheck;
   faTimes = faTimes;
   closeResult: string;
@@ -38,7 +39,8 @@ export class NotificationsComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private eventService: EventsService,
-    private userService: UserService
+    private userService: UserService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -52,21 +54,25 @@ export class NotificationsComponent implements OnInit {
     this.userService.getNotifications().subscribe(
       (data: []) => {
         // console.log(data)
-        this.notifications = data["details"];
-
-        if (this.notifications["notifications"].length > 0) {
+        this.notifications = data["details"]["notifications"];
+        console.log(this.notifications);
+        if (this.notifications.length > 0) {
           this.show_notifications = true;
         }
-        let x = this.notifications["notifications"].filter((x) => !x["seen"])
-          .length;
+        console.log(this.notifications);
+        this.notifications.sort(function (a, b) {
+          let date1 = new Date(a.createdAt);
+          let date2 = new Date(b.createdAt);
+          if (date1 < date2) return 1;
+          if (date1 > date2) return -1;
+        });
+
+        let x = this.notifications.filter((x) => !x["seen"]).length;
         this.userService.getNewNotificationCount().subscribe((d) => {
           this.userService.changeNotificationCount(d["details"]);
           this.userService.current_notifications_count.subscribe((count) => {
             this.notifications_count = count;
           });
-          // this.userService.current_notifications_count.subscribe(count => {
-          //   this.notifications_count = count
-          // })
         });
       },
       (error) => {
@@ -82,8 +88,6 @@ export class NotificationsComponent implements OnInit {
         console.log(data);
         this.showIamIn = true;
         this.modalEvent = data["details"];
-        // this.checkRejectedEvent(data["details"]["_id"]);
-        // this.showIamInbtn(data["details"]["_id"]);
         this.showIamInbtn(data["details"]["_id"]);
         this.showUnSubscribeButton(data["details"]["_id"]);
 
@@ -187,14 +191,7 @@ export class NotificationsComponent implements OnInit {
           console.log(me["events"]);
         }
       }
-      // if (me["createdevents"].length > 0) {
-      //   if (me["createdevents"].includes(event_id)) {
-      //     x = false;
-      //   } else {
-      //     x = true;
-      //     console.log(me["createdevents"]);
-      //   }
-      // }
+
       if (me["rejected_events"].length > 0) {
         if (me["rejected_events"].includes(event_id)) {
           x = false;
@@ -204,63 +201,6 @@ export class NotificationsComponent implements OnInit {
       this.showUnsubButton = x;
     }
   }
-  // showIamInbtn(event_id) {
-  //   console.log(event_id);
-  //   let x = false;
-
-  //   let me = JSON.parse(localStorage.getItem("user"));
-  //   if (me) {
-  //     if (this.modalEvent["invitees"].includes(me["_id"])) {
-  //       x = true;
-  //     } else {
-  //       x = false;
-  //     }
-  //     if (me["createdevents"]) {
-  //       if (!me["createdevents"].includes(event_id)) {
-  //         x = true;
-  //       } else {
-  //         x = false;
-  //       }
-  //     }
-  //     if (me["events"]) {
-  //       if (me["events"].includes(event_id)) {
-  //         x = false;
-  //       }
-  //     }
-  //     if (me["rejected_events"]) {
-  //       if (me["rejected_events"].includes(event_id)) {
-  //         x = false;
-  //       }
-  //     }
-
-  //     this.showIamIn = x;
-  //   }
-  // }
-  // showUnSubscribeButton(event_id) {
-  //   let x = true;
-  //   let me = JSON.parse(localStorage.getItem("user"));
-  //   if (me) {
-  //     if (!this.modalEvent["invitees"].includes(me["_id"])) {
-  //       x = false;
-  //     } else {
-  //       x = true;
-  //     }
-  //     if (me["createdevents"]) {
-  //       if (me["createdevents"].includes(event_id)) {
-  //         x = false;
-  //       } else {
-  //         x = true;
-  //       }
-  //     }
-  //     console.log(event_id);
-  //     if (me["rejected_events"]) {
-  //       if (me["rejected_events"].includes(event_id)) {
-  //         x = false;
-  //       }
-  //     }
-  //     this.showUnsubButton = x;
-  //   }
-  // }
 
   rejectInvitations(event_id) {
     if (this.reject_noti_id) {
@@ -305,6 +245,46 @@ export class NotificationsComponent implements OnInit {
       }
     );
   }
+  translateThis(detail) {
+    let x = detail.split(" ");
+
+    if (
+      x.includes("Friend") ||
+      (x.includes("friend") && x.includes("Request")) ||
+      x.includes("request")
+    ) {
+      if (x.includes("sent")) {
+        let y = this.translate.instant("notification.has-sent");
+        y = x[0] + " " + x[1] + " " + y;
+        return y;
+      }
+      if (x.includes("accepted")) {
+        let y = this.translate.instant("notification.accepted");
+        y = x[0] + " " + x[1] + " " + y;
+        return y;
+      }
+      if (x.includes("rejected")) {
+        let y = this.translate.instant("notification.rejected");
+        y = x[0] + " " + x[1] + " " + y;
+        return y;
+      }
+    } else if (
+      x.includes("event") ||
+      x.includes("event:") ||
+      x.includes("Event")
+    ) {
+      if (x.includes("invited")) {
+        let y = this.translate.instant("notification.invited");
+        y = x[0] + " " + x[1] + " " + y;
+        return y;
+      } else {
+        return detail;
+      }
+    } else {
+      return detail;
+    }
+  }
+
   open(content, type, modalDimension, modalUser) {
     console.log(modalUser);
 
@@ -355,6 +335,7 @@ export class NotificationsComponent implements OnInit {
         );
     }
   }
+
   notificationSeen(notification) {
     console.log(notification);
     if (!notification.seen) {

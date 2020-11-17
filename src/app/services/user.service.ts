@@ -1,21 +1,21 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, Subject } from "rxjs";
+import { environment } from "src/environments/environment";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class UserService {
-  baseUrl: string = environment.url
+  baseUrl: string = environment.url;
   private notificationSource = new BehaviorSubject<number>(0);
 
   current_notifications_count = this.notificationSource.asObservable();
   notifications_count: number = 0;
 
-  constructor(private http: HttpClient,) {
-    this.baseUrl = this.baseUrl + '/api/';
+  constructor(private http: HttpClient) {
+    this.baseUrl = this.baseUrl + "/api/";
 
     // this.getNewNotificationCount().subscribe(
     //   (data) => {
@@ -25,89 +25,114 @@ export class UserService {
     //   }, e => console.log(e)
     // )
   }
-  changeNotificationCount(count: number) {
-    this.notificationSource.next(count)
+  uploadProfileImage(userId: String, image: File): Observable<any> {
+    let headers = new HttpHeaders().set("Accept", "application/json");
+    // const formData = new FormData();
+    var formData = new FormData();
+
+    formData.append("file", image, image.name);
+    let url = `${this.baseUrl}profile-picture/${userId}`;
+    console.log(url);
+
+    return this.http.post(url, formData, { headers });
+  }
+  resetUser() {
+    this.getMe().subscribe((data) => {
+      localStorage.setItem("user", JSON.stringify(data["details"]));
+    });
+  }
+  getMe() {
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    let url = this.baseUrl + "get-me";
+    console.log(url);
+    return this.http.get(url, { headers });
   }
 
-
-
-
+  changeNotificationCount(count: number) {
+    this.notificationSource.next(count);
+  }
 
   getNewNotificationCount() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'get-new-notification-count';
-    return this.http.get(url, { headers })
+    let url = this.baseUrl + "get-new-notification-count";
+    return this.http.get(url, { headers });
   }
 
   createEvent(body) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'create-event';
-    return this.http.post(url, JSON.stringify(body), { headers })
+    let url = this.baseUrl + "create-event";
+    return this.http.post(url, JSON.stringify(body), { headers });
   }
 
   getNotifications() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'get-notifications';
-    return this.http.get(url, { headers })
+    let url = this.baseUrl + "get-notifications";
+    return this.http.get(url, { headers });
   }
 
   getAllUsers() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'get-users';
-    return this.http.get(url, { headers })
+    let url = this.baseUrl + "get-users";
+    return this.http.get(url, { headers });
   }
 
   getAllFriendRequests() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'friend-requests';
-    return this.http.get(url, { headers })
+    let url = this.baseUrl + "friend-requests";
+    return this.http.get(url, { headers });
   }
 
   updateProfile(body) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'update-profile';
-    return this.http.put(url, JSON.stringify(body), { headers })
+    let url = this.baseUrl + "update-profile";
+    return this.http.put(url, JSON.stringify(body), { headers });
   }
 
   getProfile() {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'get-profile';
-    return this.http.get(url, { headers })
+    let url = this.baseUrl + "get-profile";
+    return this.http.get(url, { headers });
   }
 
   sendFriendRequest(id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'friend-request';
-    return this.http.post(url, { receiver_id: id }, { headers })
+    let url = this.baseUrl + "friend-request";
+    return this.http.post(url, { receiver_id: id }, { headers });
   }
   cancelFriendRequest(id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'cancel-friend-request';
-    return this.http.post(url, { receiver_id: id }, { headers })
+    let url = this.baseUrl + "cancel-friend-request";
+    return this.http.post(url, { receiver_id: id }, { headers });
   }
   unFriend(id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'unfriend';
-    console.log('id')
-     return this.http.post(url, { receiver_id: id }, { headers })
+    let url = this.baseUrl + "unfriend";
+    console.log("id");
+    return this.http.post(url, { receiver_id: id }, { headers });
   }
   acceptRequest(notification_id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'accept-friend-request';
-    return this.http.put(url, { notification_id: notification_id }, { headers })
+    let url = this.baseUrl + "accept-friend-request";
+    return this.http.put(
+      url,
+      { notification_id: notification_id },
+      { headers }
+    );
   }
 
   rejectRequest(notification_id) {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'reject-friend-request';
-    return this.http.put(url, { notification_id: notification_id }, { headers })
+    let url = this.baseUrl + "reject-friend-request";
+    return this.http.put(
+      url,
+      { notification_id: notification_id },
+      { headers }
+    );
   }
   updateProfilePhoto(photo) {
-
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    let url = this.baseUrl + 'save-profile-pic';
+    let url = this.baseUrl + "save-profile-pic";
     // console.log(url)
     return this.http.put(url, { photo: photo }, { headers });
   }
-
 }

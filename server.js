@@ -6,9 +6,9 @@
 // //Creating the Server
 // //Note: cmd - "node server.js"
 // const server =  http.createServer(app);
-// //Host provider port in Environmental variable OR User defined port 
+// //Host provider port in Environmental variable OR User defined port
 // const port = process.env.PORT || 3000;
-// //Browser Listen at localhost:3000 
+// //Browser Listen at localhost:3000
 // server.listen(port);
 
 const app = require("./backend/app");
@@ -16,7 +16,7 @@ const app = require("./backend/app");
 const debug = require("debug")("node-angular");
 const http = require("http");
 
-const normalizePort = val => {
+const normalizePort = (val) => {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -32,7 +32,7 @@ const normalizePort = val => {
   return false;
 };
 
-const onError = error => {
+const onError = (error) => {
   if (error.syscall !== "listen") {
     throw error;
   }
@@ -57,11 +57,11 @@ const onListening = () => {
   debug("Listening on " + bind);
 };
 
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.PORT || "5000");
+
 app.set("port", port);
 
 const server = http.createServer(app);
 server.on("error", onError);
 server.on("listening", onListening);
 server.listen(port);
-

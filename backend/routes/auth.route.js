@@ -92,7 +92,7 @@ router.post("/login", (req, res, next) => {
             expiresIn: "1h",
           });
           //Sending Token
-          res.status(200).json({
+          return res.status(200).json({
             msg: "Welcome Back..!!",
             token: token,
             user: fetchedUser,
@@ -103,113 +103,17 @@ router.post("/login", (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(401).json({
+      return res.status(401).json({
         msg: "Authorization Failed..!!",
         result: "false",
       });
     });
 });
-
-router.post(
-  "/signup",
-  (req, res, next) => {
-    bcrypt
-      .hash(req.body.password, 10)
-      .then((hash) => {
-        const user = new User({
-          email: req.body.email,
-          name: req.body.name,
-          password: hash,
-        });
-        //remove this line
-        var emailSent = false;
-
-        user
-          .save()
-          .then((result) => {
-            console.log("user saved");
-            //sync email sending
-            try {
-              const emailToken = jwt.sign(
-                {
-                  user: _.pick(user, "id"),
-                },
-                process.env.EMAIL_SECRET,
-                {
-                  expiresIn: "1d",
-                }
-              );
-              const url = `http://localhost:3000/auth/confirmation/${emailToken}`;
-              console.log(
-                "================================================================"
-              );
-              console.log("url");
-              console.log(process.env.GMAIL_USER);
-              console.log(process.env.GMAIL_PASS);
-              console.log(
-                "================================================================"
-              );
-              var nodemailer = require("nodemailer");
-              var transporter = nodemailer.createTransport({
-                service: "Gmail",
-                auth: {
-                  user: process.env.GMAIL_USER,
-                  pass: process.env.GMAIL_PASS,
-                },
-              });
-
-              transporter.sendMail(
-                {
-                  from: "hussain.akhss2010@gmail.com",
-                  // to: 'hussain.akhss2010@gmail.com ',
-                  to: req.body.email,
-                  subject: "PLANENDAR | Confirm Email",
-                  // text: 'hello world!'
-                  html: `
-                    <h3>Please click the link below to confirm your email</h3>
-                       <hr>
-                       <a href="${url}">${url}</a>
-                     `,
-                },
-                (error, info) => {
-                  if (error) {
-                    return console.log(error);
-                  }
-                  emailSent = true;
-                  console.log("Message sent: %s", info.messageId);
-                  console.log(emailSent);
-                  res.status(201).json({
-                    result: true,
-                    details: result,
-                    emailSent: emailSent,
-                  });
-                }
-              );
-            } catch (error) {
-              console.log("error while sending mail 44 ");
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-              result: false,
-              details: "Email already Exist.",
-            });
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
-  (err) => {
-    res.status(500).json({
-      result: false,
-    });
-  }
-);
+router.post("/signup", AuthController.signUp);
 
 // @DESC: send forgot password link
 // ROUTE: /auth/forgot-password
+
 router.post(
   "/forgot-password",
   (req, res, next) => {
@@ -226,7 +130,8 @@ router.post(
           { expiresIn: "1d" }
         );
         tok = emailToken;
-        const url = `http://localhost:3000/auth/updatepassword/${emailToken}`;
+        const url = `${process.env.BACK_URL}:${process.env.PORT}/auth/updatepassword/${emailToken}`;
+        // const url = `http://localhost:3000/auth/updatepassword/${emailToken}`;
         var nodemailer = require("nodemailer");
         var transporter = nodemailer.createTransport({
           service: "Gmail",
@@ -243,10 +148,10 @@ router.post(
             subject: "PLANENDAR | Reset Password",
             // text: 'hello world!'
             html: `
-                           <h3>Please click the link below to reset your password</h3>
-                           <hr>
-                           <a href="${url}">${url}</a>
-                         `,
+            <h3>Please click the link below to reset your password</h3>
+            <hr>
+            <a href="${url}">${url}</a>
+          `,
           },
           (error, info) => {
             if (error) {
@@ -288,13 +193,20 @@ router.get("/updatepassword/:token", (req, res) => {
       user: { id },
     } = jwt.verify(req.params.token, process.env.EMAIL_SECRET);
     return res.redirect(
-      "http://localhost:4200/reset-password/" + req.params.token
+      process.env.HOST_URL + "/reset-password/" + req.params.token
     );
+    // return res.redirect(
+    //   "http://localhost:4200/reset-password/" + req.params.token
+    // );
   } catch (error) {
     console.log("udpate password error");
     console.log(error);
+    // return res.redirect(
+    //   "http://ec2-18-132-13-64.eu-west-2.compute.amazonaws.com/reset-password/" +
+    //     req.params.token
+    // );
     return res.redirect(
-      "http://localhost:4200/reset-password/" + req.params.token
+      process.env.HOST_URL + "/reset-password/" + req.params.token
     );
   }
 });
@@ -318,7 +230,7 @@ router.post("/update-password/:token", (req, res) => {
         user.save(function (err) {
           if (err) return console.log(err);
           //user has been updated
-          res.status(200).json({
+          return res.status(200).json({
             result: true,
             msg: "Password updated",
             details: "password updated successfully",
@@ -328,7 +240,7 @@ router.post("/update-password/:token", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({
+      return res.status(500).json({
         result: false,
         error: "could not update password",
         details: err,
@@ -355,11 +267,14 @@ router.get("/confirmation/:token", async (req, res) => {
 
       console.log("updated");
 
-      return res.redirect("http://localhost:4200/signin");
+      // return res.redirect(
+      //   "http://ec2-18-132-13-64.eu-west-2.compute.amazonaws.com/signin"
+      // );
+      return res.redirect(process.env.HOST_URL + "/signin");
     });
   } catch (error) {
     console.log("/confirmation: token link expired");
-    res.status(500).json({
+    return res.status(500).json({
       result: false,
       details: "the link has expired",
     });
@@ -376,19 +291,19 @@ router.get(
     const secret = "kadndak#$%^&*dfreqofn2oa2141341";
     try {
       let payload = jwt.verify(token, secret);
-      res.status(200).json({
+      return res.status(200).json({
         result: true,
         payload: jwt.verify(token, secret),
       });
     } catch {
-      res.status(401).json({
+      return res.status(401).json({
         result: false,
       });
     }
   },
   (err) => {
     console.log(err);
-    res.status(500).json({
+    return res.status(500).json({
       result: false,
     });
   }

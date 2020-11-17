@@ -44,6 +44,12 @@ ul li {
         font-size: 12px !important;
     }
       
+    .card-header {
+        padding: 0.70rem 1.5rem;
+        margin-bottom: 0;
+        background-color: #f6f9fc;
+        border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.05);
+    }
 .modal-content {
     width: 100%;
     right: 0px;

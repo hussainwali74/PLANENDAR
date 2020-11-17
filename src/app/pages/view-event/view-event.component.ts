@@ -3,7 +3,7 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { EventsService } from "src/app/services/events.service";
 import { Event } from "../../models/Event.model";
 import swal from "sweetalert2";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-view-event",

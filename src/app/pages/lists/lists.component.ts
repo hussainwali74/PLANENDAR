@@ -1,13 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import {
-  faAlignLeft,
   faArrowDown,
   faArrowLeft,
   faArrowRight,
   faArrowUp,
+  faPen,
   faPlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { List } from "src/app/models/List.model";
 import { Person } from "src/app/models/Person.model";
 import { EventsService } from "src/app/services/events.service";
@@ -20,10 +21,14 @@ import swal from "sweetalert2";
   styleUrls: ["./lists.component.css"],
 })
 export class ListsComponent implements OnInit {
+  closeResult: string;
+  edit_list_name: string;
+
   term;
   faTrasho = faTrash;
   faLeft = faArrowLeft;
   faRight = faArrowRight;
+  faPen = faPen;
   faUp = faArrowUp;
   faDown = faArrowDown;
   faPlus = faPlus;
@@ -36,12 +41,22 @@ export class ListsComponent implements OnInit {
   allMyContacts: Person[] = [];
   allMyContactsTemp: Person[] = [];
   selected_list_contacts: Person[] = [];
+  edit_list: boolean = false;
 
   constructor(
     private listService: ListService,
-    private eventService: EventsService
+    private eventService: EventsService,
+    private modalService: NgbModal
   ) {}
-
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return "by pressing ESC";
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return "by clicking on a backdrop";
+    } else {
+      return "with: $reason";
+    }
+  }
   ngOnInit(): void {
     this.selected_list_id = localStorage.getItem("selected_list_id");
     this.getMyLists();
@@ -66,6 +81,12 @@ export class ListsComponent implements OnInit {
     this.selected_list_id = id;
     this.deleteList();
     console.log(this.selected_list_id);
+  }
+  editThisList(id) {
+    this.edit_list = true;
+    this.selected_list_id = id;
+    this.getListDetails(id);
+    localStorage.setItem("list_id", id.toString());
   }
 
   selectContact(contact: Person) {
@@ -159,14 +180,21 @@ export class ListsComponent implements OnInit {
     this.listService.getListDetails(id).subscribe(
       (data) => {
         this.selected_list = data["details"];
+        console.log("\n");
+        console.log("\n");
+        console.log("\n");
+        console.log(this.selected_list);
         if (data["details"]["contacts"].length) {
           this.selected_list_contacts = this.selected_list.contacts;
           let ids_array = this.selected_list_contacts.map((e) => e._id);
           console.log(this.allMyContactsTemp);
           this.allMyContactsTemp = this.allMyContactsTemp.filter((e) => {
-            console.log(e);
             return !ids_array.includes(e._id);
           });
+
+          if (this.edit_list) {
+            this.selected_list_name = this.selected_list.name;
+          }
         } else {
           this.refreshContacts();
         }
@@ -176,6 +204,76 @@ export class ListsComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  open(content, type, modalDimension) {
+    if (modalDimension === "sm" && type === "modal_mini") {
+      this.modalService
+        .open(content, {
+          windowClass: "modal-mini",
+          size: "sm",
+          centered: true,
+        })
+        .result.then(
+          (result) => {
+            this.closeResult = "Closed with: $result";
+          },
+          (reason) => {
+            this.closeResult = "Dismissed $this.getDismissReason(reason)";
+          }
+        );
+    } else if (modalDimension === "" && type === "Notification") {
+      this.modalService
+        .open(content, { windowClass: "modal-danger", centered: true })
+        .result.then(
+          (result) => {
+            this.closeResult = "Closed with: $result";
+          },
+          (reason) => {
+            this.closeResult = "Dismissed $this.getDismissReason(reason)";
+          }
+        );
+    } else {
+      this.modalService.open(content, { centered: true }).result.then(
+        (result) => {
+          this.closeResult = "Closed with: $result";
+        },
+        (reason) => {
+          this.closeResult = "Dismissed $this.getDismissReason(reason)";
+        }
+      );
+    }
+  }
+  updateList() {
+    console.log("selected_list_name");
+    console.log(this.selected_list_name);
+    console.log(this.selected_list_id);
+    if (!this.selected_list_name) {
+      this.listService.swalMsgError("Form invalid", "Please enter a list name");
+      return;
+    } else {
+      this.listService
+        .updateList({
+          list_name: this.selected_list_name,
+          list_id: this.selected_list_id,
+        })
+        .subscribe(
+          (data) => {
+            this.selected_list_name = "";
+            this.edit_list = false;
+            this.getMyLists();
+            this.listService.swalMsgSuccess(data["msg"]);
+          },
+          (error) => {
+            console.log("error");
+            console.log(error);
+            // this.listService.swalMsgSuccess(error['msg'])
+          }
+        );
+    }
+  }
+  cancelUpdateList() {
+    this.edit_list = false;
   }
 
   setSelectedListName(id) {
@@ -216,6 +314,9 @@ export class ListsComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+  editList() {
+    this.getListDetails(this.selected_list_id);
   }
 
   getMyLists() {

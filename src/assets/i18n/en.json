@@ -1,0 +1,88 @@
+{
+    "landing":{
+        "see-events":"SEE EVENTS",
+        "create-event":"CREATE EVENT"
+    },
+    "login":{
+        "reset-link":"Enter your email for reset password link",
+        "send-reset-link-btn":"SEND RESET LINK",
+       "sign-in-with":"Sign in with",
+       "sign-in-with-creds":"Or Sign in with credentials",
+       "sign-in-btn":"SIGN IN",
+       "forgot-pass":"Forgot Password?",
+       "create-new-account":"Create New Account",
+       "email-sent":"Email Sent!",
+       "reset-pass-link-sent":"Reset Password link has been sent to the email you provided"
+    },
+    "reset-password":{
+        "enter-new-pass":"Enter your new password",
+        "update-pass-btn" : "UPDATE PASSWORD"
+    },
+    "view-events":{
+        "view-events":"View Events"
+    },
+    "create-event":{
+        "event-created":"Event Created",  
+        "title":"Title",
+        "description":"Description",
+        "date":"Date",
+        "add-field":"ADD FIELD",
+        "privacity": "Privacity",
+        "public":"Public",
+        "private":"Private",
+        "create-btn":"CREATE",
+        "cancel-btn":"CANCEL"
+    },
+    "event-details":{
+        "event-details":"EVENT DETAILS",
+        "attendees":"ATTENDEES",
+        "no-attendees-yet":"No Attendees Yet",
+        "description":"Description",
+        "edit":"EDIT",
+        "promotion":"PROMOTION",
+        "am-in-btn":"I'M IN",
+        "unsub-btn":"UNSUBSCRIBE"
+    },
+    "events":{
+        "search":"SEARCH",
+        "calendar": "CALENDAR",
+        "created": "CREATED",
+        "promotion": "PROMOTION",
+        "confirmed": "CONFIRMED",
+        "eliminated": "ELIMINATED",
+        "blocked": "BLOCKED",
+        "promote-event": "PROMOTE YOUR EVENT"
+
+    },
+    "contacts": {
+        "send-invitation-btn": "SEND INVITATION",
+        "block-invitation-btn": "BLOCK INVITATION",
+        "contacts": "CONTACTS",
+        "lists": "LISTS",
+        "update":"UPDATE",
+        "add-list":"ADD LIST",
+        "no-list-yet":"No Lists created yet"   
+    },
+    "notification":{
+        "has-sent":"has sent your Friend Request",
+        "accepted":"accepted your Friend Request",
+        "rejected":"rejected your Friend Request",
+        "invited":"has invited you to an event",
+        "see-details":"SEE DETAILS",
+        "notifications":"Notifications"
+    },
+    
+    "user-profile":{
+        "personal-data":"PERSONAL DATA",
+        "name":"Name",
+        "email":"Email",
+        "password":"Password",
+        "update-profile":"UPDATE PROFILE",
+        "cancel":"CANCEL",
+        "save-profile":"SAVE PROFILE"
+    }
+
+
+    
+    
+}

@@ -1,6 +1,42 @@
 @media(max-width:425px){
 
-    .section{
-        margin-top: 10%;
+   
+
+    #logo{
+        margin-left: 13px;
     }
+
+    .card-body{
+        margin-top: 125px;
+    }
+
+}
+ 
+@media(max-width:375px){
+   
+    #logo{
+       margin-left: -23px;
+   }
+}
+@media(max-width:320px){
+    #logo{
+       margin-right: 45px;
+       margin-left: -13px;
+       height: 80px;
+       }
+   
+}
+@media (min-width: 992px){
+.pt-lg-5 .py-lg-5 {
+    padding-top: 0px !important;
+}
+}
+.lds-ripple {
+ display: inline-block;
+ width: 80px;
+ height: 80px;
+ position: fixed;
+ z-index: 1031; /* High z-index so it is on top of the page */
+ top: calc( 72% - ( 10px / 2) ); /* where ... is the element's height */
+ right: calc( 50% - ( 80px / 2) ); /* where ... is the element's width */
 }

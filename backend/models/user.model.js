@@ -50,6 +50,12 @@ const userSchema = mongo.Schema({
       ref: "Event",
     },
   ],
+  rejected_friend: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   notifications: [
     {
       type: Schema.Types.ObjectId,

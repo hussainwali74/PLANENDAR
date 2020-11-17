@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EventsService } from "src/app/services/events.service";
 import { Location } from "@angular/common";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-create-event",
@@ -21,7 +22,8 @@ export class CreateEventComponent implements OnInit {
     private eventService: EventsService,
     private router: Router,
     private route: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -110,13 +112,6 @@ export class CreateEventComponent implements OnInit {
       }
       return;
     }
-    // return;
-    console.log("this.dynamicForm.value.privacity");
-    console.log(this.dynamicForm.value.privacity);
-
-    // this.dynamicForm.value.privacity =
-    //   ? "public"
-    //   : "private";
 
     if (this.editing) {
       if (this.dynamicForm.value.privacity === true) {
@@ -153,7 +148,9 @@ export class CreateEventComponent implements OnInit {
           this.eventService.getMyEvents().subscribe((data) => {
             localStorage.setItem("user", JSON.stringify(data["details"]));
           });
-          this.eventService.swalMsgSuccess("Event Created");
+          this.eventService.swalMsgSuccess(
+            this.translate.instant("create-event.event-created")
+          );
           this.router.navigateByUrl("/events/created");
         },
         (error) => {

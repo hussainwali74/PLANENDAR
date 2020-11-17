@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  url: "http://localhost:3000"
+  url: "http://localhost:3000",
+  // url: "http://ec2-18-132-13-64.eu-west-2.compute.amazonaws.com:5000",
 };
 
 /*

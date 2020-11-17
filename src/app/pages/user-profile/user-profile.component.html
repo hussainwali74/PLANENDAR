@@ -1,39 +1,21 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div class="col-md-4 text-center">
-        <div class="card-profile-image">
-          <!-- <a href="javascript:void(0)"> -->
-          <img class="rounded-circle" src="{{profile.photo?profile.photo:'./assets/img/faces/marc.jpg'}}" />
-          <div *ngIf="enableEdit">
+      <div class="col-md-4">
 
-            <br>
-            <br>
-
-            <label class="btn btn-default" style="width: 214px; padding:5px 8px;">
-              <input type="file" (change)="selectFile($event)">
-            </label>
-            <br>
-
-            <button class="btn btn-success" style="width: 55%;" type="button" [disabled]="!selectedFiles"
-              (click)="upload()">Upload</button>
-          </div>
-
-          <!-- </a> -->
-        </div>
+        <app-upload-image [editing]="enableEdit" photoUrl="{{profile.photo}}"></app-upload-image>
       </div>
       <div class="col-md-8">
         <div class="card">
           <div class="card-header card-header-info">
-            <h4 class="card-title">Personal Data</h4>
-            <!-- <p class="card-category">Complete your profile</p> -->
+            <h4 class="card-title">{{'user-profile.personal-data'|translate}}</h4>
           </div>
           <div class="card-body">
             <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group ">
-                    <label for="name">Name</label><br>
+                    <label for="name">{{'user-profile.name'|translate}}</label><br>
                     <div class="input-group mb-4">
                       <input class="form-control" [attr.disabled]="!enableEdit?true:null" formControlName="name"
                         placeholder="Name" type="text">
@@ -42,35 +24,35 @@
                 </div>
                 <div class="col-md-12">
                   <div class="form-group ">
-                    <label for="email">Email</label><br>
+                    <label for="email">{{'user-profile.email'|translate}}</label><br>
                     <div class="input-group mb-4">
                       <input class="form-control" [attr.disabled]="!enableEdit? true : null" formControlName="email"
-                        placeholder="Email Address" value="{{profile.email}}" type="email">
+                        placeholder="{{'user-profile.email'|translate}}" value="{{profile.email}}" type="email">
                     </div>
                   </div>
                 </div>
                 <div class="col-md-12">
                   <div class="form-group ">
-                    <label for="password">Password</label><br>
+                    <label for="password">{{'user-profile.password'|translate}}</label><br>
                     <div class="input-group mb-4">
                       <input class="form-control" [attr.disabled]="!enableEdit?true:null" formControlName="password"
-                        placeholder="Password" type="password">
+                        placeholder="{{'user-profile.password'|translate}}" type="password">
                     </div>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6 col-sm-12" *ngIf="!enableEdit">
-                  <button (click)="editPage()" mat-raised-button type="button" class="btn btn-info pull-right">Update
-                    Profile</button>
+                  <button (click)="editPage()" mat-raised-button type="button"
+                    class="btn btn-info pull-right">{{'user-profile.update-profile'|translate}}</button>
                 </div>
                 <div class="col-md-6 col-sm-12" *ngIf="enableEdit">
                   <button mat-raised-button type="button" (click)="cancelEdit()"
-                    class="btn btn-info pull-right">Cancel</button>
+                    class="btn btn-info pull-right">{{'user-profile.cancel'|translate}}</button>
                 </div>
                 <div class="col-md-6 col-sm-12" *ngIf="enableEdit">
-                  <button mat-raised-button type="submit" class="btn btn-success pull-right">Save
-                    Profile</button>
+                  <button mat-raised-button type="submit"
+                    class="btn btn-success pull-right">{{'user-profile.save-profile'|translate}}</button>
                 </div>
               </div>
               <div class="clearfix"></div>

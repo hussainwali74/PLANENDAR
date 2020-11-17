@@ -41,6 +41,9 @@
           <div class="" ngbDropdown>
             <fa-icon class="f-50 " [icon]="faList" id="dropdownMenuButton" ngbDropdownToggle></fa-icon>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" ngbDropdownMenu>
+              <a (click)="useLanguage('en')" class="dropdown-item" href="javascript:void(0)">English</a>
+              <a (click)="useLanguage('sp')" class="dropdown-item" href="javascript:void(0)">Spanish</a>
+              <hr>
               <a (click)="logout()" class="dropdown-item" href="javascript:void(0)">Logout</a>
             </div>
           </div>

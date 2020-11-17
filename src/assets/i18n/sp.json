@@ -1,0 +1,86 @@
+{
+    "landing":{
+        "see-events":"Ver Eventos",
+        "create-event":"Crear Eventos"
+    },
+    "login":{
+        "reset-link":"Introduce el email para resetear contrasena",
+        "send-reset-link-btn":"ENVIAR ENLACE",
+        "sign-in-with":"Accede con",
+       "sign-in-with-creds":"Entra tus datos",
+       "sign-in-btn":"ENTRA",
+       "forgot-pass":"Olvidaste la contrasenya?",
+       "create-new-account":"Crea una cuenta",
+       "email-sent":"Email Envidao!",
+       "reset-pass-link-sent":"Hemos Enviado un enlace para reiniciar la contrasenya al email indicado"
+    },
+    "reset-password":{
+        "enter-new-pass":"Escribe tu nueva contrasena",
+        "update-pass-btn" : "ACTUALIZAR CONTRASENA"
+    },
+    "view-events":{
+        "view-events":"Vista de Eventos"
+    },
+    "create-event":{
+        "event-created":"Evento Creado",  
+        "title":"Titulo",
+        "description":"Descripcion",
+        "date":"Fecha",
+        "add-field":"ANADIR CAMPO",
+        "privacity": "Privacidad",
+        "public":"Publico",
+        "private":"Privado",
+        "create-btn":"CREAR",
+        "cancel-btn":"CANCELAR"
+    },
+    "event-details":{
+        "event-details":"Detallas del evento",
+        "attendees":"ASISTENTES",
+        "no-attendees-yet":"Sin asistentes",
+        "description":"Descripcion",
+        "edit":"EDITAR",
+        "promotion":"PROMOCIONAR",
+        "am-in-btn":"ME APUNTO",
+        "unsub-btn":"DESAPUNTARSE"
+    },
+    "events":{
+        "search":"BUSCAR",
+        "calendar": "CALENDARIO",
+        "created": "CREADOS",
+        "promotion": "PROMOCIONAR",
+        "confirmed": "CONFIRMADOS",
+        "eliminated": "ELIMINADOS",
+        "blocked": "BLOQUEADOS",
+        "view-events":"View Events",
+        "promote-event": "Promociona tu Evento"
+
+    },
+    "contacts": {
+        "send-invitation-btn": "ENVIAR INVITACION",
+        "block-invitation-btn": "BLOQUEAR USUARIO",
+        "contacts": "Contactos",
+        "lists": "LISTAS",
+        "update":"ACTUALIZAR",
+        "add-list":"añadir lista",
+        "no-list-yet":"aún no se han creado listas"
+        
+    },
+    "notification":{
+        "has-sent":"te ha enviado una solicitud de amistad",
+        "accepted":" ha aceptado tu solicitud de amistad",
+        "rejected":"ha rechazado tu solicitud de amistad",
+        "invited":"te ha invitado al evento",
+        "see-details":"VER DETALLES",
+        "notifications":"Notificaciones"
+    },
+    
+    "user-profile":{
+        "personal-data":"INFORMACION PERSONAL",
+        "name":"Nombre",
+        "email":"Email",
+        "password":"Contraseña",
+        "update-profile":"ACTUALIZAR PERFIL",
+        "cancel":"CANCELAR",
+        "save-profile":"GUARDER PERFIL"
+    }    
+}

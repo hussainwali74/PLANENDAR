@@ -8,6 +8,10 @@ height: 162px;
     padding-left: 30px;
     padding-right: 30px;
 }
+.card-profile-image{
+    margin-left: -300px;
+}
+
 @media (max-width:425px){
     .main-content{
         margin-top: 33%;
@@ -19,4 +23,27 @@ height: 162px;
             width: 100%;
             margin-bottom: 10px;
         }
+        .center{
+                /* align-self: center; */
+    padding-left: 40%;
+    padding-bottom: 11px;
+        }
+}
+
+img{
+    border-radius: 50%;
+    width        : 60px;
+    height       : 60px;
+}
+.circle[_ngcontent-dtf-c138] {
+    margin-left: 200px !important;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
 }

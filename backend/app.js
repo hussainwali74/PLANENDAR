@@ -10,6 +10,8 @@ const path = require("path");
 const app = express();
 app.use(morgan("tiny"));
 
+app.use(express.static(__dirname + "/public"));
+
 //Connecting to Mongoose (Place your MongoDB connection string here)
 mongoose
   .connect("mongodb://localhost:27017/planendar", {
@@ -38,13 +40,28 @@ mongoose
 const bodyParser = require("body-parser");
 //CORS ERROR PATCH
 app.use(cors());
-app.use(bodyParser.json());
+
+app.use(express.json({ limit: "25mb" }));
+app.use(express.urlencoded({ limit: "25mb" }));
+// app.use(
+//   bodyParser.urlencoded({
+//     parameterLimit: 100000,
+//     limit: "50mb",
+//     extended: true,
+//   })
+// );
+// app.use(bodyParser.json({ limit: "50mb" }));
 
 //========================================================================
 //  ROUTES
 //========================================================================
 
 //AUTH ROUTES
+app.get("/hussain", (req, res, next) => {
+  console.log("hussainshelo");
+  res.send("hello");
+});
+console.log("kljkjlkjlkj");
 app.use("/auth", require("./routes/auth.route"));
 //API ROUTES
 app.use("/api", require("./routes/event.route"));

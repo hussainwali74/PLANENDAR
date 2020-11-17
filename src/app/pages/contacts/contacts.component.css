@@ -13,7 +13,13 @@
 .f-success{
     margin-right: 18px; font-size: 34px;  color: green;
 }
+.card-title{
+    color: black;
+}
 @media(max-width:425px){
+    .modal-content{
+        height: 355px;
+    }
     .card-body{
 padding: 0px;
     }
@@ -27,33 +33,21 @@ padding: 0px;
         font-size: 12px;
     }
     .f-success{
-        margin-right: 18px; font-size: 18px;  color: green;
+        margin-right: 18px; 
+        font-size: 18px;
+        color: green;
     }
-    /* .card-body{
-        -webkit-box-flex: 1;
-        flex: 1 1 auto;
-        padding: .4rem;
-        border-bottom: 1px solid rgb(175, 175, 175);
-    } */
+ 
     .row{
         display: -webkit-box;
         display: flex;
         flex-wrap: wrap;
         margin: 0px;
     }
-    /* .card-header{
-        background:#11cdef;
-        text-align: center;
-        padding: 8px;
-        height: 54px;
-    } */
+  
     .card-profile .row{
         padding:10px;
     }
-    /* .modal-content{
-        margin-top: 118px;
-    width: 98%;
-} */
     .main-content {
         margin-top: 0%;
         margin-left: 0px;
@@ -65,7 +59,39 @@ padding: 0px;
 img{
     border-radius: 50%;
 }
+#profileImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #512DA8;
+    font-size: 35px;
+    color: #fff;
+    text-align: center;
+    line-height: 150px;
+    margin: 20px 0;
+  }
+  .circle {
+    border-radius   : 50%;
+    width           : 60px;
+    height          : 60px;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
+  }
 
+    img{
+        border-radius: 50%;
+        width        : 60px;
+        height       : 60px;
+    }
+
+    .initials {
+        color         : #FFFFFF;
+        font-size     : 20px;
+        line-height   : 19px;
+        letter-spacing: 0.2625px;
+    
+}
 @media(max-width:375px){
     .main-content {
         margin-top: 0%;

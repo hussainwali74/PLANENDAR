@@ -12,25 +12,61 @@
     <div class="container-fluidd">
         <div class="card">
             <div class="card-header card-header-danger">
-                <h3 class="card-title ">Contacts Lists</h3>
+                <h3 class="card-title ">{{'contacts.contacts'|translate}} {{'contacts.lists'|translate}}</h3>
             </div>
             <div class="card-body p-0">
+
                 <div class="row">
                     <div class="col-md-2">
                         <div class="table-responsive pl-2">
                             <span *ngFor="let item of allMylists|filter:term">
-                                <h3 style="color:rgb(95, 6, 136)">
-                                    <span (click)="deleteThisList( item._id)">
-                                        <fa-icon class="f-check" [icon]="faTrasho">
+                                <div class="row p-0 m-0" style="color:rgb(95, 6, 136)">
+                                    <div class="col-md-2 col-1">
+                                        <span (click)="deleteThisList( item._id)">
+                                            <fa-icon class="f-check" [icon]="faTrasho">
+                                            </fa-icon>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-8 col-8">
+
+                                        <span (click)="getListDetails(item._id)">
+                                            {{item.name}}
+                                        </span>
+                                    </div>
+                                    <div class="col-md-2 col-2">
+
+                                        <fa-icon (click)="editThisList( item._id)" class="f-check" [icon]="faPen">
                                         </fa-icon>
-                                    </span>
-                                    <span (click)="getListDetails(item._id)">
-                                        {{item.name}}
-                                    </span>
-                                </h3>
+                                    </div>
+                                </div>
+                            </span>
+                            <span *ngIf="edit_list">
+                                <input class="form-control form-control-sm input-sm" [(ngModel)]="selected_list_name"
+                                    placeholder="Title" type="text">
+                                <div class="row m-0">
+                                    <div class="col-md-6">
+
+                                        <button mat-raised-button style="    height: 27px;
+                                padding: 1px 8px;
+                                margin-top: 9px; width:98%;
+                                font-size: 11px;" type="button" (click)="cancelUpdateList()"
+                                            class="btn btn-danger btn-just-icon">
+                                            {{'user-profile.cancel'|translate}}
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <button mat-raised-button style="    height: 27px;
+                                padding: 1px 8px;
+                                margin-top: 9px; width:98%;
+                                font-size: 11px;" type="button" (click)="updateList()"
+                                            class="btn btn-success btn-just-icon">
+                                            {{'contacts.update'|translate}} </button>
+                                    </div>
+                                </div>
                             </span>
                             <span *ngIf="!allMylists.length">
-                                <h3> No Lists created yet</h3>
+                                <h3> {{'contacts.no-list-yet'|translate}}</h3>
                             </span>
 
                         </div>
@@ -67,8 +103,8 @@
                     <div class="col-md-1 sp">
                         <span style="vertical-align:bottom">
                             <div class="arrows">
-                                <fa-icon class="f-check" [icon]="faLeft"></fa-icon>
-                                <fa-icon class="f-check" [icon]="faRight"></fa-icon>
+                                <fa-icon class="f-check" (click)="addContactsTOList()" [icon]="faLeft"></fa-icon>
+                                <fa-icon class="f-check" (click)="removeFromSelectedList()" [icon]="faRight"></fa-icon>
                             </div>
                             <div class="updown">
                                 <span (click)="addContactsTOList()">
@@ -87,7 +123,7 @@
                             border-collapse: collapse;">
                                 <thead class=" text-primary">
                                     <th>
-                                        Contacts
+                                        {{'contacts.contacts'|translate}}
                                     </th>
                                     <th></th>
                                 </thead>
@@ -121,7 +157,7 @@
                     <button mat-raised-button type="button" (click)="createList()"
                         class="btn btn-success btn-just-icon">
                         <fa-icon class="f-check" [icon]="faPlus"></fa-icon>
-                        Add List
+                        {{'contacts.add-list'|translate}}
                         <div class="ripple-container"></div>
                     </button>
                 </div>

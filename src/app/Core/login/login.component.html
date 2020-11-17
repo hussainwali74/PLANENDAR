@@ -18,7 +18,7 @@
               <img id="logo" src="./assets/img/logo.jpg" height="100px">
 
               <div class="text-muted text-center mb-3">
-                <small>Sign in with</small>
+                <small>{{'login.sign-in-with'|translate}}</small>
               </div>
               <div class="btn-wrapper text-center">
 
@@ -33,17 +33,10 @@
             </div>
             <div class="card-body mt-100 px-lg-5 py-lg-5">
               <div class="text-center text-muted mb-4">
-                <small>Or sign in with credentials</small>
+                <small>{{'login.sign-in-with-creds'|translate}}</small>
               </div>
               <div *ngIf="loading" class="overlay">
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
+
                 <div class="lds-ripple">
                   <div></div>
                   <div></div>
@@ -91,21 +84,31 @@
                   </label>
                 </div> -->
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary my-4">Sign in</button>
+                    <button type="submit" class="btn btn-primary my-4">{{'login.sign-in-btn'|translate}}</button>
                   </div>
                 </form>
               </div>
             </div>
           </div>
           <div class="row mt-3">
-            <div class="col-6">
+            <div class="col-4">
               <a routerLink="/forgot-password" href="javascript:void(0)" class="text-light">
-                <small>Forgot password?</small>
+                <small>{{'login.forgot-pass'|translate}}</small>
               </a>
             </div>
-            <div class="col-6 text-right">
+            <div class="col-4 p-0">
+              <span>Select Language</span>
+              <br>
+              <a (click)="useLanguage('en')" href="javascript:void(0)" class="text-light">
+                <small>English</small></a> &nbsp;
+              &nbsp;
+              <a (click)="useLanguage('sp')" href="javascript:void(0)" class="text-light">
+                <small>Spanish</small>
+              </a>
+            </div>
+            <div class="col-4 text-right">
               <a href="javascript:void(0)" [routerLink]="['/signup']" class="text-light">
-                <small>Create new account</small>
+                <small>{{'login.create-new-account'|translate}}</small>
               </a>
             </div>
           </div>

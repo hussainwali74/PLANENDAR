@@ -21,6 +21,9 @@ import { ViewEventsComponent } from "../../pages/view-event/view-event.component
 import { AdminLayoutComponent } from "./admin-layout.component";
 import { AdminRoutingModule } from "./admin-layout.routing";
 import { Ng2SearchPipeModule } from "ng2-search-filter";
+import { AvatarComponent } from "src/app/pages/user-profile/avatar/avatar.component";
+import { UploadImageComponent } from "src/app/pages/user-profile/upload-image/upload-image.component";
+import { TranslateModule } from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -41,6 +44,8 @@ import { Ng2SearchPipeModule } from "ng2-search-filter";
     CreateEventComponent,
     CreatedComponent,
     AdminLayoutComponent,
+    AvatarComponent,
+    UploadImageComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +56,7 @@ import { Ng2SearchPipeModule } from "ng2-search-filter";
     AdminRoutingModule,
     FontAwesomeModule,
     Ng2SearchPipeModule,
+    TranslateModule,
   ],
 })
 export class AdminLayoutModule {}
