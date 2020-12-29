@@ -24,6 +24,7 @@ import { Ng2SearchPipeModule } from "ng2-search-filter";
 import { AvatarComponent } from "src/app/pages/user-profile/avatar/avatar.component";
 import { UploadImageComponent } from "src/app/pages/user-profile/upload-image/upload-image.component";
 import { TranslateModule } from "@ngx-translate/core";
+import { EventDetailComponent } from "src/app/pages/event-detail/event-detail.component";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { TranslateModule } from "@ngx-translate/core";
     AdminLayoutComponent,
     AvatarComponent,
     UploadImageComponent,
+    EventDetailComponent,
   ],
   imports: [
     CommonModule,

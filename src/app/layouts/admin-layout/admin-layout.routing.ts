@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "src/app/guards/auth.guard";
 import { HomeComponent } from "src/app/home/home.component";
+import { EventDetailComponent } from "src/app/pages/event-detail/event-detail.component";
 import { EditComponent } from "src/app/pages/lists/edit/edit.component";
 import { ViewEventsComponent } from "src/app/pages/view-event/view-event.component";
 import { UserProfileComponent } from "../../pages//user-profile/user-profile.component";
@@ -51,6 +52,10 @@ const AdminLayoutRoutes: Routes = [
         ],
       },
       {
+        path: "event-details/:event_id",
+        component: EventDetailComponent,
+      },
+      {
         path: "events",
         component: EventsComponent,
         children: [
@@ -58,7 +63,6 @@ const AdminLayoutRoutes: Routes = [
             path: "search",
             component: SearchComponent,
           },
-
           {
             path: "calendar",
             component: CalenderComponent,

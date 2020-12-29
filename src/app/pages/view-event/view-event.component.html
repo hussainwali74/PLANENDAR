@@ -42,11 +42,11 @@
                                 </h4>
                             </div>
                             <div class="col-4 ">
-                                <h4 class="font-12 "> {{item.date}}
-                                </h4>
+                                <h4 class="font-12 "> {{item.date}} </h4>
                             </div>
-                            <div class="col-4 pl-0">
+                            <div class="col-4 pl-0 share">
                                 <h4 *ngIf="!isCreatedPage" class="font-12 ">{{item.creator?item.creator.name:'-'}}</h4>
+                                <a href="javascript:void(0);" (click)="shareEvent(item._id)">Share This event</a>
                             </div>
                         </div>
                     </div>
@@ -55,8 +55,24 @@
         </div>
     </div>
 </div>
-
-
+<ng-template #eventshare let-c="close" let-d="dismiss">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h6 class="modal-title" id="modal-title-default">{{'event-details.event-details'|translate}}</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row justify-conte2nt-center">
+                Event Link:
+                <a href="{{shareLink}}">
+                    <strong>{{shareLink}}</strong>
+                </a>
+            </div>
+        </div>
+    </div>
+</ng-template>
 <ng-template #classic2 let-c="close" let-d="dismiss">
     <div class="modal-content">
         <div class="modal-header">
@@ -68,13 +84,15 @@
         <div class="modal-body">
             <div class="row justify-conte2nt-center">
                 <div class="col-md-5" *ngIf="modalEvent.attendees">
-                    <div class="card" *ngIf="modalEvent.attendees">
+                    <div class="card">
                         <div class="card-header card-header">
                             <h3 class="card-title f-20">{{"event-details.attendees"|translate}}</h3>
                         </div>
                         <div class="card-body" style="padding:0px;" *ngIf="modalEvent.attendees.length">
                             <ul style="padding-left: 28px; padding-top: 10px;">
-                                <li *ngFor="let attendee of modalEvent.attendees">{{attendee.name}}</li>
+                                <li style="width:auto !important; text-align:left;"
+                                    *ngFor="let attendee of modalEvent.attendees">
+                                    {{attendee.name}}</li>
                             </ul>
                         </div>
                         <div class="p-2 text-center" *ngIf="!modalEvent.attendees.length">
@@ -100,7 +118,6 @@
                         </div>
                     </div>
                     <div *ngIf="modalEvent.extra_fields.length" class="col-md-12">
-                        <!-- <h5>Extra Fields </h5>  -->
                         <div class="description" *ngFor="let item of modalEvent.extra_fields">
                             <strong>{{item.title}}</strong>
                             <p>{{item.description}}</p>

@@ -4,6 +4,7 @@ import { EventsService } from "src/app/services/events.service";
 import { Event } from "../../models/Event.model";
 import swal from "sweetalert2";
 import { Router } from "@angular/router";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-view-event",
@@ -12,9 +13,12 @@ import { Router } from "@angular/router";
 })
 export class ViewEventsComponent implements OnInit {
   closeResult: string;
+  shareLink: string;
   all_events: Event[] = [];
   term;
   @ViewChild("classic2") eventModal;
+  @ViewChild("eventshare") eventShareModal;
+
   dontshowbuttons: boolean;
   modalUser: any;
   @Input("title") title: String;
@@ -91,7 +95,13 @@ export class ViewEventsComponent implements OnInit {
       }
     );
   }
+  shareEvent(eventid) {
+    console.log(eventid);
+    this.shareLink = "http://localhost/event-details" + eventid;
+    this.open(this.eventShareModal, "", "", "");
+  }
   getEventByID(eventid) {
+    console.log(eventid);
     this.eventService.getEventByID(eventid).subscribe(
       (data) => {
         console.log("\n");

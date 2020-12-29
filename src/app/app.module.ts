@@ -30,7 +30,7 @@ import { EditComponent } from "./pages/lists/edit/edit.component";
 
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { AddProductComponent } from './admin/add-product/add-product.component';
+import { AddProductComponent } from "./admin/add-product/add-product.component";
 
 @NgModule({
   declarations: [
