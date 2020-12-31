@@ -97,7 +97,9 @@ export class ViewEventsComponent implements OnInit {
   }
   shareEvent(eventid) {
     console.log(eventid);
-    this.shareLink = "http://localhost/event-details" + eventid;
+    this.shareLink =
+      "http://ec2-18-132-13-64.eu-west-2.compute.amazonaws.com/event-details/" +
+      eventid;
     this.open(this.eventShareModal, "", "", "");
   }
   getEventByID(eventid) {

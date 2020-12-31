@@ -46,7 +46,6 @@
                             </div>
                             <div class="col-4 pl-0 share">
                                 <h4 *ngIf="!isCreatedPage" class="font-12 ">{{item.creator?item.creator.name:'-'}}</h4>
-                                <a href="javascript:void(0);" (click)="shareEvent(item._id)">Share This event</a>
                             </div>
                         </div>
                     </div>
@@ -64,7 +63,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <div class="row justify-conte2nt-center">
+            <div class="row col-md-12 justify-conte2nt-center">
                 Event Link:
                 <a href="{{shareLink}}">
                     <strong>{{shareLink}}</strong>
@@ -140,6 +139,11 @@
                         </a>
                     </div>
                     <!-- useview events -  -->
+                    <div class="col-md-12">
+                        <button mat-raised-button type="button" (click)="shareEvent(modalEvent._id)"
+                            class=" full-width-btn btn btn-info ">Share This event</button>
+                    </div>
+
                     <div *ngIf="showIamIn" class="col-md-12">
                         <button mat-raised-button type="button" (click)="acceptInvitations(modalEvent._id)"
                             class=" full-width-btn btn btn-success ">{{'event-details.am-in-btn'|translate}}</button>
