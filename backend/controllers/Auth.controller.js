@@ -199,8 +199,6 @@ module.exports = {
     }
   },
   signUp: async (req, res) => {
-    console.log("why here");
-
     let hash;
     try {
       hash = await bcrypt.hash(req.body.password, 10);

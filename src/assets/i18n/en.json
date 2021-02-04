@@ -41,7 +41,8 @@
         "edit":"EDIT",
         "promotion":"PROMOTION",
         "am-in-btn":"I'M IN",
-        "unsub-btn":"UNSUBSCRIBE"
+        "unsub-btn":"UNSUBSCRIBE",
+        "share":"Share This event"
     },
     "events":{
         "search":"SEARCH",

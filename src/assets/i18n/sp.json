@@ -41,7 +41,8 @@
         "edit":"EDITAR",
         "promotion":"PROMOCIONAR",
         "am-in-btn":"ME APUNTO",
-        "unsub-btn":"DESAPUNTARSE"
+        "unsub-btn":"DESAPUNTARSE",
+        "share":"COMPARTE ESTE EVENTO"
     },
     "events":{
         "search":"BUSCAR",
